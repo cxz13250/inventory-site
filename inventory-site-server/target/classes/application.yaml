@@ -1,0 +1,49 @@
+spring.profiles.active: dev
+
+spring:
+    cache:
+        guava:
+            spec:expireAfterWrite=30s
+    datasource:
+        driver-class-name: com.mysql.jdbc.Driver
+        # Keep the connection alive if idle for a long time (needed in production)
+        testWhileIdle: true
+        validationQuery: SELECT 1
+    # Show or not log for each sql query
+    jpa:
+        show-sql: true
+    # Hibernate ddl auto (create, create-drop, update)
+        hibernate:
+          ddl-auto: validate
+          #hbm2ddl.auto: update
+          # Naming strategy
+          naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    # The SQL dialect makes Hibernate generate better SQL for the chosen database
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
+---
+#开发环境
+spring:
+    profiles: dev
+    datasource:
+        url: jdbc:mysql://127.0.0.1:3306/inventory?useUnicode=yes&characterEncoding=UTF-8
+        username: cxz
+        password: cxz00429
+
+server:
+    port: 8080
+
+logging.config: classpath:log4j2.yaml
+
+---
+#线上环境
+spring:
+    profiles: online
+    datasource:
+        url:
+        username:
+        password:
+server:
+    port:
+logging.config: classpath:log4j2.online.yaml
+
