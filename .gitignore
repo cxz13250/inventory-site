@@ -1,1 +1,8 @@
-.idea/
+.idea
+**target/
+*.DS_Store
+**.iml
+.classpath
+**.ipr
+**.iws
+**.log
