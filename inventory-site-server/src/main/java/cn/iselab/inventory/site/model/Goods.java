@@ -34,6 +34,9 @@ public class Goods {
     @Column(name = "current_retail_price")
     private double currentRetailPrice;
 
+    @Column(name = "is_delete")
+    private boolean isDelete;
+
     public long getId() {
         return id;
     }
@@ -96,5 +99,13 @@ public class Goods {
 
     public void setCurrentRetailPrice(double currentRetailPrice) {
         this.currentRetailPrice = currentRetailPrice;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 }

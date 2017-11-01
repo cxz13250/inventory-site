@@ -15,7 +15,7 @@ spring:
     # Hibernate ddl auto (create, create-drop, update)
         hibernate:
           ddl-auto: validate
-          #hbm2ddl.auto: update
+#          hbm2ddl.auto: update
           # Naming strategy
           naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     # The SQL dialect makes Hibernate generate better SQL for the chosen database
