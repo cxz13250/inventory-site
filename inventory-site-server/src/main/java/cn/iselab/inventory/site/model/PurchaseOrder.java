@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by ROGK on 2017/11/1.
+ * 进货单/进货退货单 由type字段区分 取值见PurchaseOrderConstants
  */
 @Entity
 @Table(name = "purchase_order")

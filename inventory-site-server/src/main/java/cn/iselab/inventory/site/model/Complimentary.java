@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 /**
  * Created by ROGK on 2017/11/1.
+ * 赠送单
  */
 @Entity
 @Table(name = "complimentary")

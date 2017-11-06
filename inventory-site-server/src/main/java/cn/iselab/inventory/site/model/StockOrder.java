@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 /**
  * Created by ROGK on 2017/11/1.
+ * 库存报警单/报损单/报溢单 由type字段区分 取值见StockOrderConstants
  */
 @Entity
 @Table(name = "stock_order")

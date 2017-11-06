@@ -1,8 +1,8 @@
-package cn.iselab.inventory.site.service.impl;
+package cn.iselab.inventory.site.impl;
 
 import cn.iselab.inventory.site.dao.UserDao;
 import cn.iselab.inventory.site.model.User;
-import cn.iselab.inventory.site.service.UserService;
+import cn.iselab.inventory.site.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

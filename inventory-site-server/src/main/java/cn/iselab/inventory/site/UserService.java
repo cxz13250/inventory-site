@@ -1,4 +1,4 @@
-package cn.iselab.inventory.site.service;
+package cn.iselab.inventory.site;
 
 import cn.iselab.inventory.site.model.User;
 

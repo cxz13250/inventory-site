@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by ROGK on 2017/11/1.
+ * 付款单
  */
 @Entity
 @Table(name = "payment")

@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by ROGK on 2017/11/1.
+ * 销售单/销售退货单
  */
 @Entity
 @Table(name = "sale_order")

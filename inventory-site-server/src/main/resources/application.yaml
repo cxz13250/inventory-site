@@ -14,7 +14,7 @@ spring:
         show-sql: true
     # Hibernate ddl auto (create, create-drop, update)
         hibernate:
-          ddl-auto: validate
+          ddl-auto: create
 #          hbm2ddl.auto: update
           # Naming strategy
           naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
@@ -27,8 +27,8 @@ spring:
     profiles: dev
     datasource:
         url: jdbc:mysql://127.0.0.1:3306/inventory?useUnicode=yes&characterEncoding=UTF-8
-        username: cxz
-        password: cxz00429
+        username: root
+        password: cxz6518
 
 server:
     port: 8080
