@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -62,7 +63,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void create() throws Exception {
+    public void should_createAccount_when_givenAccount() throws Exception {
         Account expect=new Account();
         expect.setName("test");
         when(accountDao.save(any(Account.class))).thenReturn(account);
@@ -73,7 +74,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void getAccounts() throws Exception {
+    public void should_returnAccounts_when_givenKeyword() throws Exception {
         Page<Account> accountPage=new PageImpl<Account>(accounts);
         when(accountDao.findAll(any(Specification.class),any(Pageable.class))).thenReturn(accountPage);
 
@@ -83,7 +84,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void getAccount() throws Exception {
+    public void should_returnAccount_when_givenAccountId() throws Exception {
         when(accountDao.findOne(anyLong())).thenReturn(account);
 
         Account result=accountService.getAccount(1L);
@@ -95,11 +96,17 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void should_updateAccount_when_givenAccount() throws Exception {
+        accountService.update(account);
+
+        Mockito.verify(accountDao).save(any(Account.class));
     }
 
     @Test
-    public void delete() throws Exception {
+    public void should_deleteAccount_when_deleteAccount() throws Exception {
+        accountService.delete(account);
+
+        Mockito.verify(accountDao).delete(any(Account.class));
     }
 
 }

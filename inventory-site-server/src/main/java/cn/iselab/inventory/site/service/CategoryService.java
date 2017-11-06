@@ -1,5 +1,9 @@
 package cn.iselab.inventory.site.service;
 
+import cn.iselab.inventory.site.model.Category;
+
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -7,4 +11,14 @@ package cn.iselab.inventory.site.service;
  * @Modified By:
  */
 public interface CategoryService {
+
+    void createCategory(Category category);
+
+    List<Category> getCategories();
+
+    Category getCategory(long id);
+
+    void deleteCategory(Category category);
+
+    void updateCategory(Category category);
 }

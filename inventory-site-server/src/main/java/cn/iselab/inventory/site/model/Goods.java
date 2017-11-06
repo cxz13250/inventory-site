@@ -19,6 +19,9 @@ public class Goods {
     @Column(name = "model")
     private String model;
 
+    @Column(name = "category")
+    private long category;
+
     @Column(name = "inventory")
     private long inventory;
 
@@ -107,5 +110,13 @@ public class Goods {
 
     public void setDelete(boolean delete) {
         isDelete = delete;
+    }
+
+    public long getCategory() {
+        return category;
+    }
+
+    public void setCategory(long category) {
+        this.category = category;
     }
 }
