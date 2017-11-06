@@ -1,7 +1,7 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
 import cn.iselab.inventory.site.model.User;
-import cn.iselab.inventory.site.UserService;
+import cn.iselab.inventory.site.service.UserService;
 import cn.iselab.inventory.site.util.EncryptionUtil;
 import cn.iselab.inventory.site.web.data.UserVO;
 import cn.iselab.inventory.site.web.data.wrapper.UserWrapper;
