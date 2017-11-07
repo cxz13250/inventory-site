@@ -1,7 +1,21 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.dao.CustomDao;
+import cn.iselab.inventory.site.model.Account;
+import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.service.CustomService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * @Author ROKG
@@ -11,4 +25,49 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CustomServiceImpl implements CustomService {
+
+    @Autowired
+    private CustomDao customDao;
+
+    @Override
+    public long createCustom(Custom custom){
+        custom=customDao.save(custom);
+        return custom.getId();
+    }
+
+    @Override
+    public Custom getCustom(long customId){
+        return customDao.findOne(customId);
+    }
+
+    @Override
+    public Page<Custom> getCustoms(String keywrod, Pageable pageable){
+        Specifications<Custom> where=Specifications.where(getWhereClause(keywrod));
+        return customDao.findAll(where, pageable);
+    }
+
+    @Override
+    public void updateCustom(Custom custom){
+        customDao.save(custom);
+    }
+
+    @Override
+    public void deletCustom(Custom custom){
+        customDao.delete(custom);
+    }
+
+    private Specification<Custom> getWhereClause(String keyword){
+        return new Specification<Custom>() {
+            @Override
+            public Predicate toPredicate(Root<Custom> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate=criteriaBuilder.conjunction();
+                if (keyword != null) {
+                    predicate.getExpressions().add(
+                            criteriaBuilder.like(root.get("name"), "%" + StringUtils.trim(keyword) + "%")
+                    );
+                }
+                return predicate;
+            }
+        };
+    }
 }

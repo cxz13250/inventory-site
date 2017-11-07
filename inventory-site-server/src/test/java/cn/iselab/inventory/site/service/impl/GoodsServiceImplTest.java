@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -46,6 +47,7 @@ public class GoodsServiceImplTest {
     Goods good=new Goods();
     List<Goods> goods=new ArrayList<>();
     Page<Goods> goodsPage;
+    Pageable pageable;
 
     @Before
     public void setUp() throws Exception {
@@ -61,6 +63,8 @@ public class GoodsServiceImplTest {
         goods.add(good);
 
         goodsPage=new PageImpl<Goods>(goods);
+
+        pageable=pageable=new PageRequest(0,10);
     }
 
     @Test
@@ -85,7 +89,7 @@ public class GoodsServiceImplTest {
     public void getGoods() throws Exception {
         when(goodsDao.findAll(any(Specifications.class),any(Pageable.class))).thenReturn(goodsPage);
 
-        Page<Goods> result=goodsService.getGoods(anyString(),any(Pageable.class));
+        Page<Goods> result=goodsService.getGoods("test",pageable);
 
         Assert.assertEquals(good,result.getContent().get(0));
     }
