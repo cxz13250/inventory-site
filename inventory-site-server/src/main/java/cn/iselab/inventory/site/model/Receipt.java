@@ -18,7 +18,7 @@ public class Receipt {
     private String number;
 
     @Column(name = "custom_id")
-    private String cumstomId;
+    private long cumstomId;
 
     @Column(name = "operator")
     private long operator;
@@ -48,11 +48,11 @@ public class Receipt {
         this.number = number;
     }
 
-    public String getCumstomId() {
+    public long getCumstomId() {
         return cumstomId;
     }
 
-    public void setCumstomId(String cumstomId) {
+    public void setCumstomId(long cumstomId) {
         this.cumstomId = cumstomId;
     }
 
