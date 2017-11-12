@@ -2,12 +2,8 @@ package cn.iselab.inventory.site.service.impl;
 
 import cn.iselab.inventory.site.Application;
 import cn.iselab.inventory.site.dao.SaleDetailDao;
-import cn.iselab.inventory.site.dao.SaleOrderDao;
-import cn.iselab.inventory.site.model.Receipt;
 import cn.iselab.inventory.site.model.SaleDetail;
-import cn.iselab.inventory.site.model.SaleOrder;
 import cn.iselab.inventory.site.service.SaleDetailService;
-import cn.iselab.inventory.site.service.SaleOrderService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -81,7 +81,7 @@ public class UserOperationServiceImplTest {
     }
 
     @Test
-    public void delete() throws Exception {
+    public void should_deleteOperation_when_givenOperation() throws Exception {
         userOperationService.delete(operation);
 
         Mockito.verify(userOperationDao).delete(any(UserOperation.class));

@@ -91,7 +91,7 @@ public class CustomServiceImplTest {
     }
 
     @Test
-    public void getCustoms() throws Exception {
+    public void should_returnCustoms_when_givenKeyword() throws Exception {
         when(customDao.findAll(any(Specifications.class),any(Pageable.class))).thenReturn(customPage);
 
         Page<Custom> result=customService.getCustoms("test",pageable);
@@ -100,14 +100,14 @@ public class CustomServiceImplTest {
     }
 
     @Test
-    public void updateCustom() throws Exception {
+    public void should_updateCustom_when_givenCustom() throws Exception {
         customService.updateCustom(custom);
 
         Mockito.verify(customDao).save(any(Custom.class));
     }
 
     @Test
-    public void deletCustom() throws Exception {
+    public void should_deleteCustom_when_givenCustom() throws Exception {
         customService.deletCustom(custom);
 
         Mockito.verify(customDao).delete(any(Custom.class));

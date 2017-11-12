@@ -63,7 +63,7 @@ public class CategoryServiceImplTest {
     }
 
     @Test
-    public void should_createCategories() throws Exception {
+    public void should_returnCategories() throws Exception {
 
         when(categoryDao.findAllCategory()).thenReturn(categories);
 
@@ -75,7 +75,7 @@ public class CategoryServiceImplTest {
     }
 
     @Test
-    public void getCategory() throws Exception {
+    public void should_returnCategory_when_givenCategoryId() throws Exception {
         when(categoryDao.findOne(anyLong())).thenReturn(category);
 
         Category result=categoryService.getCategory(1L);
@@ -86,14 +86,14 @@ public class CategoryServiceImplTest {
     }
 
     @Test
-    public void deleteCategory() throws Exception {
+    public void should_deleteCategory_when_givenCategory() throws Exception {
         categoryService.deleteCategory(category);
 
         Mockito.verify(categoryDao).delete(any(Category.class));
     }
 
     @Test
-    public void updateCategory() throws Exception {
+    public void should_updateCategory_when_givenCategory() throws Exception {
         categoryService.updateCategory(category);
 
         Mockito.verify(categoryDao).save(any(Category.class));
