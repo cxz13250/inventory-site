@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 /**
  * Created by ROGK on 2017/11/1.
+ * 用户操作
  */
 @Entity
 @Table(name = "user_operation")

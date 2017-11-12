@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by ROGK on 2017/9/15.
+ * 商品
  */
 @Entity
 @Table(name = "goods")

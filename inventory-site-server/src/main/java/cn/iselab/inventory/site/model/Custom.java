@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 /**
  * Created by ROGK on 2017/9/15.
+ * 客户
  */
 @Entity
 @Table(name = "custom")

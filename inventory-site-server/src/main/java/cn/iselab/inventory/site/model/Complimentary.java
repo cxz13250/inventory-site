@@ -19,7 +19,7 @@ public class Complimentary {
     private Timestamp createTime;
 
     @Column(name = "custom_id")
-    private String customId;
+    private long customId;
 
     @Column(name = "content")
     private String content;
@@ -43,11 +43,11 @@ public class Complimentary {
         this.createTime = createTime;
     }
 
-    public String getCustomId() {
+    public long getCustomId() {
         return customId;
     }
 
-    public void setCustomId(String customId) {
+    public void setCustomId(long customId) {
         this.customId = customId;
     }
 

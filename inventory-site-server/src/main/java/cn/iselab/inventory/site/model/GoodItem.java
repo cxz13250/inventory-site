@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by ROGK on 2017/11/1.
+ * 进货单中的入库商品
  */
 @Entity
 @Table(name = "good_item")

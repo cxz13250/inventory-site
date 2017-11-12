@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 /**
  * Created by ROGK on 2017/10/30.
+ * 银行账户
  */
 @Entity
 @Table(name = "account")

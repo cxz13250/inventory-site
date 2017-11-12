@@ -1,5 +1,10 @@
 package cn.iselab.inventory.site.service;
 
+import cn.iselab.inventory.site.model.GoodItem;
+import cn.iselab.inventory.site.model.PaymentEntry;
+
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -7,4 +12,14 @@ package cn.iselab.inventory.site.service;
  * @Modified By:
  */
 public interface PaymentEntryService {
+
+    PaymentEntry createPaymentEntry(PaymentEntry goodItem);
+
+    List<PaymentEntry> getPaymentEntries(long paymentId);
+
+    PaymentEntry getPaymentEntry(long id);
+
+    void updatePaymentEntry(PaymentEntry goodItem);
+
+    void deletePaymentEntry(PaymentEntry goodItem);
 }

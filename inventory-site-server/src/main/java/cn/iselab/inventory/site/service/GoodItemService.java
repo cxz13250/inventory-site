@@ -1,5 +1,9 @@
 package cn.iselab.inventory.site.service;
 
+import cn.iselab.inventory.site.model.GoodItem;
+
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -7,4 +11,14 @@ package cn.iselab.inventory.site.service;
  * @Modified By:
  */
 public interface GoodItemService {
+
+    GoodItem createGoodItem(GoodItem goodItem);
+
+    List<GoodItem> getGoodItems(long orderId);
+
+    GoodItem getGoodItem(long id);
+
+    void updateGoodItem(GoodItem goodItem);
+
+    void deleteGoodItem(GoodItem goodItem);
 }
