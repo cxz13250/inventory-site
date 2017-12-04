@@ -1,6 +1,7 @@
 package cn.iselab.inventory.site.service;
 
 import cn.iselab.inventory.site.model.Goods;
+import cn.iselab.inventory.site.web.data.GoodsVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,7 +13,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface GoodsService {
 
-    void createGood(Goods goods);
+    Goods createGood(Goods goods);
 
     Goods getGoodById(long goodId);
 
@@ -21,4 +22,8 @@ public interface GoodsService {
     void updateGood(Goods goods);
 
     void deleteGood(Goods goods);
+
+    void updateInfo(Goods goods, GoodsVO vo);
+
+    void deleteGoods(Goods goods);
 }

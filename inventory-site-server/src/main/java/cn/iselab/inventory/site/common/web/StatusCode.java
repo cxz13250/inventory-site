@@ -8,4 +8,8 @@ public interface StatusCode {
     int USER_NOT_EXISTS=2002;
     int ILLEGAL_PARAMETER=2003;
     int USER_ALREADY_EXIST=2004;
+    int GOODS_NOT_EXISTS=2005;
+    int CUSTOM_NOT_EXISTS=2006;
+    int ACCOUNT_NOT_EXISTS=2007;
+
 }

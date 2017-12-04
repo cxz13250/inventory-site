@@ -8,7 +8,7 @@ import cn.iselab.inventory.site.web.data.UserVO;
  */
 public interface UserLogic {
 
-    UserVO getUserByEmailOrMobile(UserVO userVO) throws Exception;
+    UserVO login(UserVO userVO) throws Exception;
 
     UserVO register(UserVO userVO) throws Exception;
 }

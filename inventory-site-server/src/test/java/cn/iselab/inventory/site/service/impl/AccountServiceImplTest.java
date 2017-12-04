@@ -4,6 +4,7 @@ import cn.iselab.inventory.site.Application;
 import cn.iselab.inventory.site.dao.AccountDao;
 import cn.iselab.inventory.site.service.AccountService;
 import cn.iselab.inventory.site.model.Account;
+import cn.iselab.inventory.site.web.data.AccountVO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,6 +47,7 @@ public class AccountServiceImplTest {
     AccountDao accountDao;
 
     Account account=new Account();
+    AccountVO vo=new AccountVO();
     List<Account> accounts=new ArrayList<>();
     Pageable pageable;
 
@@ -58,6 +60,11 @@ public class AccountServiceImplTest {
         account.setBalance(2000.0);
 
         accounts.add(account);
+
+        vo.setId(1L);
+        vo.setName("test");
+        vo.setBank("test");
+        vo.setBalance(2000.0);
 
         pageable=new PageRequest(0,10);
     }
@@ -92,12 +99,11 @@ public class AccountServiceImplTest {
         Assert.assertEquals(result.getId(),account.getId());
         Assert.assertEquals(result.getName(),account.getName());
         Assert.assertEquals(result.getBank(),account.getBank());
-        Assert.assertEquals(result.getBalance(),account.getBalance());
     }
 
     @Test
     public void should_updateAccount_when_givenAccount() throws Exception {
-        accountService.update(account);
+        accountService.update(account,vo);
 
         Mockito.verify(accountDao).save(any(Account.class));
     }
@@ -106,7 +112,7 @@ public class AccountServiceImplTest {
     public void should_deleteAccount_when_deleteAccount() throws Exception {
         accountService.delete(account);
 
-        Mockito.verify(accountDao).delete(any(Account.class));
+        Mockito.verify(accountDao).save(any(Account.class));
     }
 
 }

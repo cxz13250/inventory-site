@@ -19,13 +19,16 @@ public class Account {
     private String name;
 
     @Column(name = "balance")
-    private Double balance;
+    private double balance;
 
     @Column(name = "bank")
     private String bank;
 
     @Column(name = "create_time")
     private Timestamp createTime;
+
+    @Column(name = "is_delete")
+    private boolean delete;
 
     public long getId() {
         return id;
@@ -43,11 +46,11 @@ public class Account {
         this.name = name;
     }
 
-    public Double getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -65,5 +68,13 @@ public class Account {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }

@@ -1,9 +1,11 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.dao.CustomDao;
 import cn.iselab.inventory.site.model.Account;
 import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.service.CustomService;
+import cn.iselab.inventory.site.web.data.CustomVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
 
 /**
  * @Author ROKG
@@ -31,6 +34,8 @@ public class CustomServiceImpl implements CustomService {
 
     @Override
     public long createCustom(Custom custom){
+        custom.setDelete(DeleteStatus.IS_NOT_DELETE);
+        custom.setCreateTime(new Timestamp(System.currentTimeMillis()));
         custom=customDao.save(custom);
         return custom.getId();
     }
@@ -47,13 +52,28 @@ public class CustomServiceImpl implements CustomService {
     }
 
     @Override
-    public void updateCustom(Custom custom){
+    public void updateCustom(Custom custom, CustomVO vo){
+        custom.setEmail(vo.getEmail());
+        custom.setAddress(vo.getAddress());
+        custom.setPostCode(vo.getPostCode());
+        if(vo.getSalesman()!=null)
+            custom.setSalesman(vo.getSalesman());
+        if(vo.getReceive()!=null)
+            custom.setReceive(vo.getReceive());
+        if(vo.getReceiveLimit()!=null)
+            custom.setReceiveLimit(vo.getReceiveLimit());
+        custom.setLevel(vo.getLevel());
+        custom.setMobile(vo.getMobile());
+        if(vo.getPay()!=null)
+            custom.setPay(vo.getPay());
+        custom.setName(vo.getName());
         customDao.save(custom);
     }
 
     @Override
     public void deletCustom(Custom custom){
-        customDao.delete(custom);
+        custom.setDelete(DeleteStatus.IS_DELETE);
+        customDao.save(custom);
     }
 
     private Specification<Custom> getWhereClause(String keyword){
@@ -66,6 +86,9 @@ public class CustomServiceImpl implements CustomService {
                             criteriaBuilder.like(root.get("name"), "%" + StringUtils.trim(keyword) + "%")
                     );
                 }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                );
                 return predicate;
             }
         };

@@ -1,7 +1,10 @@
 package cn.iselab.inventory.site.common.web;
 
 /**
- * Created by jessiechen on 2016/10/11.
+ * @Author ROKG
+ * @Description
+ * @Date: Created in 下午8:49 2017/10/4
+ * @Modified By:
  */
 public interface ResponseMessage {
     String Error_Code = "status";

@@ -30,7 +30,7 @@ public class UserController extends BaseController {
         if(userVO.getEmail()==null&&userVO.getMobile()==null)
             return new ErrorResult(StatusCode.MISS_PARAMETER);
         try {
-            UserVO userVO1=userLogic.getUserByEmailOrMobile(userVO);
+            UserVO userVO1=userLogic.login(userVO);
             return SuccessResult.ok(ResponseMessage.ITEM_RESULT, userVO1);
         }catch (Exception ex){
             return new ErrorResult(StatusCode.USER_NOT_EXISTS);

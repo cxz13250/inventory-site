@@ -51,6 +51,9 @@ public class Custom {
     @Column(name = "create_time")
     private Timestamp createTime;
 
+    @Column(name = "is_delete")
+    private boolean isDelete;
+
     public long getId() {
         return id;
     }
@@ -153,5 +156,13 @@ public class Custom {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 }

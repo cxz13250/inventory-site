@@ -1,8 +1,10 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.dao.GoodsDao;
 import cn.iselab.inventory.site.model.Goods;
 import cn.iselab.inventory.site.service.GoodsService;
+import cn.iselab.inventory.site.web.data.GoodsVO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,8 +31,9 @@ public class GoodsServiceImpl implements GoodsService {
     GoodsDao goodsDao;
 
     @Override
-    public void createGood(Goods goods){
-        goodsDao.save(goods);
+    public Goods createGood(Goods goods){
+        goods.setDelete(DeleteStatus.IS_NOT_DELETE);
+        return goodsDao.save(goods);
     }
 
     @Override
@@ -54,6 +57,25 @@ public class GoodsServiceImpl implements GoodsService {
         goodsDao.delete(goods);
     }
 
+    @Override
+    public void updateInfo(Goods goods, GoodsVO vo){
+        goods.setInventory(vo.getInventory());
+        goods.setCurrentRetailPrice(vo.getCurrentRetailPrice());
+        goods.setCurrentCostPrice(vo.getCurrentCostPrice());
+        goods.setName(vo.getName());
+        goods.setCostPrice(vo.getCostPrice());
+        goods.setRetailPrice(vo.getRetailPrice());
+        goods.setCategory(vo.getCategory());
+        goods.setModel(vo.getModel());
+        goodsDao.save(goods);
+    }
+
+    @Override
+    public void deleteGoods(Goods goods){
+        goods.setDelete(DeleteStatus.IS_DELETE);
+        goodsDao.save(goods);
+    }
+
     private Specification<Goods> getWhereClause(String keyword){
         return new Specification<Goods>() {
             @Override
@@ -64,6 +86,9 @@ public class GoodsServiceImpl implements GoodsService {
                             criteriaBuilder.like(root.get("name"), "%" + StringUtils.trim(keyword) + "%")
                     );
                 }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                );
                 return predicate;
             }
         };

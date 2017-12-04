@@ -64,7 +64,7 @@ public class GoodsServiceImplTest {
 
         goodsPage=new PageImpl<Goods>(goods);
 
-        pageable=pageable=new PageRequest(0,10);
+        pageable=new PageRequest(0,10);
     }
 
     @Test

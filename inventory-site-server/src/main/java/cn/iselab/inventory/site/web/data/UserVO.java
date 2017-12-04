@@ -2,6 +2,8 @@ package cn.iselab.inventory.site.web.data;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Created by ROGK on 2017/9/14.
  */
@@ -19,4 +21,8 @@ public class UserVO extends BaseVO{
     private String password;
 
     private Long createTime;
+
+    private List<Long> roles;
+
+    private List<MenuVO> menus;
 }

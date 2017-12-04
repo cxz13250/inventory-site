@@ -54,4 +54,8 @@ public class User2Role {
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
+
+    public Long toLong(){
+        return roleId;
+    }
 }

@@ -1,8 +1,10 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.service.AccountService;
 import cn.iselab.inventory.site.dao.AccountDao;
 import cn.iselab.inventory.site.model.Account;
+import cn.iselab.inventory.site.web.data.AccountVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
 
 /**
  * @Author ROKG
@@ -30,6 +33,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public long create(Account account){
+        account.setDelete(DeleteStatus.IS_NOT_DELETE);
+        account.setCreateTime(new Timestamp(System.currentTimeMillis()));
         account=accountDao.save(account);
         return account.getId();
     }
@@ -46,13 +51,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void update(Account account){
+    public void update(Account account, AccountVO accountVO){
+        account.setBank(accountVO.getBank());
+        account.setName(accountVO.getName());
+        account.setBalance(accountVO.getBalance());
         accountDao.save(account);
     }
 
     @Override
     public void delete(Account account){
-        accountDao.delete(account);
+        account.setDelete(DeleteStatus.IS_DELETE);
+        accountDao.save(account);
     }
 
     private Specification<Account> getWhereClause(String keyword){
@@ -65,6 +74,9 @@ public class AccountServiceImpl implements AccountService {
                             criteriaBuilder.like(root.get("name"), "%" + StringUtils.trim(keyword) + "%")
                     );
                 }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                );
                 return predicate;
             }
         };

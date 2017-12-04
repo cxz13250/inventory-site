@@ -39,7 +39,7 @@ public class Goods {
     private double currentRetailPrice;
 
     @Column(name = "is_delete")
-    private boolean isDelete;
+    private boolean delete;
 
     public long getId() {
         return id;
@@ -106,11 +106,11 @@ public class Goods {
     }
 
     public boolean isDelete() {
-        return isDelete;
+        return delete;
     }
 
     public void setDelete(boolean delete) {
-        isDelete = delete;
+        this.delete = delete;
     }
 
     public long getCategory() {

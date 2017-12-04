@@ -4,6 +4,7 @@ import cn.iselab.inventory.site.Application;
 import cn.iselab.inventory.site.dao.CustomDao;
 import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.service.CustomService;
+import cn.iselab.inventory.site.web.data.CustomVO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +48,7 @@ public class CustomServiceImplTest {
     private CustomDao customDao;
 
     Custom custom=new Custom();
+    CustomVO vo=new CustomVO();
     List<Custom> customs=new ArrayList<>();
     Page<Custom> customPage;
     Pageable pageable;
@@ -62,6 +64,12 @@ public class CustomServiceImplTest {
         custom.setMobile("test");
 
         customs.add(custom);
+
+        vo.setId(1L);
+        vo.setName("test");
+        vo.setAddress("test");
+        vo.setEmail("test@qq.com");
+        vo.setMobile("test");
 
         customPage=new PageImpl<Custom>(customs);
 
@@ -101,7 +109,7 @@ public class CustomServiceImplTest {
 
     @Test
     public void should_updateCustom_when_givenCustom() throws Exception {
-        customService.updateCustom(custom);
+        customService.updateCustom(custom,vo);
 
         Mockito.verify(customDao).save(any(Custom.class));
     }
@@ -110,7 +118,7 @@ public class CustomServiceImplTest {
     public void should_deleteCustom_when_givenCustom() throws Exception {
         customService.deletCustom(custom);
 
-        Mockito.verify(customDao).delete(any(Custom.class));
+        Mockito.verify(customDao).save(any(Custom.class));
     }
 
 }

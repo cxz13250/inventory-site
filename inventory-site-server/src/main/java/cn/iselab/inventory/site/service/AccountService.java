@@ -1,6 +1,7 @@
 package cn.iselab.inventory.site.service;
 
 import cn.iselab.inventory.site.model.Account;
+import cn.iselab.inventory.site.web.data.AccountVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,7 +19,7 @@ public interface AccountService {
 
     public Account getAccount(long accountId);
 
-    public void update(Account account);
+    public void update(Account account, AccountVO accountVO);
 
     public void delete(Account account);
 }

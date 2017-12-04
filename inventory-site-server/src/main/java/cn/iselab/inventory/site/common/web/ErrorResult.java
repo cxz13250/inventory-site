@@ -6,7 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by luyanliang on 2015/7/7.
+ * @Author ROKG
+ * @Description
+ * @Date: Created in 下午8:49 2017/10/4
+ * @Modified By:
  */
 public class ErrorResult extends HashMap<String, Object> {
 
