@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -15,6 +16,9 @@ import java.util.List;
 @Transactional
 public interface CategoryDao extends CrudRepository<Category, Long>{
 
-    @Query("select c from Category c")
+    @Query("select c from Category c where c.delete=false")
     List<Category> findAllCategory();
+
+    @Query("select c from Category c where c.name=:name and c.delete=false")
+    List<Category> findByName(@Param("name") String name);
 }

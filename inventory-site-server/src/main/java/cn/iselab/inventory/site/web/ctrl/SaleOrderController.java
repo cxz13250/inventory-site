@@ -5,9 +5,9 @@ import cn.iselab.inventory.site.common.web.ErrorResult;
 import cn.iselab.inventory.site.common.web.ResponseMessage;
 import cn.iselab.inventory.site.common.web.StatusCode;
 import cn.iselab.inventory.site.common.web.SuccessResult;
-import cn.iselab.inventory.site.web.data.AccountVO;
+import cn.iselab.inventory.site.web.data.SaleOrderVO;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
-import cn.iselab.inventory.site.web.logic.AccountLogic;
+import cn.iselab.inventory.site.web.logic.SaleOrderLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,20 +22,21 @@ import java.util.Map;
 /**
  * @Author ROKG
  * @Description
- * @Date: Created in 下午11:00 2017/12/4
+ * @Date: Created in 下午8:04 2017/12/5
  * @Modified By:
  */
 
 @RestController
-public class AccountController extends BaseController{
+public class SaleOrderController extends BaseController {
 
     @Autowired
-    AccountLogic accountLogic;
+    SaleOrderLogic saleOrderLogic;
 
-    @RequestMapping(value = UrlConstants.API+"customs",method = RequestMethod.GET)
-    public Map<String,Object> getAccounts(@RequestParam(value = "keyword")String keyword,
-                                         @RequestParam(value = "sortBy")String sortBy,
-                                         HttpServletRequest request){
+    @RequestMapping(value = UrlConstants.API+"purchases",method = RequestMethod.GET)
+    public Map<String,Object> getSaleOrders(@RequestParam(value = "keyword")String keyword,
+                                          @RequestParam(value = "sortBy")String sortBy,
+                                          @RequestParam(value = "type")Boolean type,
+                                          HttpServletRequest request){
         String activePage = request.getHeader("activePage");
         String rowsOnPage = request.getHeader("rowsOnPage");
         if(activePage == null || rowsOnPage == null) {
@@ -43,45 +44,45 @@ public class AccountController extends BaseController{
         }
         Sort sortById = new Sort(Sort.Direction.DESC, sortBy);
         Pageable pageable = new PageRequest(Integer.parseInt(activePage) - 1, Integer.parseInt(rowsOnPage),sortById);
-        Page<AccountVO> accounts=accountLogic.getAccounts(keyword,pageable);
-        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,accounts);
+        Page<SaleOrderVO> orderVOS=saleOrderLogic.getSaleOrders(keyword,pageable,type);
+        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,orderVOS);
     }
 
     @RequestMapping(value = UrlConstants.API_ACCOUNT,method = RequestMethod.GET)
-    public Map<String,Object> getAccount(@RequestParam(name = "accountId")Long accountId){
+    public Map<String,Object> getSaleOrder(@RequestParam(name = "number")String number){
         try {
-            AccountVO accountVO=accountLogic.getAccount(accountId);
-            return SuccessResult.ok(ResponseMessage.ITEM_RESULT,accountVO);
+            SaleOrderVO orderVO=saleOrderLogic.getSaleOrder(number);
+            return SuccessResult.ok(ResponseMessage.ITEM_RESULT,orderVO);
         }catch (HttpBadRequestException e){
-            return new ErrorResult(StatusCode.ACCOUNT_NOT_EXISTS);
+            return new ErrorResult(StatusCode.SALEORDER_NOT_EXISTS);
         }
     }
 
     @RequestMapping(value = UrlConstants.API_ACCOUNT,method = RequestMethod.POST)
-    public Map<String,Object> createAccount(@RequestBody @NotNull AccountVO accountVO){
-        Long id = accountLogic.createAccount(accountVO);
+    public Map<String,Object> createPurchase(@RequestBody @NotNull SaleOrderVO orderVO){
+        String number= saleOrderLogic.createSaleOrder(orderVO);
         SuccessResult successResult = new SuccessResult();
-        successResult.put(ResponseMessage.ID_RESULT, id);
+        successResult.put(ResponseMessage.ID_RESULT, number);
         return successResult;
     }
 
     @RequestMapping(value = UrlConstants.API_ACCOUNT,method = RequestMethod.PUT)
-    public Map<String,Object> updateAccount(@RequestBody @NotNull AccountVO accountVO){
+    public Map<String,Object> updatePurchase(@RequestBody @NotNull SaleOrderVO orderVO){
         try {
-            accountLogic.updateAccount(accountVO);
+            saleOrderLogic.updateSaleOrder(orderVO);
             return SuccessResult.ok();
         }catch (HttpBadRequestException e){
-            return new ErrorResult(StatusCode.ACCOUNT_NOT_EXISTS);
+            return new ErrorResult(StatusCode.SALEORDER_NOT_EXISTS);
         }
     }
 
     @RequestMapping(value = UrlConstants.API_ACCOUNT,method = RequestMethod.DELETE)
-    public Map<String,Object> deleteAccount(@RequestParam(name = "accountId")Long accountId){
+    public Map<String,Object> deletePurchase(@RequestParam(name = "number")String number){
         try {
-            accountLogic.deleteAccount(accountId);
+            saleOrderLogic.deleteSaleOrder(number);
             return SuccessResult.ok();
         }catch (HttpBadRequestException e){
-            return new ErrorResult(StatusCode.ACCOUNT_NOT_EXISTS);
+            return new ErrorResult(StatusCode.SALEORDER_NOT_EXISTS);
         }
     }
 }

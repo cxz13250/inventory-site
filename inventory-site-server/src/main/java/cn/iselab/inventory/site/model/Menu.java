@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 /**
  * @Author ROKG
- * @Description
+ * @Description 菜单
  * @Date: Created in 下午8:11 2017/12/4
  * @Modified By:
  */

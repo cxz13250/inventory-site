@@ -37,10 +37,10 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = Application.class)
-public class PurchaseOrderImplTest {
+public class PurchaseOrderServiceImplTest {
 
     @InjectMocks
-    PurchaseOrderService purchaseOrderService=new PurchaseOrderImpl();
+    PurchaseOrderService purchaseOrderService=new PurchaseOrderServiceImpl();
 
     @Mock
     PurchaseOrderDao purchaseOrderDao;
@@ -61,7 +61,7 @@ public class PurchaseOrderImplTest {
 
         orders.add(order);
 
-        orderPage=new PageImpl<PurchaseOrder>(orders);
+        orderPage=new PageImpl<>(orders);
 
         pageable = new PageRequest(0,10);
     }
@@ -81,7 +81,7 @@ public class PurchaseOrderImplTest {
     public void should_returnPurchaseOrders_when_givenKeyword() throws Exception {
         when(purchaseOrderDao.findAll(any(Specifications.class),any(Pageable.class))).thenReturn(orderPage);
 
-        Page<PurchaseOrder> result=purchaseOrderService.getPurchaseOrders("test",pageable);
+        Page<PurchaseOrder> result=purchaseOrderService.getPurchaseOrders("test",pageable,true);
 
         Assert.assertEquals(order,result.getContent().get(0));
     }
@@ -108,7 +108,7 @@ public class PurchaseOrderImplTest {
     public void should_deletePurchaseOrder_when_givenPurchaseOrder() throws Exception {
         purchaseOrderService.deletePurchaseOrder(order);
 
-        Mockito.verify(purchaseOrderDao).delete(any(PurchaseOrder.class));
+        Mockito.verify(purchaseOrderDao).save(any(PurchaseOrder.class));
     }
 
 }

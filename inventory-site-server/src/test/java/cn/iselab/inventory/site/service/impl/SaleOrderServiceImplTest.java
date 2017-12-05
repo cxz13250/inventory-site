@@ -58,7 +58,7 @@ public class SaleOrderServiceImplTest {
         saleOrder.setId(1L);
         saleOrder.setCustomId(1L);
         saleOrder.setNumber("test");
-        saleOrder.setOperator(1L);
+        saleOrder.setOperator("test");
 
         saleOrders.add(saleOrder);
 
@@ -83,7 +83,7 @@ public class SaleOrderServiceImplTest {
     public void should_returnSaleOrder_when_givenKeyword() throws Exception {
         when(saleOrderDao.findAll(any(Specifications.class),any(Pageable.class))).thenReturn(saleOrderPage);
 
-        Page<SaleOrder> result=saleOrderService.getSaleOrders("test",pageable);
+        Page<SaleOrder> result=saleOrderService.getSaleOrders("test",pageable,true);
 
         Assert.assertEquals(saleOrder,result.getContent().get(0));
     }
@@ -111,7 +111,7 @@ public class SaleOrderServiceImplTest {
     public void should_deleteSaleOrder_when_givenSaleOrder() throws Exception {
         saleOrderService.deleteSaleOrder(saleOrder);
 
-        Mockito.verify(saleOrderDao).delete(any(SaleOrder.class));
+        Mockito.verify(saleOrderDao).save(any(SaleOrder.class));
     }
 
 }

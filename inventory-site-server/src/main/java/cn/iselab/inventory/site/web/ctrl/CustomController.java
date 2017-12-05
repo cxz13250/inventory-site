@@ -43,8 +43,8 @@ public class CustomController {
         }
         Sort sortById = new Sort(Sort.Direction.DESC, sortBy);
         Pageable pageable = new PageRequest(Integer.parseInt(activePage) - 1, Integer.parseInt(rowsOnPage),sortById);
-        Page<CustomVO> goodsVOS=customLogic.getCustoms(keyword,pageable);
-        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,goodsVOS);
+        Page<CustomVO> customVOS=customLogic.getCustoms(keyword,pageable);
+        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,customVOS);
     }
 
     @RequestMapping(value = UrlConstants.API_CUSTOM,method = RequestMethod.GET)

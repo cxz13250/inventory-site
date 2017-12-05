@@ -11,5 +11,7 @@ public interface StatusCode {
     int GOODS_NOT_EXISTS=2005;
     int CUSTOM_NOT_EXISTS=2006;
     int ACCOUNT_NOT_EXISTS=2007;
-
+    int CATEGORY_NOT_EXISTS=2008;
+    int PURCHASE_NOT_EXISTS=2009;
+    int SALEORDER_NOT_EXISTS=2009;
 }

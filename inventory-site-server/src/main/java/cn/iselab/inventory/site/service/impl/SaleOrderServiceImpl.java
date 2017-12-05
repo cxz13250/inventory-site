@@ -1,9 +1,13 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
+import cn.iselab.inventory.site.common.constanst.OrderNumConstants;
+import cn.iselab.inventory.site.common.constanst.PurchaseOrderConstants;
 import cn.iselab.inventory.site.dao.SaleOrderDao;
 import cn.iselab.inventory.site.model.Payment;
 import cn.iselab.inventory.site.model.SaleOrder;
 import cn.iselab.inventory.site.service.SaleOrderService;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +20,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
 
 /**
  * @Author ROKG
@@ -31,12 +36,20 @@ public class SaleOrderServiceImpl implements SaleOrderService {
 
     @Override
     public SaleOrder createSaleOrder(SaleOrder saleOrder){
-        return saleOrderDao.save(saleOrder);
+        saleOrder.setDelete(DeleteStatus.IS_NOT_DELETE);
+        saleOrder.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        saleOrder= saleOrderDao.save(saleOrder);
+        if(saleOrder.isType()== PurchaseOrderConstants.Input){
+            saleOrder.setNumber(OrderNumConstants.XSD_ORDER+saleOrder.getId());
+        }else {
+            saleOrder.setNumber(OrderNumConstants.XSTHD_ORDER+saleOrder.getId());
+        }
+        return saleOrder;
     }
 
     @Override
-    public Page<SaleOrder> getSaleOrders(String keyword, Pageable pageable){
-        Specifications<SaleOrder> where=Specifications.where(getWhereClause(keyword));
+    public Page<SaleOrder> getSaleOrders(String keyword, Pageable pageable,Boolean type){
+        Specifications<SaleOrder> where=Specifications.where(getWhereClause(keyword,type));
         return saleOrderDao.findAll(where, pageable);
     }
 
@@ -46,16 +59,22 @@ public class SaleOrderServiceImpl implements SaleOrderService {
     }
 
     @Override
+    public SaleOrder getSaleOrderByNum(String number){
+        return saleOrderDao.findByNumber(number);
+    }
+
+    @Override
     public void updateSaleOrder(SaleOrder saleOrder){
         saleOrderDao.save(saleOrder);
     }
 
     @Override
     public void deleteSaleOrder(SaleOrder saleOrder){
-        saleOrderDao.delete(saleOrder);
+        saleOrder.setDelete(DeleteStatus.IS_DELETE);
+        saleOrderDao.save(saleOrder);
     }
 
-    private Specification<SaleOrder> getWhereClause(String keyword){
+    private Specification<SaleOrder> getWhereClause(String keyword, Boolean type){
         return new Specification<SaleOrder>() {
             @Override
             public Predicate toPredicate(Root<SaleOrder> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -65,6 +84,14 @@ public class SaleOrderServiceImpl implements SaleOrderService {
                             criteriaBuilder.equal(root.get("number"), StringUtils.trim(keyword))
                     );
                 }
+                if (type != null) {
+                    predicate.getExpressions().add(
+                            criteriaBuilder.equal(root.get("type"), type)
+                    );
+                }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                );
                 return predicate;
             }
         };

@@ -15,9 +15,11 @@ public interface SaleOrderService {
 
     SaleOrder createSaleOrder(SaleOrder saleOrder);
 
-    Page<SaleOrder> getSaleOrders(String keyword, Pageable pageable);
+    Page<SaleOrder> getSaleOrders(String keyword, Pageable pageable,Boolean type);
 
     SaleOrder getSaleOrder(long saleOrderId);
+
+    SaleOrder getSaleOrderByNum(String number);
 
     void updateSaleOrder(SaleOrder saleOrder);
 

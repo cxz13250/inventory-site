@@ -21,8 +21,14 @@ public class Category {
     @Column(name = "super_id")
     private long superId;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "create_time")
     private Timestamp createTime;
+
+    @Column(name = "is_delete")
+    private boolean delete;
 
     public long getId() {
         return id;
@@ -48,11 +54,27 @@ public class Category {
         this.superId = superId;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Timestamp getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }

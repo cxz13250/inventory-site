@@ -4,6 +4,7 @@ import cn.iselab.inventory.site.Application;
 import cn.iselab.inventory.site.dao.CategoryDao;
 import cn.iselab.inventory.site.model.Category;
 import cn.iselab.inventory.site.service.CategoryService;
+import cn.iselab.inventory.site.web.data.CategoryVO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +43,7 @@ public class CategoryServiceImplTest {
     private CategoryDao categoryDao;
 
     Category category=new Category();
+    CategoryVO vo=new CategoryVO();
     List<Category> categories=new ArrayList<>();
 
     @Before
@@ -51,6 +53,10 @@ public class CategoryServiceImplTest {
         category.setId(1L);
         category.setName("test");
         category.setSuperId(1L);
+
+        vo.setId(1L);
+        vo.setName("test");
+        vo.setSuperId(1L);
 
         categories.add(category);
     }
@@ -89,12 +95,12 @@ public class CategoryServiceImplTest {
     public void should_deleteCategory_when_givenCategory() throws Exception {
         categoryService.deleteCategory(category);
 
-        Mockito.verify(categoryDao).delete(any(Category.class));
+        Mockito.verify(categoryDao).save(any(Category.class));
     }
 
     @Test
     public void should_updateCategory_when_givenCategory() throws Exception {
-        categoryService.updateCategory(category);
+        categoryService.updateCategory(category,vo);
 
         Mockito.verify(categoryDao).save(any(Category.class));
     }

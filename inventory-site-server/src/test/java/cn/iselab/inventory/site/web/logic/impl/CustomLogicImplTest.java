@@ -136,5 +136,4 @@ public class CustomLogicImplTest {
 
         Mockito.verify(customService).deletCustom(any(Custom.class));
     }
-
 }

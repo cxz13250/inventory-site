@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class HttpUtil {
 
-    public String getIpByRequest(HttpServletRequest request){
+    public static String getIpByRequest(HttpServletRequest request){
         String ip = request.getHeader("x-forwarded-for");
         if (isNotValidIP(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
@@ -33,7 +33,7 @@ public class HttpUtil {
         return ip;
     }
 
-    private boolean isNotValidIP(String ip) {
+    private static boolean isNotValidIP(String ip) {
         return ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip);
     }
 

@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.common.constanst.OperationStatus;
 import cn.iselab.inventory.site.model.User;
 import cn.iselab.inventory.site.model.User2Role;
 import cn.iselab.inventory.site.service.UserService;
@@ -9,9 +10,11 @@ import cn.iselab.inventory.site.web.data.wrapper.UserWrapper;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
 import cn.iselab.inventory.site.web.logic.MenuLogic;
 import cn.iselab.inventory.site.web.logic.UserLogic;
+import cn.iselab.inventory.site.web.logic.UserOperationLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +34,11 @@ public class UserLogicImpl implements UserLogic{
     @Autowired
     private MenuLogic menuLogic;
 
+    @Autowired
+    private UserOperationLogic userOperationLogic;
+
     @Override
-    public UserVO login(UserVO userVO) throws Exception{
+    public UserVO login(UserVO userVO, HttpServletRequest request) throws Exception{
        User user;
        if(userVO.getEmail()!=null)
            user=userService.getUserByEmail(userVO.getEmail());
@@ -51,11 +57,13 @@ public class UserLogicImpl implements UserLogic{
 
        //设置角色
        vo.setRoles(roles.stream().map(User2Role::toLong).collect(Collectors.toList()));
+
+       userOperationLogic.recordUserOperation(request,userVO.getId(), OperationStatus.LOGIN);
        return vo;
     }
 
     @Override
-    public UserVO register(UserVO userVO) throws Exception{
+    public UserVO register(UserVO userVO,HttpServletRequest request) throws Exception{
         if (userVO.getPassword().length() > 16 || userVO.getPassword().length() < 6) {
             throw new HttpBadRequestException("the length of password should between 6 and 16");
         }
@@ -81,6 +89,8 @@ public class UserLogicImpl implements UserLogic{
 
         //设置菜单
         vo.setMenus(menuLogic.getMenusForLogin(roles));
+
+        userOperationLogic.recordUserOperation(request,userVO.getId(), OperationStatus.REGISTER);
         return vo;
     }
 }

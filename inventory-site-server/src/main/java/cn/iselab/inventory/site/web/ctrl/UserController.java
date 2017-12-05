@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
@@ -26,11 +27,11 @@ public class UserController extends BaseController {
     private UserLogic userLogic;
 
     @RequestMapping(value = UrlConstants.API_USER+"/login", method = RequestMethod.POST)
-    public Map<String, Object> login(@RequestBody @NotNull UserVO userVO){
+    public Map<String, Object> login(@RequestBody @NotNull UserVO userVO, HttpServletRequest request){
         if(userVO.getEmail()==null&&userVO.getMobile()==null)
             return new ErrorResult(StatusCode.MISS_PARAMETER);
         try {
-            UserVO userVO1=userLogic.login(userVO);
+            UserVO userVO1=userLogic.login(userVO,request);
             return SuccessResult.ok(ResponseMessage.ITEM_RESULT, userVO1);
         }catch (Exception ex){
             return new ErrorResult(StatusCode.USER_NOT_EXISTS);
@@ -38,9 +39,9 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = UrlConstants.API_USER, method = RequestMethod.POST)
-    public Map<String, Object> register(@RequestBody @NotNull UserVO userVO){
+    public Map<String, Object> register(@RequestBody @NotNull UserVO userVO, HttpServletRequest request){
         try {
-            return SuccessResult.ok(ResponseMessage.ITEM_RESULT, userLogic.register(userVO));
+            return SuccessResult.ok(ResponseMessage.ITEM_RESULT, userLogic.register(userVO,request));
         }catch (Exception ex){
             return new ErrorResult(ex.getMessage());
         }

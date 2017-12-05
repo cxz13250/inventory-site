@@ -15,9 +15,11 @@ public interface PurchaseOrderService {
 
     PurchaseOrder createPurchaseOrder(PurchaseOrder order);
 
-    Page<PurchaseOrder> getPurchaseOrders(String keyword, Pageable pageable);
+    Page<PurchaseOrder> getPurchaseOrders(String keyword, Pageable pageable, Boolean type);
 
     PurchaseOrder getPurchaseOrder(long orderId);
+
+    PurchaseOrder getPurchaseOrderByNum(String number);
 
     void updatePurchaseOrder(PurchaseOrder order);
 

@@ -8,7 +8,7 @@ package cn.iselab.inventory.site.common.constanst;
  */
 public class PurchaseOrderConstants {
 
-    private static boolean Input=true;
+    public static boolean Input=true;
 
-    private static boolean Output=false;
+    public static boolean Output=false;
 }
