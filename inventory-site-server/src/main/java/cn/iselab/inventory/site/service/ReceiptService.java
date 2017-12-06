@@ -18,6 +18,8 @@ public interface ReceiptService {
 
     Receipt getReceipt(long receiptId);
 
+    Receipt getReceiptByNum(String number);
+
     void updateReceipt(Receipt receipt);
 
     void deleteReceipt(Receipt receipt);

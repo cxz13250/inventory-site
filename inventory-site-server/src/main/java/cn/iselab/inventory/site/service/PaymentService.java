@@ -18,6 +18,8 @@ public interface PaymentService {
 
     Payment getPayment(long paymentId);
 
+    Payment getPaymentByNum(String number);
+
     void updatePayment(Payment payment);
 
     void deletePayment(Payment payment);

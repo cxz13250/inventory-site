@@ -5,9 +5,9 @@ import cn.iselab.inventory.site.common.web.ErrorResult;
 import cn.iselab.inventory.site.common.web.ResponseMessage;
 import cn.iselab.inventory.site.common.web.StatusCode;
 import cn.iselab.inventory.site.common.web.SuccessResult;
-import cn.iselab.inventory.site.web.data.SaleOrderVO;
+import cn.iselab.inventory.site.web.data.ReceiptVO;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
-import cn.iselab.inventory.site.web.logic.SaleOrderLogic;
+import cn.iselab.inventory.site.web.logic.ReceiptLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,20 +22,18 @@ import java.util.Map;
 /**
  * @Author ROKG
  * @Description
- * @Date: Created in 下午8:04 2017/12/5
+ * @Date: Created in 下午11:48 2017/12/6
  * @Modified By:
  */
-
 @RestController
-public class SaleOrderController extends BaseController {
+public class ReceiptController extends BaseController{
 
     @Autowired
-    SaleOrderLogic saleOrderLogic;
+    ReceiptLogic receiptLogic;
 
-    @RequestMapping(value = UrlConstants.API+"purchases",method = RequestMethod.GET)
-    public Map<String,Object> getSaleOrders(@RequestParam(value = "keyword")String keyword,
+    @RequestMapping(value = UrlConstants.API+"receipts",method = RequestMethod.GET)
+    public Map<String,Object> getReceipts(@RequestParam(value = "keyword")String keyword,
                                           @RequestParam(value = "sortBy")String sortBy,
-                                          @RequestParam(value = "type")Boolean type,
                                           HttpServletRequest request){
         String activePage = request.getHeader("activePage");
         String rowsOnPage = request.getHeader("rowsOnPage");
@@ -44,45 +42,45 @@ public class SaleOrderController extends BaseController {
         }
         Sort sortById = new Sort(Sort.Direction.DESC, sortBy);
         Pageable pageable = new PageRequest(Integer.parseInt(activePage) - 1, Integer.parseInt(rowsOnPage),sortById);
-        Page<SaleOrderVO> orderVOS=saleOrderLogic.getSaleOrders(keyword,pageable,type);
+        Page<ReceiptVO> orderVOS=receiptLogic.getReceipts(keyword,pageable);
         return SuccessResult.ok(ResponseMessage.ITEM_RESULT,orderVOS);
     }
 
-    @RequestMapping(value = UrlConstants.API_SALEORDER,method = RequestMethod.GET)
-    public Map<String,Object> getSaleOrder(@RequestParam(name = "number")String number){
+    @RequestMapping(value = UrlConstants.API_RECEIPT,method = RequestMethod.GET)
+    public Map<String,Object> getReceipt(@RequestParam(name = "number")String number){
         try {
-            SaleOrderVO orderVO=saleOrderLogic.getSaleOrder(number);
+            ReceiptVO orderVO=receiptLogic.getReceipt(number);
             return SuccessResult.ok(ResponseMessage.ITEM_RESULT,orderVO);
         }catch (HttpBadRequestException e){
-            return new ErrorResult(StatusCode.SALEORDER_NOT_EXISTS);
+            return new ErrorResult(StatusCode.Receipt_NOT_EXISTS);
         }
     }
 
-    @RequestMapping(value = UrlConstants.API_SALEORDER,method = RequestMethod.POST)
-    public Map<String,Object> createPurchase(@RequestBody @NotNull SaleOrderVO orderVO){
-        String number= saleOrderLogic.createSaleOrder(orderVO);
+    @RequestMapping(value = UrlConstants.API_RECEIPT,method = RequestMethod.POST)
+    public Map<String,Object> createReceipt(@RequestBody @NotNull ReceiptVO orderVO){
+        String number=receiptLogic.createReceipt(orderVO);
         SuccessResult successResult = new SuccessResult();
         successResult.put(ResponseMessage.ID_RESULT, number);
         return successResult;
     }
 
-    @RequestMapping(value = UrlConstants.API_SALEORDER,method = RequestMethod.PUT)
-    public Map<String,Object> updatePurchase(@RequestBody @NotNull SaleOrderVO orderVO){
+    @RequestMapping(value = UrlConstants.API_RECEIPT,method = RequestMethod.PUT)
+    public Map<String,Object> updateReceipt(@RequestBody @NotNull ReceiptVO orderVO){
         try {
-            saleOrderLogic.updateSaleOrder(orderVO);
+            receiptLogic.updateReceipt(orderVO);
             return SuccessResult.ok();
         }catch (HttpBadRequestException e){
-            return new ErrorResult(StatusCode.SALEORDER_NOT_EXISTS);
+            return new ErrorResult(StatusCode.Receipt_NOT_EXISTS);
         }
     }
 
-    @RequestMapping(value = UrlConstants.API_SALEORDER,method = RequestMethod.DELETE)
-    public Map<String,Object> deletePurchase(@RequestParam(name = "number")String number){
+    @RequestMapping(value = UrlConstants.API_RECEIPT,method = RequestMethod.DELETE)
+    public Map<String,Object> deleteReceipt(@RequestParam(name = "number")String number){
         try {
-            saleOrderLogic.deleteSaleOrder(number);
+            receiptLogic.deleteReceipt(number);
             return SuccessResult.ok();
         }catch (HttpBadRequestException e){
-            return new ErrorResult(StatusCode.SALEORDER_NOT_EXISTS);
+            return new ErrorResult(StatusCode.Receipt_NOT_EXISTS);
         }
     }
 }

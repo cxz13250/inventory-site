@@ -13,5 +13,7 @@ public interface StatusCode {
     int ACCOUNT_NOT_EXISTS=2007;
     int CATEGORY_NOT_EXISTS=2008;
     int PURCHASE_NOT_EXISTS=2009;
-    int SALEORDER_NOT_EXISTS=2009;
+    int SALEORDER_NOT_EXISTS=2010;
+    int Payment_NOT_EXISTS=2011;
+    int Receipt_NOT_EXISTS=2012;
 }

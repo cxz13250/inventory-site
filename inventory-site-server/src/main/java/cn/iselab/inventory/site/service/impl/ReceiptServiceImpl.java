@@ -1,5 +1,7 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
+import cn.iselab.inventory.site.common.constanst.OrderNumConstants;
 import cn.iselab.inventory.site.dao.ReceiptDao;
 import cn.iselab.inventory.site.model.Payment;
 import cn.iselab.inventory.site.model.Receipt;
@@ -16,6 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
 
 /**
  * @Author ROKG
@@ -31,7 +34,11 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public Receipt createReceipt(Receipt receipt){
-        return receiptDao.save(receipt);
+        receipt.setDelete(DeleteStatus.IS_NOT_DELETE);
+        receipt.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        receipt= receiptDao.save(receipt);
+        receipt.setNumber(OrderNumConstants.SKD_ORDER+receipt.getId());
+        return receipt;
     }
 
     @Override
@@ -46,13 +53,19 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    public Receipt getReceiptByNum(String number){
+        return receiptDao.findByNumber(number);
+    }
+
+    @Override
     public void updateReceipt(Receipt receipt){
         receiptDao.save(receipt);
     }
 
     @Override
     public void deleteReceipt(Receipt receipt){
-        receiptDao.delete(receipt);
+        receipt.setDelete(DeleteStatus.IS_DELETE);
+        receiptDao.save(receipt);
     }
 
     private Specification<Receipt> getWhereClause(String keyword){
@@ -65,6 +78,9 @@ public class ReceiptServiceImpl implements ReceiptService {
                             criteriaBuilder.equal(root.get("name"), StringUtils.trim(keyword))
                     );
                 }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                );
                 return predicate;
             }
         };

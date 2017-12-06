@@ -111,7 +111,7 @@ public class ReceiptServiceImplTest {
     public void should_deleteReceipt_when_givenReceipt() throws Exception {
         receiptService.deleteReceipt(receipt);
 
-        Mockito.verify(receiptDao).delete(any(Receipt.class));
+        Mockito.verify(receiptDao).save(any(Receipt.class));
     }
 
 }

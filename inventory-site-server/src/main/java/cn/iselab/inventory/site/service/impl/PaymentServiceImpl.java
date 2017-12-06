@@ -1,5 +1,7 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
+import cn.iselab.inventory.site.common.constanst.OrderNumConstants;
 import cn.iselab.inventory.site.dao.PaymentDao;
 import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.Payment;
@@ -16,6 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
 
 /**
  * @Author ROKG
@@ -31,7 +34,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment createPayment(Payment payment){
-        return paymentDao.save(payment);
+        payment.setDelete(DeleteStatus.IS_NOT_DELETE);
+        payment.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        payment=paymentDao.save(payment);
+        payment.setNumber(OrderNumConstants.XJFYD_ORDER+payment.getId());
+        return payment;
     }
 
     @Override
@@ -46,13 +53,19 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public Payment getPaymentByNum(String number){
+        return paymentDao.findByNumber(number);
+    }
+
+    @Override
     public void updatePayment(Payment payment){
         paymentDao.save(payment);
     }
 
     @Override
     public void deletePayment(Payment payment){
-        paymentDao.delete(payment);
+        payment.setDelete(DeleteStatus.IS_DELETE);
+        paymentDao.save(payment);
     }
 
     private Specification<Payment> getWhereClause(String keyword){
@@ -65,6 +78,8 @@ public class PaymentServiceImpl implements PaymentService {
                             criteriaBuilder.equal(root.get("number"), StringUtils.trim(keyword))
                     );
                 }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE));
                 return predicate;
             }
         };

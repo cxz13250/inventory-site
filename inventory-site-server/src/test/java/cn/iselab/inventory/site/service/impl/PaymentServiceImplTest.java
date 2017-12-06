@@ -110,7 +110,7 @@ public class PaymentServiceImplTest {
     public void should_deletePayment_when_givenPayment() throws Exception {
         paymentService.deletePayment(payment);
 
-        Mockito.verify(paymentDao).delete(any(Payment.class));
+        Mockito.verify(paymentDao).save(any(Payment.class));
     }
 
 }

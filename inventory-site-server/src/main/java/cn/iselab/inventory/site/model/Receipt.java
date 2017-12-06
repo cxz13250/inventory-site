@@ -1,6 +1,7 @@
 package cn.iselab.inventory.site.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * Created by ROGK on 2017/11/1.
@@ -31,6 +32,12 @@ public class Receipt {
 
     @Column(name = "status")
     private long status;
+
+    @Column(name = "is_delete")
+    private boolean delete;
+
+    @Column(name = "create_time")
+    private Timestamp createTime;
 
     public long getId() {
         return id;
@@ -86,5 +93,21 @@ public class Receipt {
 
     public void setStatus(long status) {
         this.status = status;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 }
