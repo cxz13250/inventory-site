@@ -26,6 +26,9 @@ public class SaleStrategy {
     @Column(name = "end_time")
     private Timestamp endTime;
 
+    @Column(name = "is_delete")
+    private boolean delete;
+
     public long getId() {
         return id;
     }
@@ -64,5 +67,13 @@ public class SaleStrategy {
 
     public void setEndTime(Timestamp endTime) {
         this.endTime = endTime;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }

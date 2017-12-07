@@ -16,4 +16,6 @@ public interface StatusCode {
     int SALEORDER_NOT_EXISTS=2010;
     int Payment_NOT_EXISTS=2011;
     int Receipt_NOT_EXISTS=2012;
+    int STOCKORDER_NOT_EXISTS=2013;
+    int SALESTRATEGY_NOT_EXISTS=2013;
 }

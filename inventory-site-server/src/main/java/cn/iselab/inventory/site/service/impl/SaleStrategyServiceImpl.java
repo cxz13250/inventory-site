@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.dao.SaleStrategyDao;
 import cn.iselab.inventory.site.model.SaleOrder;
 import cn.iselab.inventory.site.model.SaleStrategy;
@@ -31,6 +32,7 @@ public class SaleStrategyServiceImpl implements SaleStrategyService {
 
     @Override
     public SaleStrategy createSaleStrategy(SaleStrategy strategy){
+        strategy.setDelete(DeleteStatus.IS_NOT_DELETE);
         return saleStrategyDao.save(strategy);
     }
 
@@ -65,6 +67,9 @@ public class SaleStrategyServiceImpl implements SaleStrategyService {
                             criteriaBuilder.equal(root.get("name"), "%"+StringUtils.trim(keyword)+"%")
                     );
                 }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                );
                 return predicate;
             }
         };

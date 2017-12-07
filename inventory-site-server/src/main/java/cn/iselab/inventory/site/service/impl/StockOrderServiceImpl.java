@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.dao.StockOrderDao;
 import cn.iselab.inventory.site.model.StockOrder;
 import cn.iselab.inventory.site.service.StockOrderService;
@@ -30,12 +31,13 @@ public class StockOrderServiceImpl implements StockOrderService {
 
     @Override
     public StockOrder createStockOrder(StockOrder stockOrder){
+        stockOrder.setDelete(DeleteStatus.IS_NOT_DELETE);
         return stockOrderDao.save(stockOrder);
     }
 
     @Override
-    public Page<StockOrder> getStockOrders(String keyword, Pageable pageable){
-        Specifications<StockOrder> where=Specifications.where(getWhereClause(keyword));
+    public Page<StockOrder> getStockOrders(String keyword, Pageable pageable,Long type){
+        Specifications<StockOrder> where=Specifications.where(getWhereClause(keyword,type));
         return stockOrderDao.findAll(where, pageable);
     }
 
@@ -54,7 +56,7 @@ public class StockOrderServiceImpl implements StockOrderService {
         stockOrderDao.delete(stockOrder);
     }
 
-    private Specification<StockOrder> getWhereClause(String keyword){
+    private Specification<StockOrder> getWhereClause(String keyword,Long type){
         return new Specification<StockOrder>() {
             @Override
             public Predicate toPredicate(Root<StockOrder> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -64,6 +66,14 @@ public class StockOrderServiceImpl implements StockOrderService {
                             criteriaBuilder.equal(root.get("number"), StringUtils.trim(keyword))
                     );
                 }
+                if (type != null) {
+                    predicate.getExpressions().add(
+                            criteriaBuilder.equal(root.get("type"), type)
+                    );
+                }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                );
                 return predicate;
             }
         };

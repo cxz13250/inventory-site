@@ -16,4 +16,5 @@ public class UrlConstants {
     public static final String API_PAYMENT = "/api/payment";
     public static final String API_STRATEGY = "/api/strategy";
     public static final String API_RECEIPT = "/api/receipt";
+    public static final String API_STOCKORDER = "/api/stockOrder";
 }

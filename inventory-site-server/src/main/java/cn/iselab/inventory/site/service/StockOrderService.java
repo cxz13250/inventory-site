@@ -15,7 +15,7 @@ public interface StockOrderService {
 
     StockOrder createStockOrder(StockOrder stockOrder);
 
-    Page<StockOrder> getStockOrders(String keyword, Pageable pageable);
+    Page<StockOrder> getStockOrders(String keyword, Pageable pageable,Long type);
 
     StockOrder getStockOrder(long stockOrderId);
 

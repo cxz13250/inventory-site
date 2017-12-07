@@ -30,6 +30,9 @@ public class StockOrder {
     @Column(name = "create_time")
     private Timestamp createTime;
 
+    @Column(name = "is_delete")
+    private boolean delete;
+
     public long getId() {
         return id;
     }
@@ -76,5 +79,13 @@ public class StockOrder {
 
     public void setStatus(long status) {
         this.status = status;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }
