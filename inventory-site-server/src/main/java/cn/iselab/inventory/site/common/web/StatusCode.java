@@ -18,4 +18,5 @@ public interface StatusCode {
     int Receipt_NOT_EXISTS=2012;
     int STOCKORDER_NOT_EXISTS=2013;
     int SALESTRATEGY_NOT_EXISTS=2013;
+    int COMPLIMENTARY_NOT_EXISTS=2014;
 }

@@ -32,6 +32,9 @@ public class SaleDetail {
     @Column(name = "total")
     private double total;
 
+    @Column(name = "is_delete")
+    private boolean delete;
+
     public long getId() {
         return id;
     }
@@ -86,5 +89,13 @@ public class SaleDetail {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }

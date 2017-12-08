@@ -1,5 +1,9 @@
 package cn.iselab.inventory.site.web.logic;
 
+import cn.iselab.inventory.site.web.data.ComplimentaryVO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 /**
  * @Author ROKG
  * @Description
@@ -7,4 +11,14 @@ package cn.iselab.inventory.site.web.logic;
  * @Modified By:
  */
 public interface ComplimentaryLogic {
+
+    Page<ComplimentaryVO> getComplimentaries(String keyword, Pageable pageable);
+
+    ComplimentaryVO getComplimentary(long id);
+
+    Long createComplimentary(ComplimentaryVO vo);
+
+    void updateComplimentary(ComplimentaryVO vo);
+
+    void deleteComplimentary(long id);
 }

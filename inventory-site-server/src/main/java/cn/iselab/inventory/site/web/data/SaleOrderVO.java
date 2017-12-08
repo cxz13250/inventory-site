@@ -1,8 +1,11 @@
 package cn.iselab.inventory.site.web.data;
 
+import cn.iselab.inventory.site.model.SaleOrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -33,4 +36,6 @@ public class SaleOrderVO {
     private Boolean type;
 
     private Long status;
+
+    private List<SaleOrderItem> orderItems;
 }
