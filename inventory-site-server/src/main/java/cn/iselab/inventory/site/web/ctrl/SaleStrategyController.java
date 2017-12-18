@@ -31,7 +31,7 @@ public class SaleStrategyController extends BaseController {
     @Autowired
     SaleStrategyLogic saleStrategyLogic;
 
-    @RequestMapping(value = UrlConstants.API+"purchases",method = RequestMethod.GET)
+    @RequestMapping(value = UrlConstants.API+"strategies",method = RequestMethod.GET)
     public Map<String,Object> getSaleOrders(@RequestParam(value = "keyword")String keyword,
                                             @RequestParam(value = "sortBy")String sortBy,
                                             HttpServletRequest request){

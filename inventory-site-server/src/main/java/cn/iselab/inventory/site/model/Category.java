@@ -28,7 +28,7 @@ public class Category {
     private Timestamp createTime;
 
     @Column(name = "is_delete")
-    private boolean delete;
+    private Boolean deleted;
 
     public long getId() {
         return id;
@@ -70,11 +70,11 @@ public class Category {
         this.createTime = createTime;
     }
 
-    public boolean isDelete() {
-        return delete;
+    public Boolean isDelete() {
+        return deleted;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDelete(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

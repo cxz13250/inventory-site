@@ -70,7 +70,7 @@ public class EncryptionUtil {
             } catch (NoSuchAlgorithmException ex) {
                 LOG.error("", ex);
             }
-            BASE64Encoder baseEncoder = new BASE64Encoder();
+            sun.misc.BASE64Encoder baseEncoder = new sun.misc.BASE64Encoder();
             try {
                 value = baseEncoder.encode(md5.digest(s.getBytes("utf-8")));
             } catch (Exception ex) {

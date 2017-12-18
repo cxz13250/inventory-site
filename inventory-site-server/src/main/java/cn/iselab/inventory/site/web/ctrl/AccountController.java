@@ -32,7 +32,7 @@ public class AccountController extends BaseController{
     @Autowired
     AccountLogic accountLogic;
 
-    @RequestMapping(value = UrlConstants.API+"customs",method = RequestMethod.GET)
+    @RequestMapping(value = UrlConstants.API+"accounts",method = RequestMethod.GET)
     public Map<String,Object> getAccounts(@RequestParam(value = "keyword")String keyword,
                                          @RequestParam(value = "sortBy")String sortBy,
                                          HttpServletRequest request){

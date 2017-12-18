@@ -14,6 +14,6 @@ import javax.transaction.Transactional;
 @Transactional
 public interface SaleOrderDao extends CrudRepository<SaleOrder,Long> ,JpaSpecificationExecutor<SaleOrder>{
 
-    @Query("select s from SaleOrder s where s.number=:numer and s.delete=false ")
-    SaleOrder findByNumber(@Param("number")String number);
+    @Query("select s from SaleOrder s where s.number = :number")
+    SaleOrder findByNumber(@Param("number") String number);
 }

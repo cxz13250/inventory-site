@@ -38,9 +38,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         order.setDelete(DeleteStatus.IS_NOT_DELETE);
         order=purchaseOrderDao.save(order);
         if(order.isType()== PurchaseOrderConstants.Input) {
-            order.setNumber(OrderNumConstants.JHD_ORDER+order.getId());
+            order.setNumber(OrderNumConstants.JHD_ORDER+order.getCreateTime());
         }else {
-            order.setNumber(OrderNumConstants.JHTHD_ORDER+order.getId());
+            order.setNumber(OrderNumConstants.JHTHD_ORDER+order.getCreateTime());
         }
         return order;
     }
@@ -88,7 +88,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     );
                 }
                 predicate.getExpressions().add(
-                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                        criteriaBuilder.equal(root.get("deleted"), DeleteStatus.IS_NOT_DELETE)
                 );
                 return predicate;
             }

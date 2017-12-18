@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
  * @Modified By:
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class SaleDetailVO {
 
 }

@@ -22,4 +22,6 @@ public class AccountVO {
     private Double balance;
 
     private String bank;
+
+    private Long createTime;
 }

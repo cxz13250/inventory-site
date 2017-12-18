@@ -37,5 +37,5 @@ public class SaleOrderVO {
 
     private Long status;
 
-    private List<SaleOrderItem> orderItems;
+    private List<SaleOrderItemVO> orderItems;
 }

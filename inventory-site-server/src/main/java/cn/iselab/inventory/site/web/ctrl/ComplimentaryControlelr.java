@@ -32,7 +32,7 @@ public class ComplimentaryControlelr extends BaseController {
     @Autowired
     ComplimentaryLogic complimentaryLogic;
 
-    @RequestMapping(value = UrlConstants.API+"purchases",method = RequestMethod.GET)
+    @RequestMapping(value = UrlConstants.API+"complimentaries",method = RequestMethod.GET)
     public Map<String,Object> getComplimentaries(@RequestParam(value = "keyword")String keyword,
                                              @RequestParam(value = "sortBy")String sortBy,
                                              HttpServletRequest request){

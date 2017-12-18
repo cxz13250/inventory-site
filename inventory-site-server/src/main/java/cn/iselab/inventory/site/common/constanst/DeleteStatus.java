@@ -8,7 +8,7 @@ package cn.iselab.inventory.site.common.constanst;
  */
 public class DeleteStatus {
 
-    public static boolean IS_NOT_DELETE=true;
+    public static boolean IS_NOT_DELETE=false;
 
-    public static boolean IS_DELETE=false;
+    public static boolean IS_DELETE=true;
 }

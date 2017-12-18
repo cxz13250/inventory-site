@@ -37,7 +37,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setDelete(DeleteStatus.IS_NOT_DELETE);
         payment.setCreateTime(new Timestamp(System.currentTimeMillis()));
         payment=paymentDao.save(payment);
-        payment.setNumber(OrderNumConstants.XJFYD_ORDER+payment.getId());
+        payment.setNumber(OrderNumConstants.XJFYD_ORDER+payment.getCreateTime());
         return payment;
     }
 
@@ -54,7 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment getPaymentByNum(String number){
-        return paymentDao.findByNumber(number);
+        return paymentDao.findByNumber(number).get(0);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class PaymentServiceImpl implements PaymentService {
                     );
                 }
                 predicate.getExpressions().add(
-                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE));
+                        criteriaBuilder.equal(root.get("deleted"), DeleteStatus.IS_NOT_DELETE));
                 return predicate;
             }
         };

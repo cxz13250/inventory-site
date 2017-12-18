@@ -40,9 +40,9 @@ public class SaleOrderServiceImpl implements SaleOrderService {
         saleOrder.setCreateTime(new Timestamp(System.currentTimeMillis()));
         saleOrder= saleOrderDao.save(saleOrder);
         if(saleOrder.isType()== PurchaseOrderConstants.Input){
-            saleOrder.setNumber(OrderNumConstants.XSD_ORDER+saleOrder.getId());
+            saleOrder.setNumber(OrderNumConstants.XSD_ORDER+saleOrder.getCreateTime());
         }else {
-            saleOrder.setNumber(OrderNumConstants.XSTHD_ORDER+saleOrder.getId());
+            saleOrder.setNumber(OrderNumConstants.XSTHD_ORDER+saleOrder.getCreateTime());
         }
         return saleOrder;
     }
@@ -90,7 +90,7 @@ public class SaleOrderServiceImpl implements SaleOrderService {
                     );
                 }
                 predicate.getExpressions().add(
-                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                        criteriaBuilder.equal(root.get("deleted"), DeleteStatus.IS_NOT_DELETE)
                 );
                 return predicate;
             }

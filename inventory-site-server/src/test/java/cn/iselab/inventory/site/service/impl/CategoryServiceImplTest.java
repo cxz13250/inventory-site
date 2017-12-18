@@ -71,7 +71,7 @@ public class CategoryServiceImplTest {
     @Test
     public void should_returnCategories() throws Exception {
 
-        when(categoryDao.findAllCategory()).thenReturn(categories);
+        when(categoryDao.findAllCategories()).thenReturn(categories);
 
         List<Category> result=categoryService.getCategories();
 

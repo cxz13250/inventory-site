@@ -31,7 +31,7 @@ public class Payment {
     private long status;
 
     @Column(name = "is_delete")
-    private boolean delete;
+    private boolean deleted=false;
 
     @Column(name = "create_time")
     private Timestamp createTime;
@@ -85,11 +85,11 @@ public class Payment {
     }
 
     public boolean isDelete() {
-        return delete;
+        return deleted;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDelete(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getCreateTime() {

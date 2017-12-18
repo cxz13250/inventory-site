@@ -75,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
                     );
                 }
                 predicate.getExpressions().add(
-                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                        criteriaBuilder.equal(root.get("deleted"), DeleteStatus.IS_NOT_DELETE)
                 );
                 return predicate;
             }

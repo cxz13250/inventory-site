@@ -87,7 +87,7 @@ public class CustomServiceImpl implements CustomService {
                     );
                 }
                 predicate.getExpressions().add(
-                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                        criteriaBuilder.equal(root.get("isDelete"), DeleteStatus.IS_NOT_DELETE)
                 );
                 return predicate;
             }

@@ -40,7 +40,7 @@ public class PurchaseOrder {
     private long status;
 
     @Column(name = "is_delete")
-    private boolean delete;
+    private boolean deleted;
 
     @Column(name = "create_time")
     private Timestamp createTime;
@@ -118,11 +118,11 @@ public class PurchaseOrder {
     }
 
     public boolean isDelete() {
-        return delete;
+        return deleted;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDelete(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Timestamp getCreateTime() {

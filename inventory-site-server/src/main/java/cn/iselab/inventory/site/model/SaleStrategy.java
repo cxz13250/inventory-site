@@ -27,7 +27,7 @@ public class SaleStrategy {
     private Timestamp endTime;
 
     @Column(name = "is_delete")
-    private boolean delete;
+    private boolean deleted;
 
     public long getId() {
         return id;
@@ -70,10 +70,10 @@ public class SaleStrategy {
     }
 
     public boolean isDelete() {
-        return delete;
+        return deleted;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDelete(boolean deleted) {
+        this.deleted = deleted;
     }
 }

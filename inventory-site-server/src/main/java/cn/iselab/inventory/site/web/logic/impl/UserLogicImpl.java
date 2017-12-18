@@ -1,6 +1,8 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.common.constanst.OperationStatus;
+import cn.iselab.inventory.site.model.Role;
 import cn.iselab.inventory.site.model.User;
 import cn.iselab.inventory.site.model.User2Role;
 import cn.iselab.inventory.site.service.UserService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,27 +41,30 @@ public class UserLogicImpl implements UserLogic{
     private UserOperationLogic userOperationLogic;
 
     @Override
-    public UserVO login(UserVO userVO, HttpServletRequest request) throws Exception{
+    public UserVO login(UserVO userVO, HttpServletRequest request){
        User user;
        if(userVO.getEmail()!=null)
            user=userService.getUserByEmail(userVO.getEmail());
        else
            user=userService.getUserByMobile(userVO.getMobile());
-       if(user==null)
-           throw new HttpBadRequestException("user not exist");
-       else if(user.getPassword()!= EncryptionUtil.encryptMD5(userVO.getPassword())){
-           throw new HttpBadRequestException("password is not right");
+       if(user==null||user.isDelete()== DeleteStatus.IS_DELETE)
+           throw new HttpBadRequestException("用户不存在");
+       else if(!user.getPassword().equals(EncryptionUtil.encryptMD5(userVO.getPassword()))){
+           throw new IllegalArgumentException("密码错误");
        }
        UserVO vo=userWrapper.wrap(user);
-       List<User2Role> roles=userService.getRoles(user.getId());
+       vo.setPassword("");
+       User2Role role=userService.getRoles(user.getId()).get(0);
 
        //设置菜单
-       vo.setMenus(menuLogic.getMenusForLogin(roles.stream().map(User2Role::toLong).collect(Collectors.toList())));
+       vo.setMenus(menuLogic.getMenusForLogin2(role.getRoleId()));
+//       vo.setMenus(menuLogic.getMenusForLogin(roles.stream().map(User2Role::toLong).collect(Collectors.toList())));
 
        //设置角色
-       vo.setRoles(roles.stream().map(User2Role::toLong).collect(Collectors.toList()));
+       vo.setRoleId(role.getRoleId());
+       vo.setRoleName(userService.findRole(role.getRoleId()).getName());
 
-       userOperationLogic.recordUserOperation(request,userVO.getId(), OperationStatus.LOGIN);
+       userOperationLogic.recordUserOperation(request,user.getId(), OperationStatus.LOGIN);
        return vo;
     }
 
@@ -77,20 +83,90 @@ public class UserLogicImpl implements UserLogic{
         user=userService.createUser(user);
 
         //设置角色
-        List<Long> roles=userVO.getRoles();
-        roles.forEach(role-> {
-            User2Role user2Role=new User2Role();
-            user2Role.setRoleId(role);
-            user2Role.setUserId(userVO.getId());
-            user2Role.setCreateTime(new Timestamp(System.currentTimeMillis()));
-            userService.createRole(user2Role);
-        });
+        Long roleId=userVO.getRoleId();
+        User2Role user2Role=new User2Role();
+        user2Role.setRoleId(roleId);
+        user2Role.setUserId(userVO.getId());
+        user2Role.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        userService.createRole(user2Role);
         UserVO vo = userWrapper.wrap(user);
 
         //设置菜单
-        vo.setMenus(menuLogic.getMenusForLogin(roles));
+        vo.setMenus(menuLogic.getMenusForLogin2(roleId));
+
+        //设置角色
+        vo.setRoleId(roleId);
+        vo.setRoleName(userService.findRole(roleId).getName());
 
         userOperationLogic.recordUserOperation(request,userVO.getId(), OperationStatus.REGISTER);
         return vo;
+    }
+
+    @Override
+    public List<UserVO> getList(HttpServletRequest request,String keyword) throws Exception{
+        List<User> users=userService.getUsers(keyword);
+        List<UserVO> userVOS=new ArrayList<>();
+        for (User user:users){
+            UserVO userVO=userWrapper.wrap(user);
+            User2Role role=userService.getRoles(user.getId()).get(0);
+            userVO.setRoleId(role.getRoleId());
+            userVO.setRoleName(userService.findRole(role.getRoleId()).getName());
+            userVOS.add(userVO);
+        }
+        return userVOS;
+    }
+
+    @Override
+    public UserVO getUser(Long userId, HttpServletRequest request){
+        User user=userService.getUser(userId);
+        if (user == null) {
+            throw new HttpBadRequestException("用户不存在");
+        }
+        UserVO userVO=userWrapper.wrap(user);
+        User2Role role=userService.getRoles(user.getId()).get(0);
+        userVO.setRoleId(role.getRoleId());
+        userVO.setRoleName(userService.findRole(role.getRoleId()).getName());
+        userVO.setPassword("");
+        return userVO;
+    }
+
+    @Override
+    public UserVO updateUser(UserVO vo, HttpServletRequest request){
+        User user=userService.getUser(vo.getId());
+        if (user == null) {
+            throw new HttpBadRequestException("用户不存在");
+        }
+        updateInfo(user,vo);
+        userService.updateUser(user);
+        userOperationLogic.recordUserOperation(request,0L, OperationStatus.REGISTER);
+        return vo;
+    }
+
+    @Override
+    public void deleteUser(Long userId, HttpServletRequest request){
+        User user=userService.getUser(userId);
+        if (user == null) {
+            throw new HttpBadRequestException("用户不存在");
+        }
+        userService.deleteUser(user);
+    }
+
+    private void updateInfo(User user,UserVO vo){
+        if(!vo.getPassword().equals("")){
+            user.setPassword(EncryptionUtil.encryptMD5(vo.getPassword()));
+        }
+        if(!vo.getEmail().equals("")){
+            user.setEmail(vo.getEmail());
+        }
+        if(!vo.getName().equals("")){
+            user.setName(vo.getName());
+        }
+        if(!vo.getMobile().equals("")){
+            user.setMobile(vo.getMobile());
+        }
+        User2Role role=userService.getRoles(user.getId()).get(0);
+        if(vo.getRoleId()!=role.getRoleId()){
+            role.setRoleId(vo.getRoleId());
+        }
     }
 }

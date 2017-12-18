@@ -6,7 +6,6 @@ import cn.iselab.inventory.site.service.UserService;
 import cn.iselab.inventory.site.web.data.MenuVO;
 import cn.iselab.inventory.site.web.data.wrapper.MenuVOWrapper;
 import cn.iselab.inventory.site.web.logic.MenuLogic;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +36,18 @@ public class MenuLogicImpl implements MenuLogic {
                 if (menuVOS.stream().anyMatch(menuVO -> menuVO.getDetail().equals(m.getDetail()))){
                     menuVOS.add(m);
                 }
+            }
+        }
+        return menuVOS;
+    }
+
+    @Override
+    public List<MenuVO> getMenusForLogin2(Long roleId){
+        List<MenuVO> menuVOS=new ArrayList<>();
+        List<MenuVO> menuVOList=menuVOWrapper.wrap(menuService.getMenusByRoleId(roleId));
+        for (MenuVO m: menuVOList) {
+            if (menuVOS.stream().anyMatch(menuVO -> menuVO.getDetail().equals(m.getDetail()))){
+                menuVOS.add(m);
             }
         }
         return menuVOS;

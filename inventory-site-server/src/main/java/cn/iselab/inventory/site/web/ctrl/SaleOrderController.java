@@ -32,7 +32,7 @@ public class SaleOrderController extends BaseController {
     @Autowired
     SaleOrderLogic saleOrderLogic;
 
-    @RequestMapping(value = UrlConstants.API+"purchases",method = RequestMethod.GET)
+    @RequestMapping(value = UrlConstants.API+"saleOrders",method = RequestMethod.GET)
     public Map<String,Object> getSaleOrders(@RequestParam(value = "keyword")String keyword,
                                           @RequestParam(value = "sortBy")String sortBy,
                                           @RequestParam(value = "type")Boolean type,

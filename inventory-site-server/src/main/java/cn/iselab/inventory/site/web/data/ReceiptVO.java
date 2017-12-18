@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -26,4 +28,6 @@ public class ReceiptVO {
     private Long status;
 
     private Long createTime;
+
+    private List<TransferVO> transfers;
 }

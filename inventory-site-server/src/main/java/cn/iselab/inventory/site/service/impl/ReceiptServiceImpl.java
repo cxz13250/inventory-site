@@ -37,7 +37,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         receipt.setDelete(DeleteStatus.IS_NOT_DELETE);
         receipt.setCreateTime(new Timestamp(System.currentTimeMillis()));
         receipt= receiptDao.save(receipt);
-        receipt.setNumber(OrderNumConstants.SKD_ORDER+receipt.getId());
+        receipt.setNumber(OrderNumConstants.SKD_ORDER+receipt.getCreateTime());
         return receipt;
     }
 
@@ -54,7 +54,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public Receipt getReceiptByNum(String number){
-        return receiptDao.findByNumber(number);
+        return receiptDao.findByNumber(number).get(0);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ReceiptServiceImpl implements ReceiptService {
                     );
                 }
                 predicate.getExpressions().add(
-                        criteriaBuilder.equal(root.get("delete"), DeleteStatus.IS_NOT_DELETE)
+                        criteriaBuilder.equal(root.get("deleted"), DeleteStatus.IS_NOT_DELETE)
                 );
                 return predicate;
             }

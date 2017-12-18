@@ -14,4 +14,6 @@ import java.util.List;
 public interface MenuLogic {
 
     List<MenuVO> getMenusForLogin(List<Long> roleId);
+
+    List<MenuVO> getMenusForLogin2(Long roleId);
 }

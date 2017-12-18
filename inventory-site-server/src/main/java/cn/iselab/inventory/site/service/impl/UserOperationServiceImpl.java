@@ -51,7 +51,7 @@ public class UserOperationServiceImpl implements UserOperationService{
                 Predicate predicate=criteriaBuilder.conjunction();
                 if (keyword != null) {
                     predicate.getExpressions().add(
-                            criteriaBuilder.equal(root.get("userId"), StringUtils.trim(keyword))
+                            criteriaBuilder.like(root.get("operation"), "%"+StringUtils.trim(keyword)+"%")
                     );
                 }
                 return predicate;

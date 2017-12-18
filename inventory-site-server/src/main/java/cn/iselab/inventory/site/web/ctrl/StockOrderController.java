@@ -31,7 +31,7 @@ public class StockOrderController extends BaseController{
     @Autowired
     StockOrderLogic stockOrderLogic;
 
-    @RequestMapping(value = UrlConstants.API+"purchases",method = RequestMethod.GET)
+    @RequestMapping(value = UrlConstants.API+"stockOrders",method = RequestMethod.GET)
     public Map<String,Object> getStockOrders(@RequestParam(value = "keyword")String keyword,
                                             @RequestParam(value = "sortBy")String sortBy,
                                             @RequestParam(value = "type")Long type,

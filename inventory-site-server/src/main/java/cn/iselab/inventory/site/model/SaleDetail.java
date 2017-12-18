@@ -33,7 +33,7 @@ public class SaleDetail {
     private double total;
 
     @Column(name = "is_delete")
-    private boolean delete;
+    private boolean deleted;
 
     public long getId() {
         return id;
@@ -92,10 +92,10 @@ public class SaleDetail {
     }
 
     public boolean isDelete() {
-        return delete;
+        return deleted;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDelete(boolean deleted) {
+        this.deleted = deleted;
     }
 }

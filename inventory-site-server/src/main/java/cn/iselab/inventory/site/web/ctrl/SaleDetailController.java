@@ -29,7 +29,7 @@ public class SaleDetailController extends BaseController {
     @Autowired
     SaleDetailLogic saleDetailLogic;
 
-    @RequestMapping(value = UrlConstants.API_STRATEGY,method = RequestMethod.GET)
+    @RequestMapping(value = UrlConstants.API_SALEDETAIL,method = RequestMethod.GET)
     public Map<String,Object> getSaleDetail(@RequestParam(name = "startTime")Long startTime,
                                             @RequestParam(name = "endTime")Long endTime){
         try {

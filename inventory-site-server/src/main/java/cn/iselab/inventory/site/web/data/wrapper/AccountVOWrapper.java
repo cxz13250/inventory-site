@@ -20,6 +20,7 @@ public class AccountVOWrapper extends BaseWrapper<AccountVO,Account>{
         vo.setBalance(account.getBalance());
         vo.setBank(account.getBank());
         vo.setName(account.getName());
+        vo.setCreateTime(account.getCreateTime().getTime());
         return vo;
     }
 

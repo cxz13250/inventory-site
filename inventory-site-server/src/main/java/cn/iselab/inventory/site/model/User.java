@@ -29,6 +29,9 @@ public class User {
     @Column(name = "create_time")
     private Timestamp createTime;
 
+    @Column(name = "is_delete")
+    private Boolean deleted;
+
     public long getId() {
         return id;
     }
@@ -75,5 +78,13 @@ public class User {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean isDelete() {
+        return deleted;
+    }
+
+    public void setDelete(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

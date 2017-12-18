@@ -64,7 +64,8 @@ public class ComplimentaryLogicImpl implements ComplimentaryLogic {
         if (complimentary == null) {
             throw new HttpBadRequestException("complimentary not exists");
         }
-
+        updateInfo(complimentary,vo);
+        complimentaryService.updateComplimentary(complimentary);
     }
 
     @Override
@@ -78,6 +79,8 @@ public class ComplimentaryLogicImpl implements ComplimentaryLogic {
     }
 
     private void updateInfo(Complimentary complimentary,ComplimentaryVO vo){
-
+        complimentary.setTotal(vo.getTotal());
+        complimentary.setContent(vo.getContent());
+        complimentary.setCustomId(vo.getCustomId());
     }
 }

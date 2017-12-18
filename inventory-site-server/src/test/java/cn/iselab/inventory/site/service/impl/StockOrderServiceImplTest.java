@@ -81,7 +81,7 @@ public class StockOrderServiceImplTest {
     public void should_returnStockOrders_when_givenKeyword() throws Exception {
         when(stockOrderDao.findAll(any(Specifications.class),any(Pageable.class))).thenReturn(stockOrderPage);
 
-        Page<StockOrder> result=stockOrderService.getStockOrders("test",pageable);
+        Page<StockOrder> result=stockOrderService.getStockOrders("test",pageable,1L);
 
         Assert.assertEquals(stockOrder,result.getContent().get(0));
     }

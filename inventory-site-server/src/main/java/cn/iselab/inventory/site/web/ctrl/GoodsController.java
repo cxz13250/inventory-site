@@ -33,7 +33,7 @@ public class GoodsController extends BaseController{
 
     @RequestMapping(value = UrlConstants.API_GOODS,method = RequestMethod.GET)
     public Map<String,Object> getGoods(@RequestParam(name = "keyword", required = false)String keyword,
-                                       @RequestParam(name = "sortBy", required = false)String sortBy,
+                                       @RequestParam(name = "sortBy")String sortBy,
                                        HttpServletRequest request){
         String activePage = request.getHeader("activePage");
         String rowsOnPage = request.getHeader("rowsOnPage");

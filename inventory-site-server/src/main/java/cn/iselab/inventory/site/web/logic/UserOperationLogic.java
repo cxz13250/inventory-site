@@ -1,5 +1,10 @@
 package cn.iselab.inventory.site.web.logic;
 
+import cn.iselab.inventory.site.model.UserOperation;
+import cn.iselab.inventory.site.web.data.UserOperationVO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -11,4 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 public interface UserOperationLogic {
 
     void recordUserOperation(HttpServletRequest request,Long userId,String operation);
+
+    Page<UserOperationVO> getOperationList(Pageable pageable, String keyword);
 }

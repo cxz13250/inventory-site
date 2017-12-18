@@ -17,4 +17,6 @@ public class OperationStatus {
     public static String CUSTOM_LIST="customList";
 
     public static String GOODS_LIST="goodsList";
+
+    public static String UPDATE_USER="updateUser";
 }

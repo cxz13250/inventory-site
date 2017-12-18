@@ -60,6 +60,7 @@ public class ReceiptLogicImpl implements ReceiptLogic{
         if(receipt==null){
             throw new HttpBadRequestException("receipt not exists");
         }
+        updateInfo(receipt,vo);
         receiptService.updateReceipt(receipt);
     }
 

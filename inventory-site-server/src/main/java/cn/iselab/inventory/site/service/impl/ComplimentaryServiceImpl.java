@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.service.impl;
 
+import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.dao.ComplimentaryDao;
 import cn.iselab.inventory.site.model.Complimentary;
 import cn.iselab.inventory.site.model.SaleStrategy;
@@ -64,6 +65,9 @@ public class ComplimentaryServiceImpl implements ComplimentaryService {
                             criteriaBuilder.equal(root.get("name"), "%"+ StringUtils.trim(keyword)+"%")
                     );
                 }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("deleted"), DeleteStatus.IS_NOT_DELETE)
+                );
                 return predicate;
             }
         };

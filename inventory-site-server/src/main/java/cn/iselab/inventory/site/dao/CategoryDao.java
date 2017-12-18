@@ -14,11 +14,11 @@ import java.util.List;
  * Created by ROGK on 2017/9/15.
  */
 @Transactional
-public interface CategoryDao extends CrudRepository<Category, Long>{
+public interface CategoryDao extends CrudRepository<Category, Long>,JpaSpecificationExecutor<Category>,PagingAndSortingRepository<Category,Long>{
 
-    @Query("select c from Category c where c.delete=false")
-    List<Category> findAllCategory();
+    @Query("select c from Category c")
+    List<Category> findAllCategories();
 
-    @Query("select c from Category c where c.name=:name and c.delete=false")
+    @Query("select c from Category c where c.name = :name")
     List<Category> findByName(@Param("name") String name);
 }

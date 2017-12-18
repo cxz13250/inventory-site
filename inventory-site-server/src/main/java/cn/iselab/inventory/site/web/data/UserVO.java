@@ -22,7 +22,9 @@ public class UserVO extends BaseVO{
 
     private Long createTime;
 
-    private List<Long> roles;
+    private Long roleId;
+
+    private String roleName;
 
     private List<MenuVO> menus;
 }
