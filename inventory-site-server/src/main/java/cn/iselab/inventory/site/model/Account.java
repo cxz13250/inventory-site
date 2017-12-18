@@ -24,6 +24,9 @@ public class Account {
     @Column(name = "bank")
     private String bank;
 
+    @Column(name = "bank_num")
+    private String bankNum;
+
     @Column(name = "create_time")
     private Timestamp createTime;
 
@@ -70,11 +73,19 @@ public class Account {
         this.createTime = createTime;
     }
 
-    public boolean isDelete() {
+    public String getBankNum() {
+        return bankNum;
+    }
+
+    public void setBankNum(String bankNum) {
+        this.bankNum = bankNum;
+    }
+
+    public boolean isDeleted() {
         return deleted;
     }
 
-    public void setDelete(boolean deleted) {
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 }

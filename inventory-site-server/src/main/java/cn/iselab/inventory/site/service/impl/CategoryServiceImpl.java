@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category createCategory(Category category){
         category.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        category.setDelete(DeleteStatus.IS_NOT_DELETE);
+        category.setDeleted(DeleteStatus.IS_NOT_DELETE);
         return categoryDao.save(category);
     }
 
@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Category category){
-        category.setDelete(DeleteStatus.IS_DELETE);
+        category.setDeleted(DeleteStatus.IS_DELETE);
         categoryDao.save(category);
     }
 
@@ -62,4 +62,8 @@ public class CategoryServiceImpl implements CategoryService {
         categoryDao.save(category);
     }
 
+    @Override
+    public List<Category> getCategoriesForGood(){
+        return categoryDao.findForGoods();
+    }
 }

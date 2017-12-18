@@ -22,6 +22,9 @@ public class SaleOrder {
     @Column(name = "custom_id")
     private long customId;
 
+    @Column(name = "sales_man")
+    private String saleman;
+
     @Column(name = "operator")
     private String operator;
 
@@ -129,19 +132,27 @@ public class SaleOrder {
         this.status = status;
     }
 
-    public boolean isDelete() {
-        return deleted;
-    }
-
-    public void setDelete(boolean deleted) {
-        this.deleted = deleted;
-    }
-
     public Timestamp getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public String getSaleman() {
+        return saleman;
+    }
+
+    public void setSaleman(String saleman) {
+        this.saleman = saleman;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

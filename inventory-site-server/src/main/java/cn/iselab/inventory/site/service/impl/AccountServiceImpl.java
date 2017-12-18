@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public long create(Account account){
-        account.setDelete(DeleteStatus.IS_NOT_DELETE);
+        account.setDeleted(DeleteStatus.IS_NOT_DELETE);
         account.setCreateTime(new Timestamp(System.currentTimeMillis()));
         account=accountDao.save(account);
         return account.getId();
@@ -55,12 +55,13 @@ public class AccountServiceImpl implements AccountService {
         account.setBank(accountVO.getBank());
         account.setName(accountVO.getName());
         account.setBalance(accountVO.getBalance());
+        account.setBankNum(accountVO.getBankNum());
         accountDao.save(account);
     }
 
     @Override
     public void delete(Account account){
-        account.setDelete(DeleteStatus.IS_DELETE);
+        account.setDeleted(DeleteStatus.IS_DELETE);
         accountDao.save(account);
     }
 

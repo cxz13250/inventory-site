@@ -70,11 +70,11 @@ public class Category {
         this.createTime = createTime;
     }
 
-    public Boolean isDelete() {
+    public Boolean getDeleted() {
         return deleted;
     }
 
-    public void setDelete(Boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
 }

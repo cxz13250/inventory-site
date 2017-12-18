@@ -36,10 +36,10 @@ public class SaleOrderServiceImpl implements SaleOrderService {
 
     @Override
     public SaleOrder createSaleOrder(SaleOrder saleOrder){
-        saleOrder.setDelete(DeleteStatus.IS_NOT_DELETE);
+        saleOrder.setDeleted(DeleteStatus.IS_NOT_DELETE);
         saleOrder.setCreateTime(new Timestamp(System.currentTimeMillis()));
         saleOrder= saleOrderDao.save(saleOrder);
-        if(saleOrder.isType()== PurchaseOrderConstants.Input){
+        if(saleOrder.isType()== PurchaseOrderConstants.Output){
             saleOrder.setNumber(OrderNumConstants.XSD_ORDER+saleOrder.getCreateTime());
         }else {
             saleOrder.setNumber(OrderNumConstants.XSTHD_ORDER+saleOrder.getCreateTime());
@@ -70,7 +70,7 @@ public class SaleOrderServiceImpl implements SaleOrderService {
 
     @Override
     public void deleteSaleOrder(SaleOrder saleOrder){
-        saleOrder.setDelete(DeleteStatus.IS_DELETE);
+        saleOrder.setDeleted(DeleteStatus.IS_DELETE);
         saleOrderDao.save(saleOrder);
     }
 

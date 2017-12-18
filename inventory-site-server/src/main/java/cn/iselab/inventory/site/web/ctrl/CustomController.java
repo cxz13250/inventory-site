@@ -33,7 +33,7 @@ public class CustomController {
     CustomLogic customLogic;
 
     @RequestMapping(value = UrlConstants.API+"customs",method = RequestMethod.GET)
-    public Map<String,Object> getCustoms(@RequestParam(value = "keyword")String keyword,
+    public Map<String,Object> getCustoms(@RequestParam(value = "keyword",required = false)String keyword,
                                          @RequestParam(value = "sortBy")String sortBy,
                                          HttpServletRequest request){
         String activePage = request.getHeader("activePage");

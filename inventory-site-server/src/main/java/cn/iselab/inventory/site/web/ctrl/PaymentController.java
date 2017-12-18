@@ -33,7 +33,7 @@ public class PaymentController extends BaseController{
     PaymentLogic paymentLogic;
 
     @RequestMapping(value = UrlConstants.API+"payments",method = RequestMethod.GET)
-    public Map<String,Object> getPayments(@RequestParam(value = "keyword")String keyword,
+    public Map<String,Object> getPayments(@RequestParam(value = "keyword",required = false)String keyword,
                                             @RequestParam(value = "sortBy")String sortBy,
                                             HttpServletRequest request){
         String activePage = request.getHeader("activePage");

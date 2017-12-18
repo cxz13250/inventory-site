@@ -13,13 +13,13 @@ import org.springframework.data.domain.Pageable;
  */
 public interface AccountService {
 
-    public long create(Account account);
+    long create(Account account);
 
-    public Page<Account> getAccounts(String keyword, Pageable pageable);
+    Page<Account> getAccounts(String keyword, Pageable pageable);
 
-    public Account getAccount(long accountId);
+    Account getAccount(long accountId);
 
-    public void update(Account account, AccountVO accountVO);
+    void update(Account account, AccountVO accountVO);
 
-    public void delete(Account account);
+    void delete(Account account);
 }

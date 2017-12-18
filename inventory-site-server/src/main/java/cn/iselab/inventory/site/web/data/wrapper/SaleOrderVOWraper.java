@@ -25,6 +25,9 @@ public class SaleOrderVOWraper extends BaseWrapper<SaleOrderVO,SaleOrder>{
         vo.setTotal(order.getTotal());
         vo.setDiscount(order.getDiscount());
         vo.setStatus(order.getStatus());
+        vo.setType(order.isType());
+        vo.setSalesman(order.getSaleman());
+        vo.setCreateTime(order.getCreateTime().getTime());
         return vo;
     }
 
@@ -39,6 +42,8 @@ public class SaleOrderVOWraper extends BaseWrapper<SaleOrderVO,SaleOrder>{
         order.setTotal(vo.getTotal());
         order.setDiscount(vo.getDiscount());
         order.setStatus(vo.getStatus());
+        order.setType(vo.getType());
+        order.setSaleman(vo.getSalesman());
         return order;
     }
 }

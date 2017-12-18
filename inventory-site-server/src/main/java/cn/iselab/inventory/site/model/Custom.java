@@ -46,7 +46,7 @@ public class Custom {
     private double pay;
 
     @Column(name = "salesman_id")
-    private long salesman;
+    private String salesman;
 
     @Column(name = "create_time")
     private Timestamp createTime;
@@ -142,11 +142,11 @@ public class Custom {
         this.pay = pay;
     }
 
-    public long getSalesman() {
+    public String getSalesman() {
         return salesman;
     }
 
-    public void setSalesman(long salesman) {
+    public void setSalesman(String salesman) {
         this.salesman = salesman;
     }
 

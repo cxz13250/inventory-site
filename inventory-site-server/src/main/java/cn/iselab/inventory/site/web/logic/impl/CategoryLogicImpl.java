@@ -78,4 +78,16 @@ public class CategoryLogicImpl implements CategoryLogic {
         }
         categoryService.deleteCategory(category);
     }
+
+    @Override
+    public List<CategoryVO> getCategorysForGood(){
+        List<Category> categories=categoryService.getCategoriesForGood();
+        List<CategoryVO> vos=new ArrayList<>();
+        categories.forEach(category -> {
+            CategoryVO vo=categoryVOWrapper.wrap(category);
+            vo.setSuperName(categoryService.getCategory(category.getSuperId()).getName());
+            vos.add(vo);
+        });
+        return vos;
+    }
 }

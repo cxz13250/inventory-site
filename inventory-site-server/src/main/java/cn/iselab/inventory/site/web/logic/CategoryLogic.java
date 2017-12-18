@@ -21,4 +21,6 @@ public interface CategoryLogic {
     void updateCategory(CategoryVO customVO);
 
     void deleteCategory(Long categoryId);
+
+    List<CategoryVO> getCategorysForGood();
 }

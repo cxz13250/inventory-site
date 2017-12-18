@@ -32,7 +32,7 @@ public class SaleStrategyController extends BaseController {
     SaleStrategyLogic saleStrategyLogic;
 
     @RequestMapping(value = UrlConstants.API+"strategies",method = RequestMethod.GET)
-    public Map<String,Object> getSaleOrders(@RequestParam(value = "keyword")String keyword,
+    public Map<String,Object> getSaleOrders(@RequestParam(value = "keyword",required = false)String keyword,
                                             @RequestParam(value = "sortBy")String sortBy,
                                             HttpServletRequest request){
         String activePage = request.getHeader("activePage");

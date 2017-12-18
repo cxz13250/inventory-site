@@ -33,7 +33,7 @@ public class SaleOrderController extends BaseController {
     SaleOrderLogic saleOrderLogic;
 
     @RequestMapping(value = UrlConstants.API+"saleOrders",method = RequestMethod.GET)
-    public Map<String,Object> getSaleOrders(@RequestParam(value = "keyword")String keyword,
+    public Map<String,Object> getSaleOrders(@RequestParam(value = "keyword",required = false)String keyword,
                                           @RequestParam(value = "sortBy")String sortBy,
                                           @RequestParam(value = "type")Boolean type,
                                           HttpServletRequest request){
@@ -59,7 +59,7 @@ public class SaleOrderController extends BaseController {
     }
 
     @RequestMapping(value = UrlConstants.API_SALEORDER,method = RequestMethod.POST)
-    public Map<String,Object> createPurchase(@RequestBody @NotNull SaleOrderVO orderVO){
+    public Map<String,Object> createSaleOrder(@RequestBody @NotNull SaleOrderVO orderVO){
         String number= saleOrderLogic.createSaleOrder(orderVO);
         SuccessResult successResult = new SuccessResult();
         successResult.put(ResponseMessage.ID_RESULT, number);
@@ -67,7 +67,7 @@ public class SaleOrderController extends BaseController {
     }
 
     @RequestMapping(value = UrlConstants.API_SALEORDER,method = RequestMethod.PUT)
-    public Map<String,Object> updatePurchase(@RequestBody @NotNull SaleOrderVO orderVO){
+    public Map<String,Object> updateSaleOrder(@RequestBody @NotNull SaleOrderVO orderVO){
         try {
             saleOrderLogic.updateSaleOrder(orderVO);
             return SuccessResult.ok();
@@ -77,7 +77,7 @@ public class SaleOrderController extends BaseController {
     }
 
     @RequestMapping(value = UrlConstants.API_SALEORDER,method = RequestMethod.DELETE)
-    public Map<String,Object> deletePurchase(@RequestParam(name = "number")String number){
+    public Map<String,Object> deleteSaleOrder(@RequestParam(name = "number")String number){
         try {
             saleOrderLogic.deleteSaleOrder(number);
             return SuccessResult.ok();

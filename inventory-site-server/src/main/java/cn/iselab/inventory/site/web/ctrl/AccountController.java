@@ -33,7 +33,7 @@ public class AccountController extends BaseController{
     AccountLogic accountLogic;
 
     @RequestMapping(value = UrlConstants.API+"accounts",method = RequestMethod.GET)
-    public Map<String,Object> getAccounts(@RequestParam(value = "keyword")String keyword,
+    public Map<String,Object> getAccounts(@RequestParam(value = "keyword",required = false)String keyword,
                                          @RequestParam(value = "sortBy")String sortBy,
                                          HttpServletRequest request){
         String activePage = request.getHeader("activePage");

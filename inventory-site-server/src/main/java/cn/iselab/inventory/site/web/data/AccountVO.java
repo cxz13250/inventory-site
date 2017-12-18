@@ -23,5 +23,7 @@ public class AccountVO {
 
     private String bank;
 
+    private String bankNum;
+
     private Long createTime;
 }

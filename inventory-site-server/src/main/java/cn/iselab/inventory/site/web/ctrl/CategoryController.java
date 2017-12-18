@@ -46,7 +46,7 @@ public class CategoryController extends BaseController{
     }
 
     @RequestMapping(value = UrlConstants.API_CATEGORY,method = RequestMethod.POST)
-    public Map<String,Object> createAccount(@RequestBody @NotNull CategoryVO categoryVO){
+    public Map<String,Object> createCategory(@RequestBody @NotNull CategoryVO categoryVO){
         Long id = categoryLogic.createCategory(categoryVO);
         SuccessResult successResult = new SuccessResult();
         successResult.put(ResponseMessage.ID_RESULT, id);
@@ -54,7 +54,7 @@ public class CategoryController extends BaseController{
     }
 
     @RequestMapping(value = UrlConstants.API_CATEGORY,method = RequestMethod.PUT)
-    public Map<String,Object> updateAccount(@RequestBody @NotNull CategoryVO categoryVO){
+    public Map<String,Object> updateCategory(@RequestBody @NotNull CategoryVO categoryVO){
         try {
             categoryLogic.updateCategory(categoryVO);
             return SuccessResult.ok();
@@ -64,12 +64,18 @@ public class CategoryController extends BaseController{
     }
 
     @RequestMapping(value = UrlConstants.API_CATEGORY,method = RequestMethod.DELETE)
-    public Map<String,Object> deleteAccount(@RequestParam(name = "categoryId")Long categoryId){
+    public Map<String,Object> deleteCategory(@RequestParam(name = "categoryId")Long categoryId){
         try {
             categoryLogic.deleteCategory(categoryId);
             return SuccessResult.ok();
         }catch (HttpBadRequestException e){
             return new ErrorResult(StatusCode.CATEGORY_NOT_EXISTS);
         }
+    }
+
+    @RequestMapping(value = UrlConstants.API+"categories/goods",method = RequestMethod.GET)
+    public Map<String,Object> getCategoryForGood(){
+        List<CategoryVO> categoryVOS=categoryLogic.getCategorysForGood();
+        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,categoryVOS);
     }
 }

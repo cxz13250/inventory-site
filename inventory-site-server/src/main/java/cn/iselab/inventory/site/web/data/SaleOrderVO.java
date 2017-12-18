@@ -23,6 +23,8 @@ public class SaleOrderVO {
 
     private Long customId;
 
+    private String salesman;
+
     private String operator;
 
     private String repository;
@@ -36,6 +38,8 @@ public class SaleOrderVO {
     private Boolean type;
 
     private Long status;
+
+    private Long createTime;
 
     private List<SaleOrderItemVO> orderItems;
 }

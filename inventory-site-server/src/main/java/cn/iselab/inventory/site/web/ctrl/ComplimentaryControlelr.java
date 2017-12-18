@@ -33,7 +33,7 @@ public class ComplimentaryControlelr extends BaseController {
     ComplimentaryLogic complimentaryLogic;
 
     @RequestMapping(value = UrlConstants.API+"complimentaries",method = RequestMethod.GET)
-    public Map<String,Object> getComplimentaries(@RequestParam(value = "keyword")String keyword,
+    public Map<String,Object> getComplimentaries(@RequestParam(value = "keyword",required = false)String keyword,
                                              @RequestParam(value = "sortBy")String sortBy,
                                              HttpServletRequest request){
         String activePage = request.getHeader("activePage");

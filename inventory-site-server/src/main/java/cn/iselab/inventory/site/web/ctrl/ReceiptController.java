@@ -32,7 +32,7 @@ public class ReceiptController extends BaseController{
     ReceiptLogic receiptLogic;
 
     @RequestMapping(value = UrlConstants.API+"receipts",method = RequestMethod.GET)
-    public Map<String,Object> getReceipts(@RequestParam(value = "keyword")String keyword,
+    public Map<String,Object> getReceipts(@RequestParam(value = "keyword",required = false)String keyword,
                                           @RequestParam(value = "sortBy")String sortBy,
                                           HttpServletRequest request){
         String activePage = request.getHeader("activePage");

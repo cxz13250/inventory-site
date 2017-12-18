@@ -37,5 +37,5 @@ public class CustomVO {
 
     private Double pay;
 
-    private Long salesman;
+    private String salesman;
 }

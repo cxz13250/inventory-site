@@ -16,9 +16,12 @@ import java.util.List;
 @Transactional
 public interface CategoryDao extends CrudRepository<Category, Long>,JpaSpecificationExecutor<Category>,PagingAndSortingRepository<Category,Long>{
 
-    @Query("select c from Category c")
+    @Query("select c from Category c where c.deleted = 0")
     List<Category> findAllCategories();
 
     @Query("select c from Category c where c.name = :name")
     List<Category> findByName(@Param("name") String name);
+
+    @Query(value = "select * from category where category.is_delete = 0 AND category.id not in (SELECT DISTINCT category from goods)",nativeQuery = true)
+    List<Category> findForGoods();
 }

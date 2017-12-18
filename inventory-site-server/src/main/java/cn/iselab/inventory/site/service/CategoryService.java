@@ -25,4 +25,6 @@ public interface CategoryService {
     void deleteCategory(Category category);
 
     void updateCategory(Category category, CategoryVO vo);
+
+    List<Category> getCategoriesForGood();
 }

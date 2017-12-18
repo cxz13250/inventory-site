@@ -1,6 +1,8 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.SaleOrder;
+import cn.iselab.inventory.site.service.CustomService;
 import cn.iselab.inventory.site.service.SaleOrderService;
 import cn.iselab.inventory.site.web.data.SaleOrderVO;
 import cn.iselab.inventory.site.web.data.wrapper.SaleOrderVOWraper;
@@ -28,6 +30,9 @@ public class SaleOrderLogicImpl implements SaleOrderLogic{
     @Autowired
     SaleOrderVOWraper saleOrderVOWraper;
 
+    @Autowired
+    CustomService customService;
+
     @Override
     public Page<SaleOrderVO> getSaleOrders(String keyword, Pageable pageable, Boolean type){
         Page<SaleOrder> orders=orderService.getSaleOrders(keyword,pageable,type);
@@ -51,6 +56,8 @@ public class SaleOrderLogicImpl implements SaleOrderLogic{
     @Override
     public String createSaleOrder(SaleOrderVO vo){
         SaleOrder order=saleOrderVOWraper.unwrap(vo);
+        Custom custom=customService.getCustom(order.getCustomId());
+        order.setSaleman(custom.getSalesman());
         order=orderService.createSaleOrder(order);
         return order.getNumber();
     }
