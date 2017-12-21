@@ -12,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -45,6 +48,17 @@ public class AccountLogicImpl implements AccountLogic{
             throw new HttpBadRequestException("account not exists");
         }
         return accountVOWrapper.wrap(account);
+    }
+
+    @Override
+    public List<AccountVO> getAccountsForReceipt(){
+        List<Account> accounts=accountService.getAccountsForReceipt();
+        List<AccountVO> accountVOS=new ArrayList<>();
+        accounts.forEach(account -> {
+            AccountVO vo=accountVOWrapper.wrap(account);
+            accountVOS.add(vo);
+        });
+        return accountVOS;
     }
 
     @Override

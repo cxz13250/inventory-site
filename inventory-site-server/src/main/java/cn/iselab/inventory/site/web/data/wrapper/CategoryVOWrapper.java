@@ -21,6 +21,7 @@ public class CategoryVOWrapper extends BaseWrapper<CategoryVO,Category> {
         vo.setDescription(category.getDescription());
         vo.setName(category.getName());
         vo.setSuperId(category.getSuperId());
+        vo.setId(category.getId());
         return vo;
     }
 

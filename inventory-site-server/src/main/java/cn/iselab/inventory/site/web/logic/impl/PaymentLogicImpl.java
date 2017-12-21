@@ -1,6 +1,8 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
 import cn.iselab.inventory.site.model.Payment;
+import cn.iselab.inventory.site.model.PaymentEntry;
+import cn.iselab.inventory.site.service.PaymentEntryService;
 import cn.iselab.inventory.site.service.PaymentService;
 import cn.iselab.inventory.site.web.data.PaymentVO;
 import cn.iselab.inventory.site.web.data.wrapper.PaymentVOWrapper;
@@ -11,6 +13,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -23,6 +27,9 @@ public class PaymentLogicImpl implements PaymentLogic{
 
     @Autowired
     PaymentService paymentService;
+
+    @Autowired
+    PaymentEntryService paymentEntryService;
 
     @Autowired
     PaymentVOWrapper paymentVOWrapper;
@@ -44,13 +51,20 @@ public class PaymentLogicImpl implements PaymentLogic{
         if (payment == null) {
             throw new HttpBadRequestException("payment not exists");
         }
-        return paymentVOWrapper.wrap(payment);
+        PaymentVO vo= paymentVOWrapper.wrap(payment);
+        vo.setEntries(paymentEntryService.getPaymentEntries(payment.getId()));
+        return vo;
     }
 
     @Override
     public String createPayment(PaymentVO vo){
         Payment payment=paymentVOWrapper.unwrap(vo);
         payment=paymentService.createPayment(payment);
+        List<PaymentEntry> entries=vo.getEntries();
+        for (PaymentEntry entry:entries){
+            entry.setPayment(payment.getId());
+            paymentEntryService.createPaymentEntry(entry);
+        }
         return payment.getNumber();
     }
 

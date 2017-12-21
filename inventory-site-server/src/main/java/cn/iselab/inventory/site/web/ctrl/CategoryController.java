@@ -9,6 +9,10 @@ import cn.iselab.inventory.site.web.data.CategoryVO;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
 import cn.iselab.inventory.site.web.logic.CategoryLogic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +34,17 @@ public class CategoryController extends BaseController{
     CategoryLogic categoryLogic;
 
     @RequestMapping(value = UrlConstants.API+"categories",method = RequestMethod.GET)
-    public Map<String,Object> getCategories(HttpServletRequest request){
-        List<CategoryVO> categorys=categoryLogic.getCategorys();
+    public Map<String,Object> getCategories(@RequestParam(value = "keyword",required = false)String keyword,
+                                            @RequestParam(value = "sortBy")String sortBy,
+                                            HttpServletRequest request){
+        String activePage = request.getHeader("activePage");
+        String rowsOnPage = request.getHeader("rowsOnPage");
+        if(activePage == null || rowsOnPage == null) {
+            throw new IllegalArgumentException("缺少分页信息");
+        }
+        Sort sortById = new Sort(Sort.Direction.DESC, sortBy);
+        Pageable pageable = new PageRequest(Integer.parseInt(activePage) - 1, Integer.parseInt(rowsOnPage),sortById);
+        Page<CategoryVO> categorys=categoryLogic.getCategorys(keyword,pageable);
         return SuccessResult.ok(ResponseMessage.ITEM_RESULT,categorys);
     }
 
@@ -76,6 +89,12 @@ public class CategoryController extends BaseController{
     @RequestMapping(value = UrlConstants.API+"categories/goods",method = RequestMethod.GET)
     public Map<String,Object> getCategoryForGood(){
         List<CategoryVO> categoryVOS=categoryLogic.getCategorysForGood();
+        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,categoryVOS);
+    }
+
+    @RequestMapping(value = UrlConstants.API+"categories/category",method = RequestMethod.GET)
+    public Map<String,Object> getCategoryForCategory(){
+        List<CategoryVO> categoryVOS=categoryLogic.getCategorysForCategory();
         return SuccessResult.ok(ResponseMessage.ITEM_RESULT,categoryVOS);
     }
 }

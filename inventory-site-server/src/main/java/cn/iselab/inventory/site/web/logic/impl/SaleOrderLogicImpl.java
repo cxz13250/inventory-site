@@ -2,9 +2,15 @@ package cn.iselab.inventory.site.web.logic.impl;
 
 import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.SaleOrder;
+import cn.iselab.inventory.site.model.SaleOrderItem;
 import cn.iselab.inventory.site.service.CustomService;
+import cn.iselab.inventory.site.service.GoodsService;
+import cn.iselab.inventory.site.service.SaleOrderItemService;
 import cn.iselab.inventory.site.service.SaleOrderService;
+import cn.iselab.inventory.site.web.data.SaleOrderItemVO;
 import cn.iselab.inventory.site.web.data.SaleOrderVO;
+import cn.iselab.inventory.site.web.data.wrapper.GoodsVOWrapper;
+import cn.iselab.inventory.site.web.data.wrapper.SaleOrderItemVOWrapper;
 import cn.iselab.inventory.site.web.data.wrapper.SaleOrderVOWraper;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
 import cn.iselab.inventory.site.web.logic.SaleOrderLogic;
@@ -13,6 +19,9 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -33,6 +42,15 @@ public class SaleOrderLogicImpl implements SaleOrderLogic{
     @Autowired
     CustomService customService;
 
+    @Autowired
+    SaleOrderItemService saleOrderItemService;
+
+    @Autowired
+    SaleOrderItemVOWrapper itemVOWrapper;
+
+    @Autowired
+    GoodsService goodsService;
+
     @Override
     public Page<SaleOrderVO> getSaleOrders(String keyword, Pageable pageable, Boolean type){
         Page<SaleOrder> orders=orderService.getSaleOrders(keyword,pageable,type);
@@ -50,7 +68,15 @@ public class SaleOrderLogicImpl implements SaleOrderLogic{
         if(order==null) {
             throw new HttpBadRequestException("order not exists");
         }
-        return saleOrderVOWraper.wrap(order);
+        SaleOrderVO vo= saleOrderVOWraper.wrap(order);
+        List<SaleOrderItem> items=saleOrderItemService.getSaleItems(order.getId());
+        List<SaleOrderItemVO> itemVOS=new ArrayList<>();
+        for (SaleOrderItem item:items){
+            SaleOrderItemVO vo1=itemVOWrapper.wrap(item);
+            itemVOS.add(vo1);
+        }
+        vo.setOrderItems(itemVOS);
+        return vo;
     }
 
     @Override
@@ -59,6 +85,12 @@ public class SaleOrderLogicImpl implements SaleOrderLogic{
         Custom custom=customService.getCustom(order.getCustomId());
         order.setSaleman(custom.getSalesman());
         order=orderService.createSaleOrder(order);
+        List<SaleOrderItemVO> items=vo.getOrderItems();
+        for(SaleOrderItemVO vo1:items){
+            SaleOrderItem item=itemVOWrapper.unwrap(vo1);
+            item.setGoodId(order.getId());
+            saleOrderItemService.createSaleItem(item);
+        }
         return order.getNumber();
     }
 

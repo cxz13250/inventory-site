@@ -57,7 +57,7 @@ public class ReceiptServiceImplTest {
 
         receipt.setId(1L);
         receipt.setCumstomId(1L);
-        receipt.setOperator(1L);
+        receipt.setOperator("test");
         receipt.setNumber("test");
 
         receipts.add(receipt);

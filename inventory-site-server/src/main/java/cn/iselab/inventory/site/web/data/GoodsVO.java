@@ -21,7 +21,9 @@ public class GoodsVO {
 
     private String model;
 
-    private Long category;
+    private Long categoryId;
+
+    private String categoryName;
 
     private Long inventory;
 

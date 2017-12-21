@@ -15,6 +15,8 @@ public class GoodsItemVO {
 
     private String goodName;
 
+    private String goodModel;
+
     private Long number;
 
     private Double price;

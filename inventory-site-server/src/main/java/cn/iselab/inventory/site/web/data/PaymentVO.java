@@ -21,9 +21,9 @@ public class PaymentVO {
 
     private String number;
 
-    private Long operator;
+    private String operator;
 
-    private Long account;
+    private String account;
 
     private Double total;
 

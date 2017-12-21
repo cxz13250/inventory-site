@@ -23,5 +23,8 @@ public interface CategoryDao extends CrudRepository<Category, Long>,JpaSpecifica
     List<Category> findByName(@Param("name") String name);
 
     @Query(value = "select * from category where category.is_delete = 0 AND category.id not in (SELECT DISTINCT category from goods)",nativeQuery = true)
-    List<Category> findForGoods();
+    List<Category> findForCategory();
+
+    @Query(value = "SELECT * FROM category where category.is_delete = 0 AND category.id not in (SELECT DISTINCT category.super_id from category)",nativeQuery = true)
+    List<Category> findForGood();
 }

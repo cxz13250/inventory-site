@@ -16,6 +16,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.ArrayList;
@@ -54,6 +58,9 @@ public class CategoryLogicImplTest {
     CategoryVO vo=new CategoryVO();
     Category category=new Category();
     Category category1=new Category();
+    Page<CategoryVO> categoryVOPage;
+    Page<Category> categoryPage;
+    Pageable pageable;
 
     @Before
     public void setUp() throws Exception {
@@ -75,18 +82,23 @@ public class CategoryLogicImplTest {
         vo.setSuperName("test");
 
         vos.add(vo);
+
+        categoryVOPage=new PageImpl<CategoryVO>(vos);
+        categoryPage=new PageImpl<Category>(categories);
+
+        pageable=new PageRequest(0,10);
     }
 
     @Test
     public void should_returnCategories_when_CategoriesExist() throws Exception {
-        when(categoryService.getCategories()).thenReturn(categories);
+        when(categoryService.getCategories(anyString(),any(Pageable.class))).thenReturn(categoryPage);
         when(categoryVOWrapper.wrap(any(Category.class))).thenReturn(vo);
         when(categoryService.getCategory(anyLong())).thenReturn(category);
 
-        List<CategoryVO> result=categoryLogic.getCategorys();
-        Assert.assertEquals(vo.getId(),result.get(0).getId());
-        Assert.assertEquals(vo.getName(),result.get(0).getName());
-        Assert.assertEquals(vo.getSuperName(),result.get(0).getSuperName());
+        Page<CategoryVO> result=categoryLogic.getCategorys("test",pageable);
+        Assert.assertEquals(vo.getId(),result.getContent().get(0).getId());
+        Assert.assertEquals(vo.getName(),result.getContent().get(0).getName());
+        Assert.assertEquals(vo.getSuperName(),result.getContent().get(0).getSuperName());
     }
 
     @Test

@@ -2,6 +2,7 @@ package cn.iselab.inventory.site.service.impl;
 
 import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.common.constanst.OrderNumConstants;
+import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
 import cn.iselab.inventory.site.dao.PaymentDao;
 import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.Payment;
@@ -34,6 +35,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment createPayment(Payment payment){
+        payment.setStatus(OrderStatusConstants.CHECKING);
         payment.setDelete(DeleteStatus.IS_NOT_DELETE);
         payment.setCreateTime(new Timestamp(System.currentTimeMillis()));
         payment=paymentDao.save(payment);

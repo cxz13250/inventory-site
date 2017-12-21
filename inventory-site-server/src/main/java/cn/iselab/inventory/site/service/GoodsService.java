@@ -5,6 +5,8 @@ import cn.iselab.inventory.site.web.data.GoodsVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -18,6 +20,8 @@ public interface GoodsService {
     Goods getGoodById(long goodId);
 
     Page<Goods> getGoods(String keyword, Pageable pageable);
+
+    List<Goods> getGoodsForPurchase();
 
     void updateGood(Goods goods);
 

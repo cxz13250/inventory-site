@@ -5,6 +5,8 @@ import cn.iselab.inventory.site.web.data.GoodsVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -14,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 public interface GoodsLogic {
 
     Page<GoodsVO> getGoodsList(String keyword,Pageable pageable);
+
+    List<GoodsVO> getGoodsForPurchase();
 
     GoodsVO getGoods(Long goodsId);
 

@@ -12,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -45,6 +48,17 @@ public class GoodsLogicImpl implements GoodsLogic{
             throw new HttpBadRequestException("good not exists");
         }
         return goodsVOWrapper.wrap(goods);
+    }
+
+    @Override
+    public List<GoodsVO> getGoodsForPurchase(){
+        List<Goods> goods=goodsService.getGoodsForPurchase();
+        List<GoodsVO> vos=new ArrayList<>();
+        goods.forEach(goods1 -> {
+            GoodsVO vo=goodsVOWrapper.wrap(goods1);
+            vos.add(vo);
+        });
+        return vos;
     }
 
     @Override

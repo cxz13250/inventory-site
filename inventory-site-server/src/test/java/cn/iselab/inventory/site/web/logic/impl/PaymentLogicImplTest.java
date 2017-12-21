@@ -62,13 +62,13 @@ public class PaymentLogicImplTest {
         MockitoAnnotations.initMocks(this);
 
         payment.setId(1L);
-        payment.setOperator(1L);
+        payment.setOperator("test");
         payment.setTotal(1.0);
         payment.setNumber("test");
 
         payments.add(payment);
 
-        vo.setOperator(1L);
+        vo.setOperator("test");
         vo.setTotal(1.0);
         vo.setNumber("test");
 

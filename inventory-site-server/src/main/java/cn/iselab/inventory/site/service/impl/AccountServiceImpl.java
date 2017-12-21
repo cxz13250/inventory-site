@@ -18,6 +18,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -43,6 +44,11 @@ public class AccountServiceImpl implements AccountService {
     public Page<Account> getAccounts(String keyword, Pageable pageable){
         Specifications<Account> where=Specifications.where(getWhereClause(keyword));
         return accountDao.findAll(where,pageable);
+    }
+
+    @Override
+    public List<Account> getAccountsForReceipt(){
+        return accountDao.getAll();
     }
 
     @Override

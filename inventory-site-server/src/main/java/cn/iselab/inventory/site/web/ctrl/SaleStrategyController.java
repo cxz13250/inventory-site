@@ -32,7 +32,7 @@ public class SaleStrategyController extends BaseController {
     SaleStrategyLogic saleStrategyLogic;
 
     @RequestMapping(value = UrlConstants.API+"strategies",method = RequestMethod.GET)
-    public Map<String,Object> getSaleOrders(@RequestParam(value = "keyword",required = false)String keyword,
+    public Map<String,Object> getSaleStrategies(@RequestParam(value = "keyword",required = false)String keyword,
                                             @RequestParam(value = "sortBy")String sortBy,
                                             HttpServletRequest request){
         String activePage = request.getHeader("activePage");
@@ -47,7 +47,7 @@ public class SaleStrategyController extends BaseController {
     }
 
     @RequestMapping(value = UrlConstants.API_STRATEGY,method = RequestMethod.GET)
-    public Map<String,Object> getSaleOrder(@RequestParam(name = "id")Long id){
+    public Map<String,Object> getSaleStrategy(@RequestParam(name = "id")Long id){
         try {
             SaleStrategyVO orderVO=saleStrategyLogic.getSaleStrategy(id);
             return SuccessResult.ok(ResponseMessage.ITEM_RESULT,orderVO);
@@ -57,7 +57,7 @@ public class SaleStrategyController extends BaseController {
     }
 
     @RequestMapping(value = UrlConstants.API_STRATEGY,method = RequestMethod.POST)
-    public Map<String,Object> createPurchase(@RequestBody @NotNull SaleStrategyVO orderVO){
+    public Map<String,Object> createStrategy(@RequestBody @NotNull SaleStrategyVO orderVO){
         Long id= saleStrategyLogic.createSaleStrategy(orderVO);
         SuccessResult successResult = new SuccessResult();
         successResult.put(ResponseMessage.ID_RESULT, id);
@@ -65,7 +65,7 @@ public class SaleStrategyController extends BaseController {
     }
 
     @RequestMapping(value = UrlConstants.API_STRATEGY,method = RequestMethod.PUT)
-    public Map<String,Object> updatePurchase(@RequestBody @NotNull SaleStrategyVO orderVO){
+    public Map<String,Object> updateStrategy(@RequestBody @NotNull SaleStrategyVO orderVO){
         try {
             saleStrategyLogic.updateSaleStrategy(orderVO);
             return SuccessResult.ok();
@@ -75,7 +75,7 @@ public class SaleStrategyController extends BaseController {
     }
 
     @RequestMapping(value = UrlConstants.API_STRATEGY,method = RequestMethod.DELETE)
-    public Map<String,Object> deletePurchase(@RequestParam(name = "id")Long id){
+    public Map<String,Object> deleteStrategy(@RequestParam(name = "id")Long id){
         try {
             saleStrategyLogic.deleteSaleStrategy(id);
             return SuccessResult.ok();

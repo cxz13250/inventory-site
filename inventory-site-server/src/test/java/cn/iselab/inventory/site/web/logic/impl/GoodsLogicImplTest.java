@@ -78,7 +78,7 @@ public class GoodsLogicImplTest {
         goodsVO.setCostPrice(1.0);
         goodsVO.setRetailPrice(1.0);
         goodsVO.setModel("test");
-        goodsVO.setCategory(1L);
+        goodsVO.setCategoryId(1l);
 
         goodsVOS.add(goodsVO);
 
@@ -95,7 +95,7 @@ public class GoodsLogicImplTest {
 
         Page<GoodsVO> result=goodsLogic.getGoodsList("test",pageable);
         Assert.assertEquals(goodsVO.getName(),result.getContent().get(0).getName());
-        Assert.assertEquals(goodsVO.getCategory(),result.getContent().get(0).getCategory());
+        Assert.assertEquals(goodsVO.getCategoryId(),result.getContent().get(0).getCategoryId());
         Assert.assertEquals(goodsVO.getCostPrice(),result.getContent().get(0).getCostPrice());
     }
 
@@ -105,7 +105,7 @@ public class GoodsLogicImplTest {
         when(goodsVOWrapper.wrap(any(Goods.class))).thenReturn(goodsVO);
 
         GoodsVO result=goodsLogic.getGoods(1L);
-        Assert.assertEquals(goodsVO.getCategory(),result.getCategory());
+        Assert.assertEquals(goodsVO.getCategoryId(),result.getCategoryId());
         Assert.assertEquals(goodsVO.getCostPrice(),result.getCostPrice());
         Assert.assertEquals(goodsVO.getName(),result.getName());
     }

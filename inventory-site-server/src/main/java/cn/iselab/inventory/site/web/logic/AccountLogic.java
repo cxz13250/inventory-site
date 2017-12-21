@@ -5,6 +5,8 @@ import cn.iselab.inventory.site.web.data.AccountVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -16,6 +18,8 @@ public interface AccountLogic {
     Page<AccountVO> getAccounts(String keyword, Pageable pageable);
 
     AccountVO getAccount(Long accountId);
+
+    List<AccountVO> getAccountsForReceipt();
 
     Long createAccount(AccountVO accountVO);
 

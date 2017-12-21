@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.web.data;
 
+import cn.iselab.inventory.site.model.GoodItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,6 @@ public class PurchaseOrderVO {
 
     private Long createTime;
 
-    private List<GoodsItemVO> goodsItemVOS;
+    private List<GoodItem> goodsItemVOS;
 
 }

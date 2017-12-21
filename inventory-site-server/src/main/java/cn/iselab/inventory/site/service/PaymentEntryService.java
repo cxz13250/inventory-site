@@ -13,13 +13,13 @@ import java.util.List;
  */
 public interface PaymentEntryService {
 
-    PaymentEntry createPaymentEntry(PaymentEntry goodItem);
+    PaymentEntry createPaymentEntry(PaymentEntry entry);
 
     List<PaymentEntry> getPaymentEntries(long paymentId);
 
     PaymentEntry getPaymentEntry(long id);
 
-    void updatePaymentEntry(PaymentEntry goodItem);
+    void updatePaymentEntry(PaymentEntry entry);
 
-    void deletePaymentEntry(PaymentEntry goodItem);
+    void deletePaymentEntry(PaymentEntry entry);
 }

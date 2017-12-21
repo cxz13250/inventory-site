@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SaleOrderItemVO {
 
+    private Long goodId;
+
     private String goodName;
 
     private String goodModel;

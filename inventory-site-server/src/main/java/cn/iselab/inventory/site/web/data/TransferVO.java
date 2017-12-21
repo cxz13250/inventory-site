@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TransferVO {
 
-    private Long accountId;
+    private String accountName;
 
     private Double money;
 

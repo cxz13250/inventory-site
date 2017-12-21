@@ -2,6 +2,7 @@ package cn.iselab.inventory.site.service.impl;
 
 import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.common.constanst.OrderNumConstants;
+import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
 import cn.iselab.inventory.site.common.constanst.PurchaseOrderConstants;
 import cn.iselab.inventory.site.dao.PurchaseOrderDao;
 import cn.iselab.inventory.site.model.PurchaseOrder;
@@ -34,6 +35,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     public PurchaseOrder createPurchaseOrder(PurchaseOrder order){
+        order.setStatus(OrderStatusConstants.CHECKING);
         order.setCreateTime(new Timestamp(System.currentTimeMillis()));
         order.setDelete(DeleteStatus.IS_NOT_DELETE);
         order=purchaseOrderDao.save(order);

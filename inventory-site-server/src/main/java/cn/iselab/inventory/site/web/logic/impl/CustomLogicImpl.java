@@ -12,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Author ROKG
  * @Description
@@ -36,6 +39,28 @@ public class CustomLogicImpl implements CustomLogic{
                 return customVOWrapper.wrap(custom);
             }
         });
+    }
+
+    @Override
+    public List<CustomVO> getCustomsForReceipt(){
+        List<Custom> customs=customService.getCustomsForReceipt();
+        List<CustomVO> vos=new ArrayList<>();
+        customs.forEach(custom -> {
+            CustomVO vo=customVOWrapper.wrap(custom);
+            vos.add(vo);
+        });
+        return vos;
+    }
+
+    @Override
+    public List<CustomVO> getCustomsForSale(){
+        List<Custom> customs=customService.getCustomsForSale();
+        List<CustomVO> vos=new ArrayList<>();
+        customs.forEach(custom -> {
+            CustomVO vo=customVOWrapper.wrap(custom);
+            vos.add(vo);
+        });
+        return vos;
     }
 
     @Override

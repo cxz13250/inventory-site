@@ -5,13 +5,13 @@ package cn.iselab.inventory.site.common.constanst;
  */
 public class OrderStatusConstants {
 
-    private static long DRAFT=0;
+    public static long DRAFT=0;
 
-    private static long CHECKING=1;
+    public static long CHECKING=1;
 
-    private static long APPROVED=2;
+    public static long APPROVED=2;
 
-    private static long REJECTED=3;
+    public static long REJECTED=3;
 
-    private static long DELETED=-1;
+    public static long DELETED=-1;
 }

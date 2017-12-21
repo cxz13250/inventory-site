@@ -3,11 +3,21 @@ package cn.iselab.inventory.site.service.impl;
 import cn.iselab.inventory.site.common.constanst.DeleteStatus;
 import cn.iselab.inventory.site.dao.CategoryDao;
 import cn.iselab.inventory.site.model.Category;
+import cn.iselab.inventory.site.model.Goods;
 import cn.iselab.inventory.site.service.CategoryService;
 import cn.iselab.inventory.site.web.data.CategoryVO;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -33,8 +43,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> getCategories(){
-        return categoryDao.findAllCategories();
+    public Page<Category> getCategories(String keyword, Pageable pageable){
+        Specifications<Category> where=Specifications.where(getWhereClause(keyword));
+        return categoryDao.findAll(where,pageable);
     }
 
     @Override
@@ -64,6 +75,29 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getCategoriesForGood(){
-        return categoryDao.findForGoods();
+        return categoryDao.findForGood();
+    }
+
+    @Override
+    public List<Category> getCategoriesForCategory(){
+        return categoryDao.findForCategory();
+    }
+
+    private Specification<Category> getWhereClause(String keyword){
+        return new Specification<Category>() {
+            @Override
+            public Predicate toPredicate(Root<Category> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate=criteriaBuilder.conjunction();
+                if (keyword != null) {
+                    predicate.getExpressions().add(
+                            criteriaBuilder.like(root.get("name"), "%" + StringUtils.trim(keyword) + "%")
+                    );
+                }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("deleted"), DeleteStatus.IS_NOT_DELETE)
+                );
+                return predicate;
+            }
+        };
     }
 }

@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -32,6 +33,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Goods createGood(Goods goods){
+        goods.setInventory(0L);
         goods.setDelete(DeleteStatus.IS_NOT_DELETE);
         return goodsDao.save(goods);
     }
@@ -45,6 +47,11 @@ public class GoodsServiceImpl implements GoodsService {
     public Page<Goods> getGoods(String keyword, Pageable pageable){
         Specifications<Goods> where=Specifications.where(getWhereClause(keyword));
         return goodsDao.findAll(where,pageable);
+    }
+
+    @Override
+    public List<Goods> getGoodsForPurchase(){
+        return goodsDao.getAll();
     }
 
     @Override
@@ -65,7 +72,7 @@ public class GoodsServiceImpl implements GoodsService {
         goods.setName(vo.getName());
         goods.setCostPrice(vo.getCostPrice());
         goods.setRetailPrice(vo.getRetailPrice());
-        goods.setCategory(vo.getCategory());
+        goods.setCategory(vo.getCategoryId());
         goods.setModel(vo.getModel());
         goodsDao.save(goods);
     }

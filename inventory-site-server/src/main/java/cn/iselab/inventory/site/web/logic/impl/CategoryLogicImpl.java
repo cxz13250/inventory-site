@@ -7,6 +7,9 @@ import cn.iselab.inventory.site.web.data.wrapper.CategoryVOWrapper;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
 import cn.iselab.inventory.site.web.logic.CategoryLogic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,15 +31,18 @@ public class CategoryLogicImpl implements CategoryLogic {
     CategoryVOWrapper categoryVOWrapper;
 
     @Override
-    public List<CategoryVO> getCategorys(){
-        List<Category> categories=categoryService.getCategories();
-        List<CategoryVO> vos=new ArrayList<>();
-        categories.forEach(category -> {
-            CategoryVO vo=categoryVOWrapper.wrap(category);
-            vo.setSuperName(categoryService.getCategory(category.getSuperId()).getName());
-            vos.add(vo);
+    public Page<CategoryVO> getCategorys(String keyword,Pageable pageable){
+        Page<Category> categories=categoryService.getCategories(keyword,pageable);
+        return categories.map(new Converter<Category, CategoryVO>() {
+            @Override
+            public CategoryVO convert(Category category) {
+                CategoryVO vo=categoryVOWrapper.wrap(category);
+                if(category.getSuperId()!=-1) {
+                    vo.setSuperName(categoryService.getCategory(category.getSuperId()).getName());
+                }
+                return vo;
+            }
         });
-        return vos;
     }
 
     @Override
@@ -85,7 +91,23 @@ public class CategoryLogicImpl implements CategoryLogic {
         List<CategoryVO> vos=new ArrayList<>();
         categories.forEach(category -> {
             CategoryVO vo=categoryVOWrapper.wrap(category);
-            vo.setSuperName(categoryService.getCategory(category.getSuperId()).getName());
+            if(category.getSuperId()!=-1) {
+                vo.setSuperName(categoryService.getCategory(category.getSuperId()).getName());
+            }
+            vos.add(vo);
+        });
+        return vos;
+    }
+
+    @Override
+    public List<CategoryVO> getCategorysForCategory(){
+        List<Category> categories=categoryService.getCategoriesForCategory();
+        List<CategoryVO> vos=new ArrayList<>();
+        categories.forEach(category -> {
+            CategoryVO vo=categoryVOWrapper.wrap(category);
+            if(category.getSuperId()!=-1) {
+                vo.setSuperName(categoryService.getCategory(category.getSuperId()).getName());
+            }
             vos.add(vo);
         });
         return vos;

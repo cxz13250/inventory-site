@@ -1,6 +1,8 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.model.GoodItem;
 import cn.iselab.inventory.site.model.PurchaseOrder;
+import cn.iselab.inventory.site.service.GoodItemService;
 import cn.iselab.inventory.site.service.PurchaseOrderService;
 import cn.iselab.inventory.site.web.data.PurchaseOrderVO;
 import cn.iselab.inventory.site.web.data.wrapper.PurchaseOrderVOWrapper;
@@ -11,6 +13,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -26,6 +30,9 @@ public class PurchaseLogicImpl implements PurchaseLogic {
 
     @Autowired
     PurchaseOrderVOWrapper purchaseOrderVOWrapper;
+
+    @Autowired
+    GoodItemService goodItemService;
 
     @Override
     public Page<PurchaseOrderVO> getPurchases(String keyword, Pageable pageable, Boolean type){
@@ -44,13 +51,20 @@ public class PurchaseLogicImpl implements PurchaseLogic {
         if(order==null){
             throw new HttpBadRequestException("order not exists");
         }
-        return purchaseOrderVOWrapper.wrap(order);
+        PurchaseOrderVO vo=purchaseOrderVOWrapper.wrap(order);
+        vo.setGoodsItemVOS(goodItemService.getGoodItems(order.getId()));
+        return vo;
     }
 
     @Override
     public String createPurchase(PurchaseOrderVO vo){
         PurchaseOrder order=purchaseOrderVOWrapper.unwrap(vo);
         order=purchaseOrderService.createPurchaseOrder(order);
+        List<GoodItem> items=vo.getGoodsItemVOS();
+        for (GoodItem item:items){
+            item.setOrderId(order.getId());
+            goodItemService.createGoodItem(item);
+        }
         return order.getNumber();
     }
 

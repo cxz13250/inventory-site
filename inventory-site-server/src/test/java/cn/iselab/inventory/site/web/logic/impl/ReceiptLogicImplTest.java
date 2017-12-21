@@ -65,14 +65,14 @@ public class ReceiptLogicImplTest {
         MockitoAnnotations.initMocks(this);
 
         receipt.setId(1L);
-        receipt.setOperator(1L);
+        receipt.setOperator("test");
         receipt.setTotal(1.0);
         receipt.setNumber("test");
         receipt.setCumstomId(1L);
 
         receipts.add(receipt);
 
-        vo.setOperator(1L);
+        vo.setOperator("test");
         vo.setTotal(1.0);
         vo.setNumber("test");
         vo.setCumstomId(1L);

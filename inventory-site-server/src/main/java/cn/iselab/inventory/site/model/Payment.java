@@ -19,10 +19,10 @@ public class Payment {
     private String number;
 
     @Column(name = "operator")
-    private long operator;
+    private String operator;
 
-    @Column(name = "account_id")
-    private long account;
+    @Column(name = "account")
+    private String account;
 
     @Column(name = "total")
     private double total;
@@ -52,19 +52,19 @@ public class Payment {
         this.number = number;
     }
 
-    public long getOperator() {
+    public String getOperator() {
         return operator;
     }
 
-    public void setOperator(long operator) {
+    public void setOperator(String operator) {
         this.operator = operator;
     }
 
-    public long getAccount() {
+    public String getAccount() {
         return account;
     }
 
-    public void setAccount(long account) {
+    public void setAccount(String account) {
         this.account = account;
     }
 

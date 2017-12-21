@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -49,6 +50,16 @@ public class CustomServiceImpl implements CustomService {
     public Page<Custom> getCustoms(String keywrod, Pageable pageable){
         Specifications<Custom> where=Specifications.where(getWhereClause(keywrod));
         return customDao.findAll(where, pageable);
+    }
+
+    @Override
+    public List<Custom> getCustomsForReceipt(){
+        return customDao.getAll();
+    }
+
+    @Override
+    public List<Custom> getCustomsForSale(){
+        return customDao.getAllForSale();
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Receipt {
     private long cumstomId;
 
     @Column(name = "operator")
-    private long operator;
+    private String operator;
 
     @Column(name = "transfer_list")
     private String transferList;
@@ -63,11 +63,11 @@ public class Receipt {
         this.cumstomId = cumstomId;
     }
 
-    public long getOperator() {
+    public String getOperator() {
         return operator;
     }
 
-    public void setOperator(long operator) {
+    public void setOperator(String operator) {
         this.operator = operator;
     }
 

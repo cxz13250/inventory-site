@@ -1,7 +1,9 @@
 package cn.iselab.inventory.site.web.data.wrapper;
 
 import cn.iselab.inventory.site.model.Goods;
+import cn.iselab.inventory.site.service.CategoryService;
 import cn.iselab.inventory.site.web.data.GoodsVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,11 +15,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class GoodsVOWrapper extends BaseWrapper<GoodsVO,Goods> {
 
+    @Autowired
+    CategoryService categoryService;
+
     @Override
     public GoodsVO wrap(Goods goods){
         GoodsVO vo=new GoodsVO();
         vo.setCostPrice(goods.getCostPrice());
-        vo.setCategory(goods.getCategory());
+        vo.setCategoryId(goods.getCategory());
+        vo.setCategoryName(categoryService.getCategory(goods.getCategory()).getName());
         vo.setCurrentCostPrice(goods.getCurrentCostPrice());
         vo.setCurrentRetailPrice(goods.getCurrentRetailPrice());
         vo.setName(goods.getName());
@@ -31,7 +37,7 @@ public class GoodsVOWrapper extends BaseWrapper<GoodsVO,Goods> {
     @Override
     public Goods unwrap(GoodsVO vo){
         Goods goods=new Goods();
-        goods.setCategory(vo.getCategory());
+        goods.setCategory(vo.getCategoryId());
         goods.setModel(vo.getModel());
         goods.setRetailPrice(vo.getRetailPrice());
         goods.setCostPrice(vo.getCostPrice());

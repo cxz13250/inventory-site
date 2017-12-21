@@ -21,7 +21,9 @@ public class ReceiptVO {
 
     private Long cumstomId;
 
-    private Long operator;
+    private String cumstomName;
+
+    private String operator;
 
     private Double total;
 

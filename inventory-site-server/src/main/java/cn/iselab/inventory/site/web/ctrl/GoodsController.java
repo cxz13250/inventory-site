@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,6 +80,16 @@ public class GoodsController extends BaseController{
         try {
             goodsLogic.deleteGoods(goodsId);
             return SuccessResult.ok();
+        }catch (HttpBadRequestException e){
+            return new ErrorResult(StatusCode.GOODS_NOT_EXISTS);
+        }
+    }
+
+    @RequestMapping(value = UrlConstants.API_GOODS + "/purchase",method = RequestMethod.GET)
+    public Map<String,Object> deletePayment(HttpServletRequest request){
+        try {
+            List<GoodsVO> vos= goodsLogic.getGoodsForPurchase();
+            return SuccessResult.ok(ResponseMessage.ITEM_RESULT,vos);
         }catch (HttpBadRequestException e){
             return new ErrorResult(StatusCode.GOODS_NOT_EXISTS);
         }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +42,7 @@ public class AccountController extends BaseController{
         if(activePage == null || rowsOnPage == null) {
             throw new IllegalArgumentException("缺少分页信息");
         }
-        Sort sortById = new Sort(Sort.Direction.DESC, sortBy);
+        Sort sortById = new Sort(Sort.Direction.ASC, sortBy);
         Pageable pageable = new PageRequest(Integer.parseInt(activePage) - 1, Integer.parseInt(rowsOnPage),sortById);
         Page<AccountVO> accounts=accountLogic.getAccounts(keyword,pageable);
         return SuccessResult.ok(ResponseMessage.ITEM_RESULT,accounts);
@@ -83,5 +84,11 @@ public class AccountController extends BaseController{
         }catch (HttpBadRequestException e){
             return new ErrorResult(StatusCode.ACCOUNT_NOT_EXISTS);
         }
+    }
+
+    @RequestMapping(value = UrlConstants.API+"accounts/receipt",method = RequestMethod.GET)
+    public Map<String,Object> getAccounts(HttpServletRequest request){
+        List<AccountVO> vos=accountLogic.getAccountsForReceipt();
+        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,vos);
     }
 }

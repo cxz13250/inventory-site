@@ -57,8 +57,8 @@ public class PaymentServiceImplTest {
         MockitoAnnotations.initMocks(this);
 
         payment.setId(1L);
-        payment.setAccount(1L);
-        payment.setOperator(1L);
+        payment.setAccount("test");
+        payment.setOperator("test");
         payment.setTotal(1.0);
 
         payments.add(payment);

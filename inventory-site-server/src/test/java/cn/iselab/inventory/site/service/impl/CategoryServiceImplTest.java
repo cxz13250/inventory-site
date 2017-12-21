@@ -3,6 +3,7 @@ package cn.iselab.inventory.site.service.impl;
 import cn.iselab.inventory.site.Application;
 import cn.iselab.inventory.site.dao.CategoryDao;
 import cn.iselab.inventory.site.model.Category;
+import cn.iselab.inventory.site.model.Goods;
 import cn.iselab.inventory.site.service.CategoryService;
 import cn.iselab.inventory.site.web.data.CategoryVO;
 import org.junit.Assert;
@@ -15,6 +16,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.ArrayList;
@@ -45,6 +50,8 @@ public class CategoryServiceImplTest {
     Category category=new Category();
     CategoryVO vo=new CategoryVO();
     List<Category> categories=new ArrayList<>();
+    Page<Category> categoryPage;
+    Pageable pageable;
 
     @Before
     public void setUp() throws Exception {
@@ -59,6 +66,10 @@ public class CategoryServiceImplTest {
         vo.setSuperId(1L);
 
         categories.add(category);
+
+        categoryPage=new PageImpl<Category>(categories);
+
+        pageable=new PageRequest(0,10);
     }
 
     @Test
@@ -73,11 +84,11 @@ public class CategoryServiceImplTest {
 
         when(categoryDao.findAllCategories()).thenReturn(categories);
 
-        List<Category> result=categoryService.getCategories();
+        Page<Category> result=categoryService.getCategories("test",pageable);
 
-        Assert.assertEquals(category.getId(),result.get(0).getId());
-        Assert.assertEquals(category.getName(),result.get(0).getName());
-        Assert.assertEquals(category.getSuperId(),result.get(0).getSuperId());
+        Assert.assertEquals(category.getId(),result.getContent().get(0).getId());
+        Assert.assertEquals(category.getName(),result.getContent().get(0).getName());
+        Assert.assertEquals(category.getSuperId(),result.getContent().get(0).getSuperId());
     }
 
     @Test

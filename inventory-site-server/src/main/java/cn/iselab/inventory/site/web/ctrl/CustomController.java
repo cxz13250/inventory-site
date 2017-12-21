@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -83,5 +84,17 @@ public class CustomController {
         }catch (HttpBadRequestException e){
             return new ErrorResult(StatusCode.CUSTOM_NOT_EXISTS);
         }
+    }
+
+    @RequestMapping(value = UrlConstants.API+"customs/receipt",method = RequestMethod.GET)
+    public Map<String,Object> getCustomsForReceipt(HttpServletRequest request){
+        List<CustomVO> vos=customLogic.getCustomsForReceipt();
+        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,vos);
+    }
+
+    @RequestMapping(value = UrlConstants.API+"customs/sale",method = RequestMethod.GET)
+    public Map<String,Object> getCustomsForSale(HttpServletRequest request){
+        List<CustomVO> vos=customLogic.getCustomsForSale();
+        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,vos);
     }
 }
