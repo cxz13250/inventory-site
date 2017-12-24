@@ -28,4 +28,8 @@ public class ComplimentaryVO {
     private List<ComplimentaryItem> items;
 
     private Double total;
+
+    private String extra;
+
+    private Long status;
 }

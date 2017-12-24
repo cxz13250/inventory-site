@@ -63,6 +63,11 @@ public class CustomServiceImpl implements CustomService {
     }
 
     @Override
+    public List<Custom> getCustomsForPurchase(){
+        return customDao.getAllForPurchase();
+    }
+
+    @Override
     public void updateCustom(Custom custom, CustomVO vo){
         custom.setEmail(vo.getEmail());
         custom.setAddress(vo.getAddress());
@@ -78,6 +83,11 @@ public class CustomServiceImpl implements CustomService {
         if(vo.getPay()!=null)
             custom.setPay(vo.getPay());
         custom.setName(vo.getName());
+        customDao.save(custom);
+    }
+
+    @Override
+    public void updateCustom2(Custom custom){
         customDao.save(custom);
     }
 

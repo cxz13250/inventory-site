@@ -1,8 +1,10 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.model.GoodItem;
 import cn.iselab.inventory.site.model.Goods;
 import cn.iselab.inventory.site.service.GoodsService;
 import cn.iselab.inventory.site.web.data.GoodsVO;
+import cn.iselab.inventory.site.web.data.PurchaseOrderVO;
 import cn.iselab.inventory.site.web.data.wrapper.GoodsVOWrapper;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
 import cn.iselab.inventory.site.web.logic.GoodsLogic;

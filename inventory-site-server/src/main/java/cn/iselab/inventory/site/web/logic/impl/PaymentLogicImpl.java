@@ -1,7 +1,12 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
+import cn.iselab.inventory.site.model.Account;
+import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.Payment;
 import cn.iselab.inventory.site.model.PaymentEntry;
+import cn.iselab.inventory.site.service.AccountService;
+import cn.iselab.inventory.site.service.CustomService;
 import cn.iselab.inventory.site.service.PaymentEntryService;
 import cn.iselab.inventory.site.service.PaymentService;
 import cn.iselab.inventory.site.web.data.PaymentVO;
@@ -33,6 +38,12 @@ public class PaymentLogicImpl implements PaymentLogic{
 
     @Autowired
     PaymentVOWrapper paymentVOWrapper;
+
+    @Autowired
+    AccountService accountService;
+
+    @Autowired
+    CustomService customService;
 
     @Override
     public Page<PaymentVO> getPayments(String keyword, Pageable pageable){
@@ -69,6 +80,16 @@ public class PaymentLogicImpl implements PaymentLogic{
     }
 
     @Override
+    public void checkPayment(Payment payment){
+        Account account=accountService.getAccount(payment.getAccount());
+        account.setBalance(account.getBalance()-payment.getTotal());
+        accountService.updateAccount(account);
+        Custom custom=customService.getCustom(payment.getCustom());
+        custom.setReceive(custom.getReceive()+payment.getTotal());
+        customService.updateCustom2(custom);
+    }
+
+    @Override
     public void updatePayment(PaymentVO vo){
         Payment payment=paymentService.getPaymentByNum(vo.getNumber());
         if (payment == null) {
@@ -76,6 +97,9 @@ public class PaymentLogicImpl implements PaymentLogic{
         }
         updateInfo(payment,vo);
         paymentService.updatePayment(payment);
+        if(vo.getStatus()== OrderStatusConstants.APPROVED){
+            checkPayment(payment);
+        }
     }
 
     @Override
@@ -89,8 +113,9 @@ public class PaymentLogicImpl implements PaymentLogic{
 
     private void updateInfo(Payment payment,PaymentVO vo){
         payment.setTotal(vo.getTotal());
+        payment.setStatus(vo.getStatus());
         if (vo.getAccount()!=null) {
-            payment.setAccount(vo.getAccount());
+            payment.setAccount(vo.getAccountId());
         }
     }
 

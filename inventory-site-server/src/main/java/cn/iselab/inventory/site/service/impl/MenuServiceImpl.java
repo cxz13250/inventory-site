@@ -22,6 +22,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> getMenusByRoleId(long roleId){
-        return menuDao.getAllByRoleId(roleId);
+        return menuDao.findByRoleId(roleId);
     }
 }

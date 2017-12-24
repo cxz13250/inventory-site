@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.web.logic;
 
+import cn.iselab.inventory.site.model.SaleOrder;
 import cn.iselab.inventory.site.web.data.SaleOrderVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,8 @@ public interface SaleOrderLogic {
     String createSaleOrder(SaleOrderVO vo);
 
     void updateSaleOrder(SaleOrderVO vo);
+
+    void checkoutSaleOrder(SaleOrder order);
 
     void deleteSaleOrder(String number);
 }

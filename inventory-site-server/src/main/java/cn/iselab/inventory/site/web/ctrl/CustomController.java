@@ -97,4 +97,10 @@ public class CustomController {
         List<CustomVO> vos=customLogic.getCustomsForSale();
         return SuccessResult.ok(ResponseMessage.ITEM_RESULT,vos);
     }
+
+    @RequestMapping(value = UrlConstants.API+"customs/purchase",method = RequestMethod.GET)
+    public Map<String,Object> getCustomsForPurchase(HttpServletRequest request){
+        List<CustomVO> vos=customLogic.getCustomsForPurchase();
+        return SuccessResult.ok(ResponseMessage.ITEM_RESULT,vos);
+    }
 }

@@ -26,7 +26,11 @@ public interface CustomService {
 
     List<Custom> getCustomsForSale();
 
+    List<Custom> getCustomsForPurchase();
+
     void updateCustom(Custom custom, CustomVO vo);
+
+    void updateCustom2(Custom custom);
 
     void deletCustom(Custom custom);
 }

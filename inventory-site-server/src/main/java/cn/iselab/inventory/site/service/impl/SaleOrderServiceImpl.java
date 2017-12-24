@@ -38,7 +38,6 @@ public class SaleOrderServiceImpl implements SaleOrderService {
     @Override
     public SaleOrder createSaleOrder(SaleOrder saleOrder){
         saleOrder.setDeleted(DeleteStatus.IS_NOT_DELETE);
-        saleOrder.setStatus(OrderStatusConstants.CHECKING);
         saleOrder.setCreateTime(new Timestamp(System.currentTimeMillis()));
         saleOrder= saleOrderDao.save(saleOrder);
         if(saleOrder.isType()== PurchaseOrderConstants.Output){

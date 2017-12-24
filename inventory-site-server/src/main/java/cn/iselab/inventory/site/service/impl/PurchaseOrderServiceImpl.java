@@ -35,7 +35,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     public PurchaseOrder createPurchaseOrder(PurchaseOrder order){
-        order.setStatus(OrderStatusConstants.CHECKING);
         order.setCreateTime(new Timestamp(System.currentTimeMillis()));
         order.setDelete(DeleteStatus.IS_NOT_DELETE);
         order=purchaseOrderDao.save(order);
@@ -64,8 +63,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public void updatePurchaseOrder(PurchaseOrder order){
-        purchaseOrderDao.save(order);
+    public PurchaseOrder updatePurchaseOrder(PurchaseOrder order){
+        return purchaseOrderDao.save(order);
     }
 
     @Override
@@ -74,21 +73,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         purchaseOrderDao.save(order);
     }
 
-    private Specification<PurchaseOrder> getWhereClause(String keyword,Boolean type){
+    private Specification<PurchaseOrder> getWhereClause(String keyword,boolean type){
         return new Specification<PurchaseOrder>() {
             @Override
             public Predicate toPredicate(Root<PurchaseOrder> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 Predicate predicate=criteriaBuilder.conjunction();
                 if (keyword != null) {
                     predicate.getExpressions().add(
-                            criteriaBuilder.equal(root.get("number"), StringUtils.trim(keyword))
+                            criteriaBuilder.equal(root.get("number"), "%"+StringUtils.trim(keyword)+"%")
                     );
                 }
-                if (type != null) {
-                    predicate.getExpressions().add(
-                            criteriaBuilder.equal(root.get("type"), type)
-                    );
-                }
+                predicate.getExpressions().add(
+                        criteriaBuilder.equal(root.get("type"), type)
+                );
                 predicate.getExpressions().add(
                         criteriaBuilder.equal(root.get("deleted"), DeleteStatus.IS_NOT_DELETE)
                 );

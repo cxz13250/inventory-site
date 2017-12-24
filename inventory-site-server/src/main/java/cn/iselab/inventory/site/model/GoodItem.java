@@ -20,6 +20,9 @@ public class GoodItem {
     @Column(name = "good_name")
     private String goodName;
 
+    @Column(name = "good_model")
+    private String goodModel;
+
     @Column(name = "number")
     private long number;
 
@@ -97,5 +100,13 @@ public class GoodItem {
 
     public void setOrderId(long orderId) {
         this.orderId = orderId;
+    }
+
+    public String getGoodModel() {
+        return goodModel;
+    }
+
+    public void setGoodModel(String goodModel) {
+        this.goodModel = goodModel;
     }
 }

@@ -57,6 +57,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account updateAccount(Account account){
+        return accountDao.save(account);
+    }
+
+    @Override
     public void update(Account account, AccountVO accountVO){
         account.setBank(accountVO.getBank());
         account.setName(accountVO.getName());

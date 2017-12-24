@@ -25,6 +25,10 @@ public class PaymentVO {
 
     private String account;
 
+    private Long accountId;
+
+    private Long customId;
+
     private Double total;
 
     private Long status;

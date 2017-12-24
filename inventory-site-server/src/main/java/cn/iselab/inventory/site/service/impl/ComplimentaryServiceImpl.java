@@ -1,6 +1,7 @@
 package cn.iselab.inventory.site.service.impl;
 
 import cn.iselab.inventory.site.common.constanst.DeleteStatus;
+import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
 import cn.iselab.inventory.site.dao.ComplimentaryDao;
 import cn.iselab.inventory.site.model.Complimentary;
 import cn.iselab.inventory.site.model.SaleStrategy;
@@ -17,6 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
 
 /**
  * @Author ROKG
@@ -32,6 +34,7 @@ public class ComplimentaryServiceImpl implements ComplimentaryService {
 
     @Override
     public Complimentary createComplimentary(Complimentary complimentary){
+        complimentary.setCreateTime(new Timestamp(System.currentTimeMillis()));
         return complimentaryDao.save(complimentary);
     }
 

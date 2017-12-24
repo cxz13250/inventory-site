@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.sql.Timestamp;
 
 /**
  * @Author ROKG
@@ -32,6 +33,7 @@ public class StockOrderServiceImpl implements StockOrderService {
     @Override
     public StockOrder createStockOrder(StockOrder stockOrder){
         stockOrder.setDelete(DeleteStatus.IS_NOT_DELETE);
+        stockOrder.setCreateTime(new Timestamp(System.currentTimeMillis()));
         return stockOrderDao.save(stockOrder);
     }
 

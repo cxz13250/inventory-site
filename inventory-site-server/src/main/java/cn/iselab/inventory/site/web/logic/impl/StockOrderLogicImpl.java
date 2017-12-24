@@ -51,6 +51,7 @@ public class StockOrderLogicImpl implements StockOrderLogic {
     @Override
     public Long createStockOrder(StockOrderVO vo){
         StockOrder order=stockOrderVOWrapper.unwrap(vo);
+        order=stockOrderService.createStockOrder(order);
         return order.getId();
     }
 

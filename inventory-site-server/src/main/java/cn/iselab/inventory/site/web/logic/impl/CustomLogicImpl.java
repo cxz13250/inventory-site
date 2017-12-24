@@ -64,6 +64,17 @@ public class CustomLogicImpl implements CustomLogic{
     }
 
     @Override
+    public List<CustomVO> getCustomsForPurchase(){
+        List<Custom> customs=customService.getCustomsForPurchase();
+        List<CustomVO> vos=new ArrayList<>();
+        customs.forEach(custom -> {
+            CustomVO vo=customVOWrapper.wrap(custom);
+            vos.add(vo);
+        });
+        return vos;
+    }
+
+    @Override
     public CustomVO getCustom(Long customId){
         Custom custom=customService.getCustom(customId);
         if(custom==null){

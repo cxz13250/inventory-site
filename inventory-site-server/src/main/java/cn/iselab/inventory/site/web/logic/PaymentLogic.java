@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.web.logic;
 
+import cn.iselab.inventory.site.model.Payment;
 import cn.iselab.inventory.site.web.data.PaymentVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,8 @@ public interface PaymentLogic {
     PaymentVO getPayment(String number);
 
     String createPayment(PaymentVO vo);
+
+    void checkPayment(Payment payment);
 
     void updatePayment(PaymentVO vo);
 

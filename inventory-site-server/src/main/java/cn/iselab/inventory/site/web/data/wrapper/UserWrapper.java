@@ -28,12 +28,10 @@ public class UserWrapper extends BaseWrapper<UserVO,User> {
     @Override
     public User unwrap(UserVO userVO){
         User user=new User();
-        user.setCreateTime(new Timestamp(userVO.getCreateTime()));
         user.setEmail(userVO.getEmail());
         user.setMobile(userVO.getMobile());
         user.setPassword(EncryptionUtil.encryptMD5(userVO.getPassword()));
         user.setName(userVO.getName());
-        user.setId(userVO.getId());
         return user;
     }
 }

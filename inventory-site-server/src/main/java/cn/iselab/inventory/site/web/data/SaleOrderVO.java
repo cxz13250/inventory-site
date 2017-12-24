@@ -23,6 +23,8 @@ public class SaleOrderVO {
 
     private Long customId;
 
+    private String customName;
+
     private String salesman;
 
     private String operator;
@@ -32,6 +34,8 @@ public class SaleOrderVO {
     private Double total;
 
     private Double discount;
+
+    private Double finalTotal;
 
     private String extra;
 

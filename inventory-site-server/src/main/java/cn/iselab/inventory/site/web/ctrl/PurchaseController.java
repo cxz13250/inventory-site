@@ -32,7 +32,7 @@ public class PurchaseController extends BaseController{
     PurchaseLogic purchaseLogic;
 
     @RequestMapping(value = UrlConstants.API+"purchases",method = RequestMethod.GET)
-    public Map<String,Object> getAccounts(@RequestParam(value = "keyword",required = false)String keyword,
+    public Map<String,Object> getPurchases(@RequestParam(value = "keyword",required = false)String keyword,
                                           @RequestParam(value = "sortBy")String sortBy,
                                           @RequestParam(value = "type")Boolean type,
                                           HttpServletRequest request){

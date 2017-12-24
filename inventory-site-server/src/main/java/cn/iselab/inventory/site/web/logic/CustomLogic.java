@@ -20,6 +20,8 @@ public interface CustomLogic {
 
     List<CustomVO> getCustomsForSale();
 
+    List<CustomVO> getCustomsForPurchase();
+
     CustomVO getCustom(Long customId);
 
     Long createCustom(CustomVO customVO);

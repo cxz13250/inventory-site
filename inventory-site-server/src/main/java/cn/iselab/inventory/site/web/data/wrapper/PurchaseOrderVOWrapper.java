@@ -1,7 +1,9 @@
 package cn.iselab.inventory.site.web.data.wrapper;
 
 import cn.iselab.inventory.site.model.PurchaseOrder;
+import cn.iselab.inventory.site.service.CustomService;
 import cn.iselab.inventory.site.web.data.PurchaseOrderVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class PurchaseOrderVOWrapper extends BaseWrapper<PurchaseOrderVO,PurchaseOrder>{
 
+    @Autowired
+    CustomService customService;
+
     @Override
     public PurchaseOrderVO wrap(PurchaseOrder order){
         PurchaseOrderVO vo=new PurchaseOrderVO();
@@ -22,7 +27,8 @@ public class PurchaseOrderVOWrapper extends BaseWrapper<PurchaseOrderVO,Purchase
         vo.setRepository(order.getRepository());
         vo.setStatus(order.getStatus());
         vo.setCreateTime(order.getCreateTime().getTime());
-        vo.setSupplier(order.getSupplier());
+        vo.setCustomId(order.getSupplier());
+        vo.setSupplier(customService.getCustom(order.getSupplier()).getName());
         vo.setTotal(order.getTotal());
         return vo;
     }
@@ -32,9 +38,10 @@ public class PurchaseOrderVOWrapper extends BaseWrapper<PurchaseOrderVO,Purchase
         PurchaseOrder order=new PurchaseOrder();
         order.setOperator(vo.getOperator());
         order.setRepository(vo.getRepository());
-        order.setSupplier(vo.getSupplier());
+        order.setSupplier(vo.getCustomId());
         order.setExtra(vo.getExtra());
         order.setTotal(vo.getTotal());
+        order.setType(vo.getType());
         return order;
     }
 }

@@ -19,4 +19,7 @@ public interface CustomDao extends CrudRepository<Custom, Long>, JpaSpecificatio
 
     @Query("select c from Custom c where c.isDelete = 0 and c.type = 2")
     List<Custom> getAllForSale();
+
+    @Query("select c from Custom c where c.isDelete = 0 and c.type = 1")
+    List<Custom> getAllForPurchase();
 }

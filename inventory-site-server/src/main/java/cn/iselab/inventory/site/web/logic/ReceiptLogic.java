@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.web.logic;
 
+import cn.iselab.inventory.site.model.Receipt;
 import cn.iselab.inventory.site.web.data.ReceiptVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,8 @@ public interface ReceiptLogic {
     String createReceipt(ReceiptVO vo);
 
     void updateReceipt(ReceiptVO vo);
+
+    void checkReceipt(Receipt receipt);
 
     void deleteReceipt(String number);
 }

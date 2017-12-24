@@ -19,9 +19,9 @@ public class ReceiptVO {
 
     private String number;
 
-    private Long cumstomId;
+    private Long customId;
 
-    private String cumstomName;
+    private String customName;
 
     private String operator;
 

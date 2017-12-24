@@ -35,11 +35,10 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public Receipt createReceipt(Receipt receipt){
-        receipt.setStatus(OrderStatusConstants.CHECKING);
         receipt.setDelete(DeleteStatus.IS_NOT_DELETE);
         receipt.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        receipt= receiptDao.save(receipt);
         receipt.setNumber(OrderNumConstants.SKD_ORDER+receipt.getCreateTime());
+        receipt=receiptDao.save(receipt);
         return receipt;
     }
 

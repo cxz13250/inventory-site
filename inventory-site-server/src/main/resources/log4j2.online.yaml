@@ -1,0 +1,64 @@
+Configuration:
+  properties:
+    property:
+      - name: logPath
+        value: /home/share/log/
+      - name: filename
+        value: inventory-site.log
+      - name: pattern
+        value: "%d{yyyy-MM-dd HH:mm:ss} [%p] [%t] [%c] %m%n"
+      - name: httpRequestPattern
+        value: "%-d{yyyy-MM-dd HH:mm:ss} %m%n"
+
+  status: "info"
+  Appenders:
+    RollingRandomAccessFile:
+      - name: "FileAppender"
+        fileName: "${logPath}${filename}"
+        filePattern: "${logPath}${filename}.%d{yyyy-MM-dd}"
+        PatternLayout:
+          pattern: "${pattern}"
+        Policies:
+          TimeBasedTriggeringPolicy: {}
+      - name: "AnalysisFileAppender"
+        fileName: "${logPath}analysis-${filename}"
+        filePattern: "${logPath}analysis-${filename}.%d{yyyy-MM-dd}"
+        PatternLayout:
+          pattern: "${pattern}"
+        Policies:
+          TimeBasedTriggeringPolicy: {}
+      - name: "HTTPRequestFileAppender"
+        fileName: "${logPath}http-request-${filename}"
+        filePattern: "${logPath}http-request-${filename}.%d{yyyy-MM-dd}"
+        PatternLayout:
+          pattern: "${httpRequestPattern}"
+        Policies:
+          TimeBasedTriggeringPolicy: {}
+      - name: "RPCRequestFileAppender"
+        fileName: "${logPath}rpc-request-${filename}"
+        filePattern: "${logPath}rpc-request-${filename}.%d{yyyy-MM-dd}"
+        PatternLayout:
+          pattern: "${pattern}"
+        Policies:
+          TimeBasedTriggeringPolicy: {}
+  Loggers:
+    AsyncLogger:
+      - name: RequestLogger
+        level: info
+        additivity: false
+        AppenderRef:
+          - ref: HTTPRequestFileAppender
+      - name: "RpcRequestLogger"
+        level: "info"
+        additivity: false
+        AppenderRef:
+          - ref: RPCRequestFileAppender
+      - name: AnalysisLogger
+        level: info
+        additivity: false
+        AppenderRef:
+          - ref: AnalysisFileAppender
+    AsyncRoot:
+      level: info
+      AppenderRef:
+        - ref: FileAppender

@@ -37,6 +37,9 @@ public class SaleOrder {
     @Column(name = "discount")
     private double discount;
 
+    @Column(name = "final_total")
+    private double finalTotal;
+
     @Column(name = "extra")
     private String extra;
 
@@ -154,5 +157,13 @@ public class SaleOrder {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public double getFinalTotal() {
+        return finalTotal;
+    }
+
+    public void setFinalTotal(double finalTotal) {
+        this.finalTotal = finalTotal;
     }
 }

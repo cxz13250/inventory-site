@@ -2,6 +2,7 @@ package cn.iselab.inventory.site.web.logic;
 
 
 import cn.iselab.inventory.site.web.data.GoodsVO;
+import cn.iselab.inventory.site.web.data.PurchaseOrderVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

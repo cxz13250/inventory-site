@@ -35,7 +35,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment createPayment(Payment payment){
-        payment.setStatus(OrderStatusConstants.CHECKING);
         payment.setDelete(DeleteStatus.IS_NOT_DELETE);
         payment.setCreateTime(new Timestamp(System.currentTimeMillis()));
         payment=paymentDao.save(payment);

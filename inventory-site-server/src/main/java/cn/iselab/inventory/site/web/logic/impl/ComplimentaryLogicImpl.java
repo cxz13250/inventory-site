@@ -80,7 +80,7 @@ public class ComplimentaryLogicImpl implements ComplimentaryLogic {
 
     private void updateInfo(Complimentary complimentary,ComplimentaryVO vo){
         complimentary.setTotal(vo.getTotal());
-        complimentary.setContent(vo.getContent());
         complimentary.setCustomId(vo.getCustomId());
+        complimentary.setStatus(vo.getStatus());
     }
 }

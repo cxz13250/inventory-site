@@ -66,6 +66,7 @@ public class UserController extends BaseController {
             List<UserVO> userVOS=userLogic.getList(request,keyword);
             return SuccessResult.ok(ResponseMessage.ITEM_RESULT,userVOS);
         }catch (Exception e){
+            e.printStackTrace();
             return new ErrorResult(e.getMessage());
         }
     }

@@ -30,4 +30,6 @@ public interface UserService {
     User getUser(long id);
 
     void deleteUser(User user);
+
+    void updateRole(User2Role role);
 }

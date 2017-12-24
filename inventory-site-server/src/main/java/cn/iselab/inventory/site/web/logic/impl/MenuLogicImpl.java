@@ -46,7 +46,7 @@ public class MenuLogicImpl implements MenuLogic {
         List<MenuVO> menuVOS=new ArrayList<>();
         List<MenuVO> menuVOList=menuVOWrapper.wrap(menuService.getMenusByRoleId(roleId));
         for (MenuVO m: menuVOList) {
-            if (menuVOS.stream().anyMatch(menuVO -> menuVO.getDetail().equals(m.getDetail()))){
+            if (!menuVOS.stream().anyMatch(menuVO -> menuVO.getUrl().equals(m.getUrl()))){
                 menuVOS.add(m);
             }
         }

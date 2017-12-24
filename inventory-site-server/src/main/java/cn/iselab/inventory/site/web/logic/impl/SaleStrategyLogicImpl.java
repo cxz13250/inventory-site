@@ -51,6 +51,7 @@ public class SaleStrategyLogicImpl implements SaleStrategyLogic {
     @Override
     public Long createSaleStrategy(SaleStrategyVO vo){
         SaleStrategy strategy=saleStrategyVOWrapper.unwrap(vo);
+        strategy=strategyService.createSaleStrategy(strategy);
         return strategy.getId();
     }
 

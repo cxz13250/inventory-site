@@ -1,11 +1,14 @@
 package cn.iselab.inventory.site.web.data.wrapper;
 
 import cn.iselab.inventory.site.model.Complimentary;
+import cn.iselab.inventory.site.service.ComplimentaryService;
+import cn.iselab.inventory.site.service.CustomService;
 import cn.iselab.inventory.site.util.JSONUtil;
 import cn.iselab.inventory.site.web.data.ComplimentaryItem;
 import cn.iselab.inventory.site.web.data.ComplimentaryVO;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +23,19 @@ import java.util.List;
 @Service
 public class ComplimentaryVOWrapper extends BaseWrapper<ComplimentaryVO,Complimentary>{
 
+    @Autowired
+    CustomService customService;
+
     @Override
     public ComplimentaryVO wrap(Complimentary complimentary){
         ComplimentaryVO vo=new ComplimentaryVO();
+        vo.setId(complimentary.getId());
         vo.setTotal(complimentary.getTotal());
         vo.setCustomId(complimentary.getCustomId());
+        vo.setCustomName(customService.getCustom(complimentary.getCustomId()).getName());
         vo.setCreateTime(complimentary.getCreateTime().getTime());
+        vo.setStatus(complimentary.getStatus());
+        vo.setExtra(complimentary.getExtra());
         if(JSONUtil.isJsonArray(complimentary.getContent())){
             List<ComplimentaryItem> items=new ArrayList<>();
             JSONArray array=new JSONArray(complimentary.getContent());
@@ -54,6 +64,7 @@ public class ComplimentaryVOWrapper extends BaseWrapper<ComplimentaryVO,Complime
         }
         complimentary.setCustomId(vo.getCustomId());
         complimentary.setTotal(vo.getTotal());
+        complimentary.setExtra(vo.getExtra());
         return complimentary;
     }
 }

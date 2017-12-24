@@ -1,8 +1,11 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.Receipt;
+import cn.iselab.inventory.site.service.CustomService;
 import cn.iselab.inventory.site.service.ReceiptService;
 import cn.iselab.inventory.site.web.data.ReceiptVO;
+import cn.iselab.inventory.site.web.data.TransferVO;
 import cn.iselab.inventory.site.web.data.wrapper.ReceiptVOWrapper;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
 import cn.iselab.inventory.site.web.logic.ReceiptLogic;
@@ -11,6 +14,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -26,6 +31,9 @@ public class ReceiptLogicImpl implements ReceiptLogic{
 
     @Autowired
     ReceiptVOWrapper receiptVOWrapper;
+
+    @Autowired
+    CustomService customService;
 
     @Override
     public Page<ReceiptVO> getReceipts(String keyword, Pageable pageable){
@@ -65,6 +73,13 @@ public class ReceiptLogicImpl implements ReceiptLogic{
     }
 
     @Override
+    public void checkReceipt(Receipt receipt){
+        Custom custom=customService.getCustom(receipt.getCumstomId());
+        custom.setPay(custom.getPay()+receipt.getTotal());
+        customService.updateCustom2(custom);
+    }
+
+    @Override
     public void deleteReceipt(String number){
         Receipt receipt=receiptService.getReceiptByNum(number);
         if(receipt==null){
@@ -75,8 +90,9 @@ public class ReceiptLogicImpl implements ReceiptLogic{
 
     private void updateInfo(Receipt receipt,ReceiptVO vo){
         receipt.setTotal(vo.getTotal());
-        if(vo.getCumstomId()!=null){
-            receipt.setCumstomId(vo.getCumstomId());
+        receipt.setStatus(vo.getStatus());
+        if(vo.getCustomId()!=null){
+            receipt.setCumstomId(vo.getCustomId());
         }
         if (vo.getOperator() != null) {
             receipt.setOperator(vo.getOperator());

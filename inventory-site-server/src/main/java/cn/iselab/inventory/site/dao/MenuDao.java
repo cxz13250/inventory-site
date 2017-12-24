@@ -15,5 +15,5 @@ import java.util.List;
 @Transactional
 public interface MenuDao extends CrudRepository<Menu,Long> {
 
-    List<Menu> getAllByRoleId(long roleId);
+    List<Menu> findByRoleId(long roleId);
 }

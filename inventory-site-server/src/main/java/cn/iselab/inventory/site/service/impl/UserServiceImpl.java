@@ -91,6 +91,11 @@ public class UserServiceImpl implements UserService{
         userDao.save(user);
     }
 
+    @Override
+    public void updateRole(User2Role role){
+        user2RoleDao.save(role);
+    }
+
     private Specification<User> getWhereClause(String keyword){
         return new Specification<User>() {
             @Override

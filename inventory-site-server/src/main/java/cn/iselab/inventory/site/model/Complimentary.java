@@ -24,8 +24,14 @@ public class Complimentary {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "extra")
+    private String extra;
+
     @Column(name = "total")
     private double total;
+
+    @Column(name = "status")
+    private long status;
 
     @Column(name = "is_delete")
     private boolean deleted;
@@ -76,5 +82,21 @@ public class Complimentary {
 
     public void setDelete(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public long getStatus() {
+        return status;
+    }
+
+    public void setStatus(long status) {
+        this.status = status;
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
     }
 }

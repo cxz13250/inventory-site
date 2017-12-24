@@ -34,8 +34,8 @@ public class ReceiptVOWrapper extends BaseWrapper<ReceiptVO,Receipt> {
         vo.setStatus(receipt.getStatus());
         vo.setTotal(receipt.getTotal());
         vo.setCreateTime(receipt.getCreateTime().getTime());
-        vo.setCumstomId(receipt.getCumstomId());
-        vo.setCumstomName(customService.getCustom(receipt.getCumstomId()).getName());
+        vo.setCustomId(receipt.getCumstomId());
+        vo.setCustomName(customService.getCustom(receipt.getCumstomId()).getName());
         if (JSONUtil.isJsonArray(receipt.getTransferList())) {
             List<TransferVO> transferVOS=new ArrayList<>();
             JSONArray array=new JSONArray(receipt.getTransferList());
@@ -60,7 +60,10 @@ public class ReceiptVOWrapper extends BaseWrapper<ReceiptVO,Receipt> {
         Receipt receipt = new Receipt();
         receipt.setOperator(vo.getOperator());
         receipt.setTotal(vo.getTotal());
-        receipt.setCumstomId(vo.getCumstomId());
+        receipt.setStatus(vo.getStatus());
+        if (vo.getCustomId() != null) {
+            receipt.setCumstomId(vo.getCustomId());
+        }
         if(vo.getTransfers()!=null){
             JSONArray array=new JSONArray(vo.getTransfers());
             receipt.setTransferList(array.toString());

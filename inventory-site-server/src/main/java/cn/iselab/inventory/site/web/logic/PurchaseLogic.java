@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.web.logic;
 
+import cn.iselab.inventory.site.model.PurchaseOrder;
 import cn.iselab.inventory.site.web.data.PurchaseOrderVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,6 @@ public interface PurchaseLogic {
     void updatePurchase(PurchaseOrderVO vo);
 
     void deletePurchase(String orderId);
+
+    void checkPurchase(PurchaseOrder order);
 }

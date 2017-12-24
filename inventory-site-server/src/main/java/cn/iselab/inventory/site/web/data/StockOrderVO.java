@@ -20,6 +20,8 @@ public class StockOrderVO {
 
     private Long goodId;
 
+    private String goodName;
+
     private Long number;
 
     private Long type;

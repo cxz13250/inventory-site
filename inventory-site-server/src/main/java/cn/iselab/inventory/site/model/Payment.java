@@ -22,7 +22,10 @@ public class Payment {
     private String operator;
 
     @Column(name = "account")
-    private String account;
+    private long account;
+
+    @Column(name = "custom")
+    private long custom;
 
     @Column(name = "total")
     private double total;
@@ -60,11 +63,11 @@ public class Payment {
         this.operator = operator;
     }
 
-    public String getAccount() {
+    public long getAccount() {
         return account;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(long account) {
         this.account = account;
     }
 
@@ -98,5 +101,13 @@ public class Payment {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public long getCustom() {
+        return custom;
+    }
+
+    public void setCustom(long custom) {
+        this.custom = custom;
     }
 }

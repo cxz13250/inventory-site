@@ -1,8 +1,13 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
+import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.GoodItem;
+import cn.iselab.inventory.site.model.Goods;
 import cn.iselab.inventory.site.model.PurchaseOrder;
+import cn.iselab.inventory.site.service.CustomService;
 import cn.iselab.inventory.site.service.GoodItemService;
+import cn.iselab.inventory.site.service.GoodsService;
 import cn.iselab.inventory.site.service.PurchaseOrderService;
 import cn.iselab.inventory.site.web.data.PurchaseOrderVO;
 import cn.iselab.inventory.site.web.data.wrapper.PurchaseOrderVOWrapper;
@@ -33,6 +38,15 @@ public class PurchaseLogicImpl implements PurchaseLogic {
 
     @Autowired
     GoodItemService goodItemService;
+
+    @Autowired
+    GoodsService goodsService;
+
+    @Autowired
+    CustomService customService;
+
+    @Autowired
+    GoodItemService itemService;
 
     @Override
     public Page<PurchaseOrderVO> getPurchases(String keyword, Pageable pageable, Boolean type){
@@ -75,7 +89,10 @@ public class PurchaseLogicImpl implements PurchaseLogic {
             throw new HttpBadRequestException("order not exists");
         }
         updateInfo(order,vo);
-        purchaseOrderService.updatePurchaseOrder(order);
+        order=purchaseOrderService.updatePurchaseOrder(order);
+        if(vo.getStatus()== OrderStatusConstants.APPROVED){
+            checkPurchase(order);
+        }
     }
 
     @Override
@@ -87,12 +104,26 @@ public class PurchaseLogicImpl implements PurchaseLogic {
         purchaseOrderService.deletePurchaseOrder(order);
     }
 
+    @Override
+    public void checkPurchase(PurchaseOrder order){
+        Custom custom=customService.getCustom(order.getSupplier());
+        custom.setPay(custom.getReceive()+order.getTotal());
+        customService.updateCustom2(custom);
+        List<GoodItem> items=itemService.getGoodItems(order.getId());
+        for (GoodItem item:items){
+            Goods goods=goodsService.getGoodById(item.getGoodId());
+            goods.setInventory(goods.getInventory()+item.getNumber());
+            goodsService.updateGood(goods);
+        }
+    }
+
     private void updateInfo(PurchaseOrder order,PurchaseOrderVO vo){
         order.setTotal(vo.getTotal());
         order.setExtra(vo.getExtra());
         order.setRepository(vo.getRepository());
-        order.setSupplier(vo.getSupplier());
+        order.setSupplier(vo.getCustomId());
         order.setOperator(vo.getOperator());
+        order.setStatus(vo.getStatus());
         if(vo.getStatus()!=null) {
             order.setStatus(vo.getStatus());
         }

@@ -22,6 +22,8 @@ public class PurchaseOrderVO {
 
     private String supplier;
 
+    private Long customId;
+
     private String repository;
 
     private String operator;

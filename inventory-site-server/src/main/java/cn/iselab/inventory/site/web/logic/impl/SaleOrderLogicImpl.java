@@ -1,6 +1,8 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
 import cn.iselab.inventory.site.model.Custom;
+import cn.iselab.inventory.site.model.Goods;
 import cn.iselab.inventory.site.model.SaleOrder;
 import cn.iselab.inventory.site.model.SaleOrderItem;
 import cn.iselab.inventory.site.service.CustomService;
@@ -88,7 +90,7 @@ public class SaleOrderLogicImpl implements SaleOrderLogic{
         List<SaleOrderItemVO> items=vo.getOrderItems();
         for(SaleOrderItemVO vo1:items){
             SaleOrderItem item=itemVOWrapper.unwrap(vo1);
-            item.setGoodId(order.getId());
+            item.setOrderId(order.getId());
             saleOrderItemService.createSaleItem(item);
         }
         return order.getNumber();
@@ -101,7 +103,22 @@ public class SaleOrderLogicImpl implements SaleOrderLogic{
             throw new HttpBadRequestException("order not exists");
         }
         updateInfo(order,vo);
-        orderService.updateSaleOrder(order);
+        if(vo.getStatus()== OrderStatusConstants.APPROVED) {
+            orderService.updateSaleOrder(order);
+        }
+    }
+
+    @Override
+    public void checkoutSaleOrder(SaleOrder order){
+        Custom custom=customService.getCustom(order.getCustomId());
+        custom.setPay(custom.getPay()+order.getFinalTotal());
+        customService.updateCustom2(custom);
+        List<SaleOrderItem> items=saleOrderItemService.getSaleItems(order.getId());
+        for (SaleOrderItem item:items){
+            Goods goods=goodsService.getGoodById(item.getGoodId());
+            goods.setInventory(goods.getInventory()-item.getSum());
+            goodsService.updateGood(goods);
+        }
     }
 
     @Override

@@ -40,10 +40,11 @@ logging.config: classpath:log4j2.yaml
 spring:
     profiles: online
     datasource:
-        url:
-        username:
-        password:
+        url: jdbc:mysql://127.0.0.1:3306/inventory_site?useUnicode=yes&characterEncoding=UTF-8
+        username: root
+        password: cxz00429
 server:
-    port:
+    port: 9001
 logging.config: classpath:log4j2.online.yaml
+logging.access.directory: /home/shared/log
 

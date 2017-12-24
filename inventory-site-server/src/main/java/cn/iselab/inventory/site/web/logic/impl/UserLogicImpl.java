@@ -70,8 +70,8 @@ public class UserLogicImpl implements UserLogic{
 
     @Override
     public UserVO register(UserVO userVO,HttpServletRequest request) throws Exception{
-        if (userVO.getPassword().length() > 16 || userVO.getPassword().length() < 6) {
-            throw new HttpBadRequestException("the length of password should between 6 and 16");
+        if (userVO.getPassword().length() > 15 || userVO.getPassword().length() < 5) {
+            throw new HttpBadRequestException("the length of password should between 5 and 15");
         }
         if(userService.getUserByEmail(userVO.getEmail())!=null){
             throw new HttpBadRequestException("user already exist");
@@ -86,7 +86,7 @@ public class UserLogicImpl implements UserLogic{
         Long roleId=userVO.getRoleId();
         User2Role user2Role=new User2Role();
         user2Role.setRoleId(roleId);
-        user2Role.setUserId(userVO.getId());
+        user2Role.setUserId(user.getId());
         user2Role.setCreateTime(new Timestamp(System.currentTimeMillis()));
         userService.createRole(user2Role);
         UserVO vo = userWrapper.wrap(user);
@@ -98,7 +98,7 @@ public class UserLogicImpl implements UserLogic{
         vo.setRoleId(roleId);
         vo.setRoleName(userService.findRole(roleId).getName());
 
-        userOperationLogic.recordUserOperation(request,userVO.getId(), OperationStatus.REGISTER);
+        userOperationLogic.recordUserOperation(request,1L, OperationStatus.REGISTER);
         return vo;
     }
 
@@ -167,6 +167,7 @@ public class UserLogicImpl implements UserLogic{
         User2Role role=userService.getRoles(user.getId()).get(0);
         if(vo.getRoleId()!=role.getRoleId()){
             role.setRoleId(vo.getRoleId());
+            userService.updateRole(role);
         }
     }
 }

@@ -21,7 +21,7 @@ public interface PurchaseOrderService {
 
     PurchaseOrder getPurchaseOrderByNum(String number);
 
-    void updatePurchaseOrder(PurchaseOrder order);
+    PurchaseOrder updatePurchaseOrder(PurchaseOrder order);
 
     void deletePurchaseOrder(PurchaseOrder order);
 }
