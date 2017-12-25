@@ -103,8 +103,9 @@ public class SaleOrderLogicImpl implements SaleOrderLogic{
             throw new HttpBadRequestException("order not exists");
         }
         updateInfo(order,vo);
+        orderService.updateSaleOrder(order);
         if(vo.getStatus()== OrderStatusConstants.APPROVED) {
-            orderService.updateSaleOrder(order);
+            checkoutSaleOrder(order);
         }
     }
 
