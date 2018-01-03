@@ -14,8 +14,8 @@
     <dependencies>
         <dependency>
             <groupId>cn.iselab.mooctest</groupId>
-            <artifactId>mooctest-site-common</artifactId>
-            <version>0.0.1</version>
+            <artifactId>inventory-site-common</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
