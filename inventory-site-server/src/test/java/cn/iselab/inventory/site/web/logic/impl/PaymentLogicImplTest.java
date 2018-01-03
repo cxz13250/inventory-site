@@ -2,6 +2,8 @@ package cn.iselab.inventory.site.web.logic.impl;
 
 import cn.iselab.inventory.site.Application;
 import cn.iselab.inventory.site.model.Payment;
+import cn.iselab.inventory.site.model.PaymentEntry;
+import cn.iselab.inventory.site.service.PaymentEntryService;
 import cn.iselab.inventory.site.service.PaymentService;
 import cn.iselab.inventory.site.web.data.PaymentVO;
 import cn.iselab.inventory.site.web.data.wrapper.PaymentVOWrapper;
@@ -49,10 +51,15 @@ public class PaymentLogicImplTest {
     @Mock
     PaymentService paymentService;
 
+    @Mock
+    PaymentEntryService paymentEntryService;
+
     Payment payment=new Payment();
     PaymentVO vo=new PaymentVO();
+    PaymentEntry entry=new PaymentEntry();
     List<Payment> payments=new ArrayList<>();
     List<PaymentVO> paymentVOS=new ArrayList<>();
+    List<PaymentEntry> entries=new ArrayList<>();
     Pageable pageable;
     Page<Payment> paymentPage;
     Page<PaymentVO> paymentVOPage;
@@ -71,8 +78,16 @@ public class PaymentLogicImplTest {
         vo.setOperator("test");
         vo.setTotal(1.0);
         vo.setNumber("test");
+        vo.setStatus(1L);
 
         paymentVOS.add(vo);
+
+        entry.setName("test");
+        entry.setMoney(1.0);
+
+        entries.add(entry);
+
+        vo.setEntries(entries);
 
         paymentPage=new PageImpl<>(payments);
         paymentVOPage=new PageImpl<>(paymentVOS);
@@ -110,6 +125,7 @@ public class PaymentLogicImplTest {
 
         String result=paymentLogic.createPayment(vo);
 
+        Mockito.verify(paymentEntryService).createPaymentEntry(any(PaymentEntry.class));
         Assert.assertEquals(payment.getNumber(),result);
     }
 

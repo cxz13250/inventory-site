@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class CategoryServiceImplTest {
     @Test
     public void should_returnCategories() throws Exception {
 
-        when(categoryDao.findAllCategories()).thenReturn(categories);
+        when(categoryDao.findAll(any(Specification.class),any(Pageable.class))).thenReturn(categoryPage);
 
         Page<Category> result=categoryService.getCategories("test",pageable);
 

@@ -76,6 +76,7 @@ public class ReceiptLogicImplTest {
         vo.setTotal(1.0);
         vo.setNumber("test");
         vo.setCustomId(1L);
+        vo.setStatus(1L);
 
         receiptVOS.add(vo);
 

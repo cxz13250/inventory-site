@@ -1,7 +1,9 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
 import cn.iselab.inventory.site.Application;
+import cn.iselab.inventory.site.model.GoodItem;
 import cn.iselab.inventory.site.model.PurchaseOrder;
+import cn.iselab.inventory.site.service.GoodItemService;
 import cn.iselab.inventory.site.service.PurchaseOrderService;
 import cn.iselab.inventory.site.web.data.PurchaseOrderVO;
 import cn.iselab.inventory.site.web.data.wrapper.PurchaseOrderVOWrapper;
@@ -50,10 +52,15 @@ public class PurchaseLogicImplTest {
     @Mock
     PurchaseOrderVOWrapper purchaseOrderVOWrapper;
 
+    @Mock
+    GoodItemService goodItemService;
+
     PurchaseOrder order=new PurchaseOrder();
     PurchaseOrderVO vo=new PurchaseOrderVO();
+    GoodItem item=new GoodItem();
     List<PurchaseOrder> orders=new ArrayList<>();
     List<PurchaseOrderVO> orderVOS=new ArrayList<>();
+    List<GoodItem> items=new ArrayList<>();
     Pageable pageable;
     Page<PurchaseOrder> orderPage;
     Page<PurchaseOrderVO> orderVOPage;
@@ -72,8 +79,17 @@ public class PurchaseLogicImplTest {
         vo.setOperator("test");
         vo.setTotal(1.0);
         vo.setNumber("test");
+        vo.setStatus(1L);
 
         orderVOS.add(vo);
+
+        item.setOrderId(1L);
+        item.setNumber(1L);
+        item.setGoodName("test");
+
+        items.add(item);
+
+        vo.setGoodsItemVOS(items);
 
         orderPage=new PageImpl<>(orders);
         orderVOPage=new PageImpl<>(orderVOS);
@@ -111,6 +127,7 @@ public class PurchaseLogicImplTest {
 
         String result=purchaseLogic.createPurchase(vo);
 
+        Mockito.verify(goodItemService).createGoodItem(any(GoodItem.class));
         Assert.assertEquals(order.getNumber(),result);
     }
 
