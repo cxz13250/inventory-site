@@ -1,9 +1,15 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
 import cn.iselab.inventory.site.Application;
+import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.SaleOrder;
+import cn.iselab.inventory.site.model.SaleOrderItem;
+import cn.iselab.inventory.site.service.CustomService;
+import cn.iselab.inventory.site.service.SaleOrderItemService;
 import cn.iselab.inventory.site.service.SaleOrderService;
+import cn.iselab.inventory.site.web.data.SaleOrderItemVO;
 import cn.iselab.inventory.site.web.data.SaleOrderVO;
+import cn.iselab.inventory.site.web.data.wrapper.SaleOrderItemVOWrapper;
 import cn.iselab.inventory.site.web.data.wrapper.SaleOrderVOWraper;
 import cn.iselab.inventory.site.web.logic.SaleOrderLogic;
 import org.junit.Assert;
@@ -50,13 +56,27 @@ public class SaleOrderLogicImplTest {
     @Mock
     SaleOrderService saleOrderService;
 
+    @Mock
+    SaleOrderItemService saleOrderItemService;
+
+    @Mock
+    CustomService customService;
+
+    @Mock
+    SaleOrderItemVOWrapper itemVOWrapper;
+
     SaleOrder order=new SaleOrder();
     SaleOrderVO vo=new SaleOrderVO();
+    SaleOrderItem item=new SaleOrderItem();
+    SaleOrderItemVO itemVO=new SaleOrderItemVO();
     List<SaleOrder> orders=new ArrayList<>();
     List<SaleOrderVO> orderVOS=new ArrayList<>();
+    List<SaleOrderItem> items=new ArrayList<>();
+    List<SaleOrderItemVO> itemVOS=new ArrayList<>();
     Pageable pageable;
     Page<SaleOrder> orderPage;
     Page<SaleOrderVO> orderVOPage;
+    Custom custom=new Custom();
 
     @Before
     public void setUp() throws Exception {
@@ -72,8 +92,24 @@ public class SaleOrderLogicImplTest {
         vo.setOperator("test");
         vo.setTotal(1.0);
         vo.setNumber("test");
+        vo.setStatus(1L);
+        vo.setCustomId(1L);
 
         orderVOS.add(vo);
+
+        item.setOrderId(1L);
+        item.setTotal(1.0);
+
+        items.add(item);
+
+        itemVO.setGoodId(1L);
+        itemVO.setGoodModel("test");
+
+        itemVOS.add(itemVO);
+
+        vo.setOrderItems(itemVOS);
+
+        custom.setName("test");
 
         orderPage=new PageImpl<>(orders);
         orderVOPage=new PageImpl<>(orderVOS);
@@ -82,7 +118,7 @@ public class SaleOrderLogicImplTest {
     }
 
     @Test
-    public void should_returnPurchaseOrders_when_PurchaseOrdersExist() throws Exception {
+    public void should_returnSaleOrders_when_SaleOrdersExist() throws Exception {
         when(saleOrderService.getSaleOrders(anyString(),any(Pageable.class),anyBoolean())).thenReturn(orderPage);
         when(saleOrderVOWraper.wrap(any(SaleOrder.class))).thenReturn(vo);
 
@@ -93,7 +129,7 @@ public class SaleOrderLogicImplTest {
     }
 
     @Test
-    public void should_returnPurchaseOrder_when_givenPurchaseNumber() throws Exception {
+    public void should_returnSaleOrder_when_givenSaleOrderNumber() throws Exception {
         when(saleOrderService.getSaleOrderByNum(anyString())).thenReturn(order);
         when(saleOrderVOWraper.wrap(any(SaleOrder.class))).thenReturn(vo);
 
@@ -105,17 +141,20 @@ public class SaleOrderLogicImplTest {
     }
 
     @Test
-    public void should_createPurchaseOrder_when_givenPurchaseOrder() throws Exception {
+    public void should_createSaleOrder_when_givenSaleOrder() throws Exception {
         when(saleOrderVOWraper.unwrap(any(SaleOrderVO.class))).thenReturn(order);
+        when(customService.getCustom(anyLong())).thenReturn(custom);
         when(saleOrderService.createSaleOrder(any(SaleOrder.class))).thenReturn(order);
+        when(itemVOWrapper.unwrap(any(SaleOrderItemVO.class))).thenReturn(item);
 
         String result=saleOrderLogic.createSaleOrder(vo);
 
+        Mockito.verify(saleOrderItemService).createSaleItem(any(SaleOrderItem.class));
         Assert.assertEquals(order.getNumber(),result);
     }
 
     @Test
-    public void should_updatePurchaseOrder_when_givenPurchaseOrder() throws Exception {
+    public void should_updateSaleOrder_when_givenSaleOrder() throws Exception {
         when(saleOrderService.getSaleOrderByNum(anyString())).thenReturn(order);
 
         saleOrderLogic.updateSaleOrder(vo);
@@ -124,7 +163,7 @@ public class SaleOrderLogicImplTest {
     }
 
     @Test
-    public void should_deletePurchaseOrder_when_givenPurchaseOrder() throws Exception {
+    public void should_deleteSaleOrder_when_givenSaleOrder() throws Exception {
         when(saleOrderService.getSaleOrderByNum(anyString())).thenReturn(order);
 
         saleOrderLogic.deleteSaleOrder("test");
