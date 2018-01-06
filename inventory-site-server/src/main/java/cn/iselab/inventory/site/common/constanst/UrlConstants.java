@@ -20,4 +20,6 @@ public class UrlConstants {
     public static final String API_COMPLIMENTARY = "/api/complimentary";
     public static final String API_SALEDETAIL="/api/saleDetail";
     public static final String API_OPERATION="/api/operation";
+    public static final String API_MANAGE="/api/manage";
+    public static final String API_EXCEL="/api/excel";
 }

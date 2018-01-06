@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+
 /**
  * @Author ROKG
  * @Description
@@ -78,5 +80,7 @@ public class SaleStrategyLogicImpl implements SaleStrategyLogic {
     private void updateInfo(SaleStrategy strategy,SaleStrategyVO vo){
         strategy.setName(vo.getName());
         strategy.setContent(vo.getContent());
+        strategy.setStartTime(new Timestamp(vo.getStartTime()));
+        strategy.setEndTime(new Timestamp(vo.getEndTime()));
     }
 }
