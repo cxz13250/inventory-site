@@ -53,6 +53,10 @@ public class CategoryLogicImpl implements CategoryLogic {
         }
         CategoryVO vo=categoryVOWrapper.wrap(category);
         vo.setSuperName(categoryService.getCategory(category.getId()).getName());
+        List<Category> categories=categoryService.getCategoryBySuper(categoryId);
+        if(categories!=null&&categories.size()>0){
+            vo.setCanDelete(false);
+        }
         return vo;
     }
 

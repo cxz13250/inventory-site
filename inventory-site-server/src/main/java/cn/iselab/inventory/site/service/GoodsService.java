@@ -23,6 +23,8 @@ public interface GoodsService {
 
     List<Goods> getGoodsForPurchase();
 
+    List<Goods> getGoodByCategory(long categoryId);
+
     void updateGood(Goods goods);
 
     void deleteGood(Goods goods);

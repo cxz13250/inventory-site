@@ -7,6 +7,7 @@ import cn.iselab.inventory.site.common.constanst.PurchaseOrderConstants;
 import cn.iselab.inventory.site.dao.PurchaseOrderDao;
 import cn.iselab.inventory.site.model.PurchaseOrder;
 import cn.iselab.inventory.site.service.PurchaseOrderService;
+import cn.iselab.inventory.site.web.util.OrderNumUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,9 +40,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         order.setDelete(DeleteStatus.IS_NOT_DELETE);
         order=purchaseOrderDao.save(order);
         if(order.isType()== PurchaseOrderConstants.Input) {
-            order.setNumber(OrderNumConstants.JHD_ORDER+order.getCreateTime());
+            order.setNumber(OrderNumConstants.JHD_ORDER+ OrderNumUtil.formatNum(order.getCreateTime(), order.getId()));
         }else {
-            order.setNumber(OrderNumConstants.JHTHD_ORDER+order.getCreateTime());
+            order.setNumber(OrderNumConstants.JHTHD_ORDER+ OrderNumUtil.formatNum(order.getCreateTime(), order.getId()));
         }
         return order;
     }

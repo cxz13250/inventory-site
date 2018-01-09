@@ -8,6 +8,7 @@ import cn.iselab.inventory.site.dao.SaleOrderDao;
 import cn.iselab.inventory.site.model.Payment;
 import cn.iselab.inventory.site.model.SaleOrder;
 import cn.iselab.inventory.site.service.SaleOrderService;
+import cn.iselab.inventory.site.web.util.OrderNumUtil;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,9 @@ public class SaleOrderServiceImpl implements SaleOrderService {
         saleOrder.setCreateTime(new Timestamp(System.currentTimeMillis()));
         saleOrder= saleOrderDao.save(saleOrder);
         if(saleOrder.isType()== PurchaseOrderConstants.Output){
-            saleOrder.setNumber(OrderNumConstants.XSD_ORDER+saleOrder.getCreateTime());
+            saleOrder.setNumber(OrderNumConstants.XSD_ORDER + OrderNumUtil.formatNum(saleOrder.getCreateTime(), saleOrder.getId()));
         }else {
-            saleOrder.setNumber(OrderNumConstants.XSTHD_ORDER+saleOrder.getCreateTime());
+            saleOrder.setNumber(OrderNumConstants.XSTHD_ORDER + OrderNumUtil.formatNum(saleOrder.getCreateTime(), saleOrder.getId()));
         }
         return saleOrder;
     }
@@ -82,7 +83,13 @@ public class SaleOrderServiceImpl implements SaleOrderService {
                 Predicate predicate=criteriaBuilder.conjunction();
                 if (keyword != null) {
                     predicate.getExpressions().add(
-                            criteriaBuilder.equal(root.get("number"), StringUtils.trim(keyword))
+                            criteriaBuilder.like(root.get("number"), StringUtils.trim(keyword))
+                    );
+                    predicate.getExpressions().add(
+                            criteriaBuilder.like(root.get("saleman"), StringUtils.trim(keyword))
+                    );
+                    predicate.getExpressions().add(
+                            criteriaBuilder.like(root.get("operator"), StringUtils.trim(keyword))
                     );
                 }
                 if (type != null) {

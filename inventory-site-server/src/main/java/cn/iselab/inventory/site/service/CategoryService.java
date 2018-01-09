@@ -31,4 +31,6 @@ public interface CategoryService {
     List<Category> getCategoriesForGood();
 
     List<Category> getCategoriesForCategory();
+
+    List<Category> getCategoryBySuper(long superId);
 }

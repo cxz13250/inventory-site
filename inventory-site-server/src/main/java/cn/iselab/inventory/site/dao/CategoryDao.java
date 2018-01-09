@@ -27,4 +27,6 @@ public interface CategoryDao extends CrudRepository<Category, Long>,JpaSpecifica
 
     @Query(value = "SELECT * FROM category where category.is_delete = 0 AND category.id not in (SELECT DISTINCT category.super_id from category)",nativeQuery = true)
     List<Category> findForGood();
+
+    List<Category> findBySuperId(long superId);
 }

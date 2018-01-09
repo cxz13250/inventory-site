@@ -26,4 +26,6 @@ public class CategoryVO{
     private String description;
 
     private Long createTime;
+
+    private boolean canDelete;
 }

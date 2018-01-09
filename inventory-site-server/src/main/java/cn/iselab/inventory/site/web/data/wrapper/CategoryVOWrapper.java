@@ -1,8 +1,13 @@
 package cn.iselab.inventory.site.web.data.wrapper;
 
 import cn.iselab.inventory.site.model.Category;
+import cn.iselab.inventory.site.model.Goods;
+import cn.iselab.inventory.site.service.GoodsService;
 import cn.iselab.inventory.site.web.data.CategoryVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -13,6 +18,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryVOWrapper extends BaseWrapper<CategoryVO,Category> {
 
+    @Autowired
+    GoodsService goodsService;
+
     @Override
     public CategoryVO wrap(Category category){
         CategoryVO vo=new CategoryVO();
@@ -22,6 +30,12 @@ public class CategoryVOWrapper extends BaseWrapper<CategoryVO,Category> {
         vo.setName(category.getName());
         vo.setSuperId(category.getSuperId());
         vo.setId(category.getId());
+        List<Goods> goods=goodsService.getGoodByCategory(category.getId());
+        if(goods==null||goods.isEmpty()){
+            vo.setCanDelete(true);
+        }else {
+            vo.setCanDelete(false);
+        }
         return vo;
     }
 

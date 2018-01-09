@@ -47,8 +47,8 @@ public class CustomServiceImpl implements CustomService {
     }
 
     @Override
-    public Page<Custom> getCustoms(String keywrod, Pageable pageable){
-        Specifications<Custom> where=Specifications.where(getWhereClause(keywrod));
+    public Page<Custom> getCustoms(String keyword, Pageable pageable){
+        Specifications<Custom> where=Specifications.where(getWhereClause(keyword));
         return customDao.findAll(where, pageable);
     }
 

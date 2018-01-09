@@ -7,6 +7,7 @@ import cn.iselab.inventory.site.dao.ReceiptDao;
 import cn.iselab.inventory.site.model.Payment;
 import cn.iselab.inventory.site.model.Receipt;
 import cn.iselab.inventory.site.service.ReceiptService;
+import cn.iselab.inventory.site.web.util.OrderNumUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,8 +38,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     public Receipt createReceipt(Receipt receipt){
         receipt.setDelete(DeleteStatus.IS_NOT_DELETE);
         receipt.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        receipt.setNumber(OrderNumConstants.SKD_ORDER+receipt.getCreateTime());
         receipt=receiptDao.save(receipt);
+        receipt.setNumber(OrderNumConstants.SKD_ORDER+ OrderNumUtil.formatNum(receipt.getCreateTime(), receipt.getId()));
         return receipt;
     }
 

@@ -83,6 +83,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDao.findForCategory();
     }
 
+    @Override
+    public List<Category> getCategoryBySuper(long superId){
+        return categoryDao.findBySuperId(superId);
+    }
+
     private Specification<Category> getWhereClause(String keyword){
         return new Specification<Category>() {
             @Override

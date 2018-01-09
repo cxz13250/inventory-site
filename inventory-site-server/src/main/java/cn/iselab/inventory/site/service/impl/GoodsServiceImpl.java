@@ -55,6 +55,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public List<Goods> getGoodByCategory(long categoryId){
+        return goodsDao.findByCategory(categoryId);
+    }
+
+    @Override
     public void updateGood(Goods goods){
         goodsDao.save(goods);
     }
