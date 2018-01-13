@@ -13,4 +13,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class SaleDetailVO {
 
+    private String goodName;
+    private String goodModel;
+    private Long goodNum;
+    private Double price;
+    private Double total;
+    private Long createTime;
 }

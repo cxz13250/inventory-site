@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.web.logic;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -11,4 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 public interface ExcelLogic {
 
     void getExcelForManageInfo(long id, String fileName, HttpServletResponse response);
+
+    void getExcelForSaleDetail(String fileName, HttpServletRequest request, HttpServletResponse response);
 }

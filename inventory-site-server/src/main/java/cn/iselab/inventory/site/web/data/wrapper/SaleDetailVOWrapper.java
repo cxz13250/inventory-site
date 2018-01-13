@@ -16,6 +16,11 @@ public class SaleDetailVOWrapper extends BaseWrapper<SaleDetailVO,SaleDetail>{
     @Override
     public SaleDetailVO wrap(SaleDetail saleDetail){
         SaleDetailVO vo = new SaleDetailVO();
+        vo.setGoodName(saleDetail.getGoodName());
+        vo.setGoodModel(saleDetail.getModel());
+        vo.setGoodNum(saleDetail.getNumber());
+        vo.setPrice(saleDetail.getPrice());
+        vo.setTotal(saleDetail.getTotal());
         return vo;
     }
 

@@ -14,6 +14,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.ArrayList;
@@ -44,6 +49,8 @@ public class SaleDetailServiceImplTest {
 
     SaleDetail saleDetail=new SaleDetail();
     List<SaleDetail> saleDetails=new ArrayList<>();
+    Pageable pageable;
+    Page<SaleDetail> detailPage;
 
     @Before
     public void setUp() throws Exception {
@@ -55,6 +62,10 @@ public class SaleDetailServiceImplTest {
         saleDetail.setNumber(1L);
 
         saleDetails.add(saleDetail);
+
+        detailPage=new PageImpl<SaleDetail>(saleDetails);
+
+        pageable=new PageRequest(0,10);
     }
 
     @Test
@@ -71,14 +82,14 @@ public class SaleDetailServiceImplTest {
 
     @Test
     public void should_returnSaleDetails_when_givenGoodName() throws Exception {
-        when(saleDetailDao.findByGoodName(anyString())).thenReturn(saleDetails);
+        when(saleDetailDao.findAll(any(Specifications.class),any(Pageable.class))).thenReturn(detailPage);
 
-        List<SaleDetail> result=saleDetailService.getSaleDetails("test");
+        Page<SaleDetail> result=saleDetailService.getSaleDetails("test",pageable);
 
-        Assert.assertEquals(saleDetail.getId(),result.get(0).getId());
-        Assert.assertEquals(saleDetail.getGoodName(),result.get(0).getGoodName());
-        Assert.assertEquals(saleDetail.getModel(),result.get(0).getModel());
-        Assert.assertEquals(saleDetail.getNumber(),result.get(0).getNumber());
+        Assert.assertEquals(saleDetail.getId(),result.getContent().get(0).getId());
+        Assert.assertEquals(saleDetail.getGoodName(),result.getContent().get(0).getGoodName());
+        Assert.assertEquals(saleDetail.getModel(),result.getContent().get(0).getModel());
+        Assert.assertEquals(saleDetail.getNumber(),result.getContent().get(0).getNumber());
     }
 
     @Test

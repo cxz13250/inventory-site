@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -28,5 +29,12 @@ public class ExcelController extends BaseController{
                                 @RequestParam(value = "fileName")String fileName,
                                 HttpServletResponse response)throws Exception{
         excelLogic.getExcelForManageInfo(id,fileName,response);
+    }
+
+    @RequestMapping(value = UrlConstants.API_EXCEL+"/detail",method = RequestMethod.GET)
+    public void ExcelSaleDetail(@RequestParam(value = "fileName")String fileName,
+                                HttpServletRequest request,
+                                HttpServletResponse response){
+        excelLogic.getExcelForSaleDetail(fileName,request,response);
     }
 }

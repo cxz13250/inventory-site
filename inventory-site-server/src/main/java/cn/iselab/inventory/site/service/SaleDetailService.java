@@ -17,7 +17,9 @@ public interface SaleDetailService {
 
     SaleDetail createSaleDetail(SaleDetail saleDetail);
 
-    List<SaleDetail> getSaleDetails(String goodName);
+    List<SaleDetail> getAll();
+
+    Page<SaleDetail> getSaleDetails(String goodName,Pageable pageable);
 
     SaleDetail getSaleDetail(long saleDetailId);
 

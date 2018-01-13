@@ -3,19 +3,27 @@ package cn.iselab.inventory.site.web.logic.impl;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.iselab.inventory.site.model.ManageInfo;
+import cn.iselab.inventory.site.model.SaleDetail;
 import cn.iselab.inventory.site.service.ManageService;
+import cn.iselab.inventory.site.service.SaleDetailService;
+import cn.iselab.inventory.site.web.data.SaleDetailVO;
 import cn.iselab.inventory.site.web.logic.ExcelLogic;
+import cn.iselab.inventory.site.web.logic.SaleDetailLogic;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -28,6 +36,9 @@ public class ExcelLogicImpl implements ExcelLogic {
 
     @Autowired
     ManageService manageService;
+
+    @Autowired
+    SaleDetailLogic detailLogic;
 
     @Override
     public void getExcelForManageInfo(long id, String fileName,HttpServletResponse response){
@@ -107,6 +118,62 @@ public class ExcelLogicImpl implements ExcelLogic {
         cel111.setCellValue("总利润");
         HSSFCell cell112 = row11.createCell(1);
         cell112.setCellValue(manageInfo.getProfit());
+
+        try {
+            workbook.write(response.getOutputStream());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getExcelForSaleDetail(String fileName, HttpServletRequest request, HttpServletResponse response){
+        List<SaleDetailVO> details=detailLogic.getSaleDetailsForExcel(Long.valueOf(request.getParameter("startTime")),Long.valueOf(request.getParameter("endTime")));
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        // 下载文件的默认名称
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xls");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        response.setCharacterEncoding("UTF-8");
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet();
+
+        HSSFRow row1 = sheet.createRow(0);
+        HSSFCell cell11 = row1.createCell(0);
+        cell11.setCellValue("商品名");
+        HSSFCell cell12 = row1.createCell(1);
+        cell12.setCellValue("型号");
+        HSSFCell cell13 = row1.createCell(2);
+        cell13.setCellValue("数量");
+        HSSFCell cell14 = row1.createCell(3);
+        cell14.setCellValue("单价");
+        HSSFCell cell15 = row1.createCell(4);
+        cell15.setCellValue("总额");
+        HSSFCell cell16 = row1.createCell(5);
+        cell16.setCellValue("时间");
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (SaleDetailVO vo:details){
+            HSSFRow row = sheet.createRow(details.indexOf(vo)+1);
+            HSSFCell cell1 = row.createCell(0);
+            cell1.setCellValue(vo.getGoodName());
+            HSSFCell cell2 = row.createCell(1);
+            cell2.setCellValue(vo.getGoodModel());
+            HSSFCell cell3 = row.createCell(2);
+            cell3.setCellValue(vo.getGoodNum());
+            HSSFCell cell4 = row.createCell(3);
+            cell4.setCellValue(vo.getPrice());
+            HSSFCell cell5 = row.createCell(4);
+            cell5.setCellValue(vo.getTotal());
+            HSSFCell cell6 = row.createCell(5);
+            cell6.setCellValue(format.format(vo.getCreateTime()));
+        }
 
         try {
             workbook.write(response.getOutputStream());

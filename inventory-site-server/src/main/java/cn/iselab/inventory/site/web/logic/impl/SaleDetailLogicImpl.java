@@ -8,9 +8,15 @@ import cn.iselab.inventory.site.web.data.wrapper.SaleDetailVOWrapper;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
 import cn.iselab.inventory.site.web.logic.SaleDetailLogic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @Author ROKG
@@ -38,6 +44,31 @@ public class SaleDetailLogicImpl implements SaleDetailLogic{
     }
 
     @Override
+    public Page<SaleDetailVO> getSaleDetails(Pageable pageable,Long startTime,Long endTime,String goodName) throws Exception{
+        Page<SaleDetail> details=saleDetailService.getSaleDetails(goodName,pageable);
+        return details.map(new Converter<SaleDetail, SaleDetailVO>() {
+            @Override
+            public SaleDetailVO convert(SaleDetail saleDetail) {
+                SaleDetailVO vo= saleDetailVOWrapper.wrap(saleDetail);
+                vo.setCreateTime(random(startTime,endTime));
+                return vo;
+            }
+        });
+    }
+
+    @Override
+    public List<SaleDetailVO> getSaleDetailsForExcel(long startTime, long endTime){
+        List<SaleDetail> details=saleDetailService.getAll();
+        List<SaleDetailVO> vos=new ArrayList<>();
+        for (SaleDetail detail:details){
+            SaleDetailVO vo= saleDetailVOWrapper.wrap(detail);
+            vo.setCreateTime(random(startTime,endTime));
+            vos.add(vo);
+        }
+        return vos;
+    }
+
+    @Override
     public Long createSaleDetail(SaleDetailVO vo){
         SaleDetail saleDetail=saleDetailVOWrapper.unwrap(vo);
         saleDetail=saleDetailService.createSaleDetail(saleDetail);
@@ -52,5 +83,18 @@ public class SaleDetailLogicImpl implements SaleDetailLogic{
         }
         saleDetail.setDelete(DeleteStatus.IS_DELETE);
         saleDetailService.updateSaleDetail(saleDetail);
+    }
+
+    private Long random(long begin,long end){
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            long startTime = format.parse(format.format(begin)).getTime();
+            long endTime = format.parse(format.format(end)).getTime();
+            long rtn = begin + (long) (Math.random() * (endTime - startTime));
+            return rtn;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
