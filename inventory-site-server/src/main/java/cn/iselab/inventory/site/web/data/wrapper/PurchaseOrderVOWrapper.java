@@ -30,6 +30,7 @@ public class PurchaseOrderVOWrapper extends BaseWrapper<PurchaseOrderVO,Purchase
         vo.setCustomId(order.getSupplier());
         vo.setSupplier(customService.getCustom(order.getSupplier()).getName());
         vo.setTotal(order.getTotal());
+        vo.setType(order.isType());
         return vo;
     }
 

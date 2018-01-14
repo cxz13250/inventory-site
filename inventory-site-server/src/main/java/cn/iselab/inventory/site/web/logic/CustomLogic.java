@@ -1,6 +1,7 @@
 package cn.iselab.inventory.site.web.logic;
 
 import cn.iselab.inventory.site.web.data.CustomVO;
+import org.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -29,4 +30,6 @@ public interface CustomLogic {
     void updateCustom(CustomVO customVO);
 
     void deleteCustom(Long customId);
+
+    String getBank(String bankNo)throws Exception;
 }

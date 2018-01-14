@@ -103,4 +103,13 @@ public class CustomController {
         List<CustomVO> vos=customLogic.getCustomsForPurchase();
         return SuccessResult.ok(ResponseMessage.ITEM_RESULT,vos);
     }
+
+    @RequestMapping(value = UrlConstants.API_CUSTOM+"/bank",method = RequestMethod.GET)
+    public Map<String,Object> getBank(@RequestParam("bankNo")String bankNo){
+        try {
+            return SuccessResult.ok(ResponseMessage.ITEM_RESULT, customLogic.getBank(bankNo));
+        }catch (Exception e){
+            return new ErrorResult(StatusCode.BANKNO_INCORRECT);
+        }
+    }
 }
