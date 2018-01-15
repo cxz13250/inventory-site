@@ -17,4 +17,6 @@ public interface AccountDao extends CrudRepository<Account,Long>,PagingAndSortin
 
     @Query("select a from Account a where a.deleted = 0")
     List<Account> getAll();
+
+    List<Account> findByName(String name);
 }

@@ -1,8 +1,10 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
 import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
+import cn.iselab.inventory.site.model.Account;
 import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.Receipt;
+import cn.iselab.inventory.site.service.AccountService;
 import cn.iselab.inventory.site.service.CustomService;
 import cn.iselab.inventory.site.service.ReceiptService;
 import cn.iselab.inventory.site.web.data.ReceiptVO;
@@ -35,6 +37,9 @@ public class ReceiptLogicImpl implements ReceiptLogic{
 
     @Autowired
     CustomService customService;
+
+    @Autowired
+    AccountService accountService;
 
     @Override
     public Page<ReceiptVO> getReceipts(String keyword, Pageable pageable){
@@ -71,16 +76,22 @@ public class ReceiptLogicImpl implements ReceiptLogic{
         }
         updateInfo(receipt,vo);
         receiptService.updateReceipt(receipt);
+        List<TransferVO> vos=vo.getTransfers();
         if(vo.getStatus()== OrderStatusConstants.APPROVED){
-            checkReceipt(receipt);
+            checkReceipt(receipt,vos);
         }
     }
 
     @Override
-    public void checkReceipt(Receipt receipt){
+    public void checkReceipt(Receipt receipt, List<TransferVO> vos){
         Custom custom=customService.getCustom(receipt.getCumstomId());
         custom.setPay(custom.getPay()+receipt.getTotal());
         customService.updateCustom2(custom);
+        for (TransferVO vo:vos){
+            Account account=accountService.getAccountByName(vo.getAccountName());
+            account.setBalance(account.getBalance()+vo.getMoney());
+            accountService.updateAccount(account);
+        }
     }
 
     @Override

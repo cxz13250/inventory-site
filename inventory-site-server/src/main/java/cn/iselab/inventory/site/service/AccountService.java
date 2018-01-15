@@ -23,6 +23,8 @@ public interface AccountService {
 
     Account getAccount(long accountId);
 
+    Account getAccountByName(String accountName);
+
     Account updateAccount(Account account);
 
     void update(Account account, AccountVO accountVO);

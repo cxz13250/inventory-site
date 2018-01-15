@@ -57,6 +57,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account getAccountByName(String accountName){
+        return accountDao.findByName(accountName).get(0);
+    }
+
+    @Override
     public Account updateAccount(Account account){
         return accountDao.save(account);
     }
