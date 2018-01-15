@@ -7,6 +7,7 @@ import cn.iselab.inventory.site.dao.PaymentDao;
 import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.Payment;
 import cn.iselab.inventory.site.service.PaymentService;
+import cn.iselab.inventory.site.web.util.OrderNumUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,7 +39,8 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setDelete(DeleteStatus.IS_NOT_DELETE);
         payment.setCreateTime(new Timestamp(System.currentTimeMillis()));
         payment=paymentDao.save(payment);
-        payment.setNumber(OrderNumConstants.XJFYD_ORDER+payment.getCreateTime());
+        payment.setNumber(OrderNumConstants.XJFYD_ORDER+ OrderNumUtil.formatNum(payment.getCreateTime(),payment.getId()));
+        paymentDao.save(payment);
         return payment;
     }
 

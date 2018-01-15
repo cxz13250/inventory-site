@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
+import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
 import cn.iselab.inventory.site.model.Custom;
 import cn.iselab.inventory.site.model.Receipt;
 import cn.iselab.inventory.site.service.CustomService;
@@ -70,6 +71,9 @@ public class ReceiptLogicImpl implements ReceiptLogic{
         }
         updateInfo(receipt,vo);
         receiptService.updateReceipt(receipt);
+        if(vo.getStatus()== OrderStatusConstants.APPROVED){
+            checkReceipt(receipt);
+        }
     }
 
     @Override

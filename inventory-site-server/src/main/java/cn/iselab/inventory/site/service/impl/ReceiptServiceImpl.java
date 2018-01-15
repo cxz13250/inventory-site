@@ -40,6 +40,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         receipt.setCreateTime(new Timestamp(System.currentTimeMillis()));
         receipt=receiptDao.save(receipt);
         receipt.setNumber(OrderNumConstants.SKD_ORDER+ OrderNumUtil.formatNum(receipt.getCreateTime(), receipt.getId()));
+        receiptDao.save(receipt);
         return receipt;
     }
 

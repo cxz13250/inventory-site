@@ -46,6 +46,7 @@ public class SaleOrderServiceImpl implements SaleOrderService {
         }else {
             saleOrder.setNumber(OrderNumConstants.XSTHD_ORDER + OrderNumUtil.formatNum(saleOrder.getCreateTime(), saleOrder.getId()));
         }
+        saleOrderDao.save(saleOrder);
         return saleOrder;
     }
 

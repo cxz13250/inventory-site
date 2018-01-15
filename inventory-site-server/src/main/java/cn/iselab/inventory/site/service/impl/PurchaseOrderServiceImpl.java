@@ -44,6 +44,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }else {
             order.setNumber(OrderNumConstants.JHTHD_ORDER+ OrderNumUtil.formatNum(order.getCreateTime(), order.getId()));
         }
+        purchaseOrderDao.save(order);
         return order;
     }
 
