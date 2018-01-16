@@ -86,7 +86,7 @@ public class GoodsController extends BaseController{
     }
 
     @RequestMapping(value = UrlConstants.API_GOODS + "/purchase",method = RequestMethod.GET)
-    public Map<String,Object> deletePayment(HttpServletRequest request){
+    public Map<String,Object> getGoodsForPurchase(HttpServletRequest request){
         try {
             List<GoodsVO> vos= goodsLogic.getGoodsForPurchase();
             return SuccessResult.ok(ResponseMessage.ITEM_RESULT,vos);

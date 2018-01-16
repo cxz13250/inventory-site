@@ -19,6 +19,8 @@ public interface GoodsService {
 
     Goods getGoodById(long goodId);
 
+    Goods getGoodByName(String name);
+
     Page<Goods> getGoods(String keyword, Pageable pageable);
 
     List<Goods> getGoodsForPurchase();

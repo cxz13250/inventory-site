@@ -1,10 +1,14 @@
 package cn.iselab.inventory.site.web.data.wrapper;
 
 import cn.iselab.inventory.site.model.Goods;
+import cn.iselab.inventory.site.model.StockOrder;
 import cn.iselab.inventory.site.service.CategoryService;
+import cn.iselab.inventory.site.service.StockOrderService;
 import cn.iselab.inventory.site.web.data.GoodsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -17,6 +21,9 @@ public class GoodsVOWrapper extends BaseWrapper<GoodsVO,Goods> {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    StockOrderService orderService;
 
     @Override
     public GoodsVO wrap(Goods goods){
@@ -31,6 +38,16 @@ public class GoodsVOWrapper extends BaseWrapper<GoodsVO,Goods> {
         vo.setModel(goods.getModel());
         vo.setRetailPrice(goods.getRetailPrice());
         vo.setId(goods.getId());
+        List<StockOrder> orders=orderService.getStockOrderByGood(goods.getId());
+        if(orders!=null && orders.size()>0) {
+            for (StockOrder order : orders) {
+                if (goods.getInventory() < order.getNumber()) {
+                    vo.setWarning(true);
+                }
+            }
+        }else {
+            vo.setWarning(false);
+        }
         return vo;
     }
 

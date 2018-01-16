@@ -44,6 +44,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public Goods getGoodByName(String name){
+        return goodsDao.findByName(name).get(0);
+    }
+
+    @Override
     public Page<Goods> getGoods(String keyword, Pageable pageable){
         Specifications<Goods> where=Specifications.where(getWhereClause(keyword));
         return goodsDao.findAll(where,pageable);

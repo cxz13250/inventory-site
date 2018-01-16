@@ -5,9 +5,9 @@ package cn.iselab.inventory.site.common.constanst;
  */
 public class StockOrderConstants {
 
-    private static long WARNING=1;
+    public static long WARNING=1;
 
-    private static long LOSE=2;
+    public static long LOSE=2;     //报损单
 
-    private static long SPILL=3;
+    public static long SPILL=3;    //报溢单
 }

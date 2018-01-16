@@ -1,5 +1,6 @@
 package cn.iselab.inventory.site.web.logic;
 
+import cn.iselab.inventory.site.model.StockOrder;
 import cn.iselab.inventory.site.web.data.StockOrderVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,6 @@ public interface StockOrderLogic {
     void updateStockOrder(StockOrderVO vo);
 
     void deleteStockOrder(long id);
+
+    void checkStockOrder(StockOrder ordero);
 }

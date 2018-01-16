@@ -35,4 +35,6 @@ public class GoodsVO {
 
     private Double currentRetailPrice;
 
+    private boolean warning;
+
 }

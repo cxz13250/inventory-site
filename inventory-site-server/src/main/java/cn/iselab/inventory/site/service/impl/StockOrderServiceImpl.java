@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -46,6 +47,11 @@ public class StockOrderServiceImpl implements StockOrderService {
     @Override
     public StockOrder getStockOrder(long stockOrderId){
         return stockOrderDao.findOne(stockOrderId);
+    }
+
+    @Override
+    public List<StockOrder> getStockOrderByGood(long goodId){
+        return stockOrderDao.findByGoodId(goodId);
     }
 
     @Override

@@ -20,4 +20,6 @@ public interface GoodsDao extends CrudRepository<Goods, Long>, JpaSpecificationE
 
     @Query("select c from Goods c where c.category=:category and c.deleted = 0")
     List<Goods> findByCategory(@Param(value = "category") long category);
+
+    List<Goods> findByName(String name);
 }

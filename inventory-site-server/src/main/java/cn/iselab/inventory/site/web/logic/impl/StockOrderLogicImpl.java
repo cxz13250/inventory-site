@@ -1,7 +1,11 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
 import cn.iselab.inventory.site.common.constanst.DeleteStatus;
+import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
+import cn.iselab.inventory.site.common.constanst.StockOrderConstants;
+import cn.iselab.inventory.site.model.Goods;
 import cn.iselab.inventory.site.model.StockOrder;
+import cn.iselab.inventory.site.service.GoodsService;
 import cn.iselab.inventory.site.service.StockOrderService;
 import cn.iselab.inventory.site.web.data.StockOrderVO;
 import cn.iselab.inventory.site.web.data.wrapper.StockOrderVOWrapper;
@@ -27,6 +31,9 @@ public class StockOrderLogicImpl implements StockOrderLogic {
 
     @Autowired
     StockOrderVOWrapper stockOrderVOWrapper;
+
+    @Autowired
+    GoodsService goodsService;
 
     @Override
     public Page<StockOrderVO> getStockOrders(String keyword, Pageable pageable, Long type){
@@ -63,6 +70,9 @@ public class StockOrderLogicImpl implements StockOrderLogic {
         }
         updateInfo(order,vo);
         stockOrderService.updateStockOrder(order);
+        if(vo.getStatus()== OrderStatusConstants.APPROVED){
+            checkStockOrder(order);
+        }
     }
 
     @Override
@@ -73,6 +83,17 @@ public class StockOrderLogicImpl implements StockOrderLogic {
         }
         order.setDelete(DeleteStatus.IS_DELETE);
         stockOrderService.updateStockOrder(order);
+    }
+
+    @Override
+    public void checkStockOrder(StockOrder order){
+        Goods goods=goodsService.getGoodById(order.getGoodId());
+        if(order.getType()== StockOrderConstants.LOSE){
+            goods.setInventory(goods.getInventory()-order.getNumber());
+        }else if(order.getType()==StockOrderConstants.SPILL){
+            goods.setInventory(goods.getInventory()+order.getNumber());
+        }
+        goodsService.updateGood(goods);
     }
 
     private void updateInfo(StockOrder order,StockOrderVO vo){

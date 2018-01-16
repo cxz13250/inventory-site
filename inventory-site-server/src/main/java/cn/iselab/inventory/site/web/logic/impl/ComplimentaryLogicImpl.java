@@ -1,8 +1,12 @@
 package cn.iselab.inventory.site.web.logic.impl;
 
 import cn.iselab.inventory.site.common.constanst.DeleteStatus;
+import cn.iselab.inventory.site.common.constanst.OrderStatusConstants;
 import cn.iselab.inventory.site.model.Complimentary;
+import cn.iselab.inventory.site.model.Goods;
 import cn.iselab.inventory.site.service.ComplimentaryService;
+import cn.iselab.inventory.site.service.GoodsService;
+import cn.iselab.inventory.site.web.data.ComplimentaryItem;
 import cn.iselab.inventory.site.web.data.ComplimentaryVO;
 import cn.iselab.inventory.site.web.data.wrapper.ComplimentaryVOWrapper;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
@@ -14,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author ROKG
@@ -29,6 +34,9 @@ public class ComplimentaryLogicImpl implements ComplimentaryLogic {
 
     @Autowired
     ComplimentaryVOWrapper complimentaryVOWrapper;
+
+    @Autowired
+    GoodsService goodsService;
 
     @Override
     public Page<ComplimentaryVO> getComplimentaries(String keyword, Pageable pageable){
@@ -66,6 +74,9 @@ public class ComplimentaryLogicImpl implements ComplimentaryLogic {
         }
         updateInfo(complimentary,vo);
         complimentaryService.updateComplimentary(complimentary);
+        if(vo.getStatus()== OrderStatusConstants.APPROVED){
+            checkComplimentary(vo);
+        }
     }
 
     @Override
@@ -76,6 +87,16 @@ public class ComplimentaryLogicImpl implements ComplimentaryLogic {
         }
         complimentary.setDelete(DeleteStatus.IS_DELETE);
         complimentaryService.updateComplimentary(complimentary);
+    }
+
+    @Override
+    public void checkComplimentary(ComplimentaryVO vo){
+        List<ComplimentaryItem> items=vo.getItems();
+        for(ComplimentaryItem item:items){
+            Goods goods=goodsService.getGoodByName(item.getGoodName());
+            goods.setInventory(goods.getInventory()-item.getSum());
+            goodsService.updateGood(goods);
+        }
     }
 
     private void updateInfo(Complimentary complimentary,ComplimentaryVO vo){
