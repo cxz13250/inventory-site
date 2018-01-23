@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,9 @@ public class UserLogicImpl implements UserLogic{
        vo.setRoleName(userService.findRole(role.getRoleId()).getName());
 
        userOperationLogic.recordUserOperation(request,user.getId(), OperationStatus.LOGIN);
+
+       HttpSession session=request.getSession();
+       session.setAttribute("id",user.getId());
        return vo;
     }
 
@@ -98,7 +102,10 @@ public class UserLogicImpl implements UserLogic{
         vo.setRoleId(roleId);
         vo.setRoleName(userService.findRole(roleId).getName());
 
-        userOperationLogic.recordUserOperation(request,1L, OperationStatus.REGISTER);
+        HttpSession session=request.getSession();
+        Long userId=(Long) session.getAttribute("id");
+
+        userOperationLogic.recordUserOperation(request,userId, OperationStatus.REGISTER);
         return vo;
     }
 
@@ -113,6 +120,10 @@ public class UserLogicImpl implements UserLogic{
             userVO.setRoleName(userService.findRole(role.getRoleId()).getName());
             userVOS.add(userVO);
         }
+
+        HttpSession session=request.getSession();
+        Long userId=(Long) session.getAttribute("id");
+        userOperationLogic.recordUserOperation(request,userId, OperationStatus.USER_LIST);
         return userVOS;
     }
 

@@ -22,7 +22,7 @@ spring:
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
 
 ---
-#开发环境
+#开发环c
 spring:
     profiles: dev
     datasource:
