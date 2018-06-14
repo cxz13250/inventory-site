@@ -7,20 +7,12 @@
 
 ### 技术简介
 本项目采用SpringBoot作为框架。
-<br />
-<br />
-数据持久层使用SpringBoot自带的Hibernate来维护PO（Persistent Object持久化对象），这里使用Hibernate的原因在于其三种对象状态（持久态、游离态、分割态）便于持久化对象的增删改查等一系列操作，取代了jdbc的繁琐。
-<br />
-<br />
-Dao层（Data Access Object数据访问对象）使用Spring Data JPA来维护数据读写操作，Spring Data JPA的底层是基于Hibernate的，其JpaRepository、PageAndSortingRepository、CrudRepository等组件能够实现快速单表读取与后端分页、排序等功能，所以其便捷性很适合单体式系统的开发。
-<br />
-<br />
-日志管理使用Log4j，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件，方便在开发环境中于控制台监控程序运行状况，生产环境中收集日志按时间汇总成文件形式。
-<br />
-<br />
-数据库使用MySQL，MySQL的关系型数据库特性使得数据的增删改查更灵活，并且其对于Java语言的支持度非常高。
-<br />
-<br />
+* 数据持久层使用SpringBoot自带的Hibernate来维护PO（Persistent Object持久化对象），这里使用Hibernate的原因在于其三种对象状态（持久态、游离态、分割态）便于持久化对象的增删改查等一系列操作，取代了jdbc的繁琐。
+* Dao层（Data Access Object数据访问对象）使用Spring Data JPA来维护数据读写操作，Spring Data JPA的底层是基于Hibernate的，其JpaRepository、PageAndSortingRepository、CrudRepository等组件能够实现快速单表读取与后端分页、排序等功能，所以其便捷性很适合单体式系统的开发。
+* 权限管理使用Apache Shiro框架：Shiro具备身份认证、会话管理、授权等功能，具备单点登录（SSO），而且本身足够轻量，易于理解，在保证完善的安全机制的同时简化开发成本。
+* 日志管理使用Log4j，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件，方便在开发环境中于控制台监控程序运行状况，生产环境中收集日志按时间汇总成文件形式。
+* 数据库使用MySQL，MySQL的关系型数据库特性使得数据的增删改查更灵活，并且其对于Java语言的支持度非常高。
+
 Tips:
 有关于前端项目的信息请查看上一个仓库
 <br />
