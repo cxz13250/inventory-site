@@ -13,6 +13,10 @@ import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
 import cn.iselab.inventory.site.web.logic.MenuLogic;
 import cn.iselab.inventory.site.web.logic.UserLogic;
 import cn.iselab.inventory.site.web.logic.UserOperationLogic;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,33 +47,41 @@ public class UserLogicImpl implements UserLogic{
 
     @Override
     public UserVO login(UserVO userVO, HttpServletRequest request){
-       User user;
-       if(userVO.getEmail()!=null)
-           user=userService.getUserByEmail(userVO.getEmail());
-       else
-           user=userService.getUserByMobile(userVO.getMobile());
-       if(user==null||user.isDelete()== DeleteStatus.IS_DELETE)
-           throw new HttpBadRequestException("用户不存在");
-       else if(!user.getPassword().equals(EncryptionUtil.encryptMD5(userVO.getPassword()))){
-           throw new IllegalArgumentException("密码错误");
-       }
-       UserVO vo=userWrapper.wrap(user);
-       vo.setPassword("");
-       User2Role role=userService.getRoles(user.getId()).get(0);
+        UsernamePasswordToken token=new UsernamePasswordToken(
+                userVO.getEmail()!=null?userVO.getEmail():userVO.getMobile(),
+                EncryptionUtil.encryptMD5(userVO.getPassword()));
+        Subject subject= SecurityUtils.getSubject();
+        subject.login(token);
+        if (subject.isAuthenticated()) {
+            User user;
+            if (userVO.getEmail() != null)
+                user = userService.getUserByEmail(userVO.getEmail());
+            else
+                user = userService.getUserByMobile(userVO.getMobile());
+            if (user == null || user.isDelete() == DeleteStatus.IS_DELETE)
+                throw new HttpBadRequestException("用户不存在");
+            else if (!user.getPassword().equals(EncryptionUtil.encryptMD5(userVO.getPassword()))) {
+                throw new IllegalArgumentException("密码错误");
+            }
+            UserVO vo = userWrapper.wrap(user);
+            vo.setPassword("");
+            User2Role role = userService.getRoles(user.getId()).get(0);
 
-       //设置菜单
-       vo.setMenus(menuLogic.getMenusForLogin2(role.getRoleId()));
-//       vo.setMenus(menuLogic.getMenusForLogin(roles.stream().map(User2Role::toLong).collect(Collectors.toList())));
+            //设置菜单
+            vo.setMenus(menuLogic.getMenusForLogin2(role.getRoleId()));
 
-       //设置角色
-       vo.setRoleId(role.getRoleId());
-       vo.setRoleName(userService.findRole(role.getRoleId()).getName());
+            //设置角色
+            vo.setRoleId(role.getRoleId());
+            vo.setRoleName(userService.findRole(role.getRoleId()).getName());
 
-       userOperationLogic.recordUserOperation(request,user.getId(), OperationStatus.LOGIN);
+            userOperationLogic.recordUserOperation(request, user.getId(), OperationStatus.LOGIN);
 
-       HttpSession session=request.getSession();
-       session.setAttribute("id",user.getId());
-       return vo;
+            SecurityUtils.getSubject().getSession().setAttribute("user", vo);
+            return vo;
+        }else {
+            token.clear();
+            throw new UnauthorizedException("login failed");
+        }
     }
 
     @Override

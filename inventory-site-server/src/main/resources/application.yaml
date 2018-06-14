@@ -22,7 +22,7 @@ spring:
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
 
 ---
-#开发环c
+#开发环境
 spring:
     profiles: dev
     datasource:
@@ -42,7 +42,7 @@ spring:
     datasource:
         url: jdbc:mysql://127.0.0.1:3306/inventory_site?useUnicode=yes&characterEncoding=UTF-8
         username: root
-        password: cxz00429
+        password: cxz6518
 server:
     port: 9001
 logging.config: classpath:log4j2.online.yaml

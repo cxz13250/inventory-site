@@ -12,6 +12,8 @@ import cn.iselab.inventory.site.web.data.UserVO;
 import cn.iselab.inventory.site.web.exception.HttpBadRequestException;
 import cn.iselab.inventory.site.web.logic.UserLogic;
 import cn.iselab.inventory.site.web.logic.UserOperationLogic;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
@@ -49,6 +52,11 @@ public class UserController extends BaseController {
         }catch (IllegalArgumentException ex){
             return new ErrorResult(StatusCode.PASSWORD_INCORRECT);
         }
+    }
+
+    @RequestMapping(value =  UrlConstants.API_USER+"/logout", method = RequestMethod.GET)
+    public void logout(HttpServletRequest request) {
+        SecurityUtils.getSubject().logout();
     }
 
     @RequestMapping(value = UrlConstants.API_USER+"/register", method = RequestMethod.POST)
